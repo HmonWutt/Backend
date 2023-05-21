@@ -8,8 +8,7 @@ const pool = require("./db");
 app.use(cors());
 app.use(express.json());
 
-
-app.listen(3000,() => {
+app.listen(3000, () => {
   console.log("Server has started on port 3000");
 });
 
@@ -28,7 +27,9 @@ app.post("/todo", async (req, res) => {
 
 app.get("/todo", async (req, res) => {
   try {
-    const allTodos = await pool.query("SELECT * FROM todo");
+    const allTodos = await pool.query(
+      "SELECT * FROM todo ORDER BY todo_id ASC"
+    );
     res.json(allTodos.rows);
   } catch (error) {
     console.error(error.message);
@@ -39,7 +40,7 @@ app.get("/todo/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const specific_todo = await pool.query(
-      "SELECT * FROM todo WHERE todo_id = $1",
+      "SELECT * FROM todo WHERE todo_id = $1 ",
       [id]
     );
     res.json(specific_todo.rows[0]);

@@ -23,7 +23,7 @@ const Tasklist = () => {
     console.log("todos were fetched");
     Gettodos();
   }, []);
-
+   let item_id = 0
   return (
     <>
     
@@ -37,9 +37,9 @@ const Tasklist = () => {
           </tr>
         </thead>
         <tbody> 
-            {todos.map(todo=><tr>
+            {todos.map(todo=><tr key={todo.todo_id}>
            
-            <td>{todo.todo_id}</td>
+            <td>{item_id+=1}</td>
             <td>{todo.description}</td>
             <td>Edit</td>
             <td>Delete</td>

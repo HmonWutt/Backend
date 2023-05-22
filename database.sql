@@ -2,5 +2,8 @@
 CREATE DATABASE todoList
 CREATE TABLE todo (
     todo_id SERIAL PRIMARY KEY,
-    description VARCHAR(200)
+    description VARCHAR(200),
+   
 );
+ALTER TABLE todo
+ADD count INTEGER

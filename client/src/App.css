@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+.card {
+  transform: translateX(-50%);
+  opacity: 0;
+  
+}
+
+.slide-in {
+  transform: translateX(50%) !important;
+  opacity: 1 !important;
+  transition: 550ms;
+  transition-timing-function: ease-in-out;
+}

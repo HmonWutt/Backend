@@ -4,6 +4,7 @@ import Table from "react-bootstrap/Table";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import CardGroup from "react-bootstrap/CardGroup";
+import "./App.css";
 
 let star = (
   <svg
@@ -31,10 +32,9 @@ let card = (
     </Card.Body>
   </Card>
 );
+
 const Tasklist = () => {
   const [todos, setTodos] = useState([]);
-
- 
 
   const Gettodos = async () => {
     try {
@@ -59,14 +59,13 @@ const Tasklist = () => {
     entries.forEach((element) => {
       console.log(element);
       if (element.isIntersecting) {
-        console.log(element.target)
+        element.target.classList.add("slide-in");
       } else {
-        console.log("scroll past")
-        //element.target.classList.remove("show");
+        element.target.classList.remove("slide-in");
       }
     });
   });
-  const entries = document.querySelectorAll('#card')
+  const entries = document.querySelectorAll(".card");
   entries.forEach((element) => observer.observe(element));
 
   return (

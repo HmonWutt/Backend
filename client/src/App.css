@@ -37,15 +37,17 @@
   }
 }
 
-.card {
-  transform: translateX(-50%);
+#card {
+  transform: translateX(-90%);
   opacity: 0;
-  
+  text-align: center;
+
 }
 
 .slide-in {
-  transform: translateX(50%) !important;
+  transform: translateX(0) !important;
+  margin: auto;
   opacity: 1 !important;
-  transition: 550ms;
+  transition: 500ms;
   transition-timing-function: ease-in-out;
 }

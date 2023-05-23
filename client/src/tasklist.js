@@ -4,6 +4,8 @@ import Table from "react-bootstrap/Table";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import CardGroup from "react-bootstrap/CardGroup";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Image from "react-bootstrap/Image";
 import "./App.css";
 
 let star = (
@@ -19,19 +21,19 @@ let star = (
   </svg>
 );
 
-let card = (
-  <Card style={{ width: "18rem" }} id="card">
-    <Card.Img variant="top" src="holder.js/100px180" />
-    <Card.Body>
-      <Card.Title>lala</Card.Title>
-      <Card.Text>
-        Some quick example text to build on the card title and make up the bulk
-        of the card's content. Delete
-        {[...Array(16)].map((_, index) => star)}
-      </Card.Text>
-    </Card.Body>
-  </Card>
-);
+// let card = (
+//   <Card style={{ width: "18rem" }} id="card">
+//     <Card.Img variant="top" src="holder.js/100px180" />
+//     <Card.Body>
+//       <Card.Title>lala</Card.Title>
+//       <Card.Text>
+//         Some quick example text to build on the card title and make up the bulk
+//         of the card's content. Delete
+//         {[...Array(16)].map((_, index) => star)}
+//       </Card.Text>
+//     </Card.Body>
+//   </Card>
+// );
 
 const Tasklist = () => {
   const [todos, setTodos] = useState([]);
@@ -65,13 +67,57 @@ const Tasklist = () => {
       }
     });
   });
-  const entries = document.querySelectorAll(".card");
+  const entries = document.querySelectorAll("#card");
   entries.forEach((element) => observer.observe(element));
 
   return (
     <>
-      {star}
-      {[...Array(6)].map((_, index) => card)}
+      {todos.map((todo) => ( 
+      <>
+        <div
+          id="card"
+          className="mt-5"
+          style={{ width: "60%", height: "500px" }}
+        >
+          <Image
+            src={`https://picsum.photos/id/${todo.todo_id}/200/300`}
+            alt="Todo Image"
+            rounded
+            style={{ width: " 100%", height: "100%" }}
+          />
+        </div>
+        <Table
+          striped="false"
+          bordered="false"
+          hover
+          className=""
+          id="card"
+          style={{ width: "60%" }}
+        >
+          <thead>
+            <tr>
+              <th colSpan={3}>{todo.description}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Hmon</td>
+              <td>Joakim</td>
+            </tr>
+            <tr>
+              <td rowSpan={3}>
+                {star}
+              { todo.hmon_count}
+              </td>
+              <td rowSpan={3}>
+                {star}
+                {todo.joakim_count}
+              </td>
+            </tr>
+          </tbody>
+        </Table>
+      </>
+  ))}
     </>
   );
 };

@@ -7,6 +7,7 @@ import CardGroup from "react-bootstrap/CardGroup";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Image from "react-bootstrap/Image";
 import "./App.css";
+import Counter from "./counter";
 
 let star = (
   <svg
@@ -39,8 +40,9 @@ const Tasklist = () => {
   const [todos, setTodos] = useState([]);
 
   const Gettodos = async () => {
+
     try {
-      const response = await fetch("http://localhost:3000/todo", {
+      const response = await fetch(`http://localhost:3000/todo`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
@@ -59,7 +61,6 @@ const Tasklist = () => {
   let item_id = 0;
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((element) => {
-      console.log(element);
       if (element.isIntersecting) {
         element.target.classList.add("slide-in");
       } else {
@@ -72,52 +73,63 @@ const Tasklist = () => {
 
   return (
     <>
-      {todos.map((todo) => ( 
-      <>
-        <div
-          id="card"
-          className="mt-5"
-          style={{ width: "60%", height: "500px" }}
-        >
-          <Image
-            src={`https://picsum.photos/id/${todo.todo_id}/200/300`}
-            alt="Todo Image"
-            rounded
-            style={{ width: " 100%", height: "100%" }}
-          />
-        </div>
-        <Table
-          striped="false"
-          bordered="false"
-          hover
-          className=""
-          id="card"
-          style={{ width: "60%" }}
-        >
-          <thead>
-            <tr>
-              <th colSpan={3}>{todo.description}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Hmon</td>
-              <td>Joakim</td>
-            </tr>
-            <tr>
-              <td rowSpan={3}>
-                {star}
-              { todo.hmon_count}
-              </td>
-              <td rowSpan={3}>
-                {star}
-                {todo.joakim_count}
-              </td>
-            </tr>
-          </tbody>
-        </Table>
-      </>
-  ))}
+      {todos.map((todo) => (
+        <>
+          <div
+            id="card"
+            className="mt-5"
+            style={{ width: "60%", height: "500px" }}
+          >
+            <Image
+              // src={`https://picsum.photos/id/${todo.todo_id}/200/300`}
+              alt="Todo Image"
+              rounded
+              style={{ width: " 100%", height: "100%" }}
+            />
+          </div>
+          <Table
+            striped="false"
+            bordered="false"
+            hover
+            className=""
+            id="card"
+            style={{ width: "60%" }}
+            key={todo.todo_id}
+          >
+            <thead>
+              <tr>
+                <th colSpan={3}>{todo.description}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Hmon </td>
+
+                <td>Joakim</td>
+              </tr>
+              <tr>
+                <td>
+                  <Counter todo_id={todo.todo_id} />
+                </td>
+
+                <td>
+                  <Counter todo_id={todo.todo_id} />
+                </td>
+              </tr>
+              <tr>
+                <td rowSpan={3}>
+                  {star}
+                  {todo.hmon_count}
+                </td>
+                <td rowSpan={3}>
+                  {star}
+                  {todo.joakim_count}
+                </td>
+              </tr>
+            </tbody>
+          </Table>
+        </>
+      ))}
     </>
   );
 };

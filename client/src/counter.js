@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 
-const Counter = ({ todo_id }) => {
- 
+const Counter = (props) => {
+  let set_name = props.set_name;
+  let todo_id = props.todo_id;
 
-  
   const Updatecount = async () => {
     try {
       const response = await fetch(`http://localhost:3000/todo/${todo_id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ set:'hmon_count' }),
+        body: JSON.stringify({ set: `${set_name}` }),
       });
-  
-      console.log(response);
     } catch (error) {
       console.error(error.message);
     }

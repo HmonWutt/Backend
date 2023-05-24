@@ -47,7 +47,6 @@ const Tasklist = () => {
         headers: { "Content-Type": "application/json" },
       });
       const data = await response.json();
-      console.log(data);
       setTodos(data);
     } catch (error) {
       console.error(error.message);
@@ -55,10 +54,11 @@ const Tasklist = () => {
   };
 
   useEffect(() => {
-    console.log("todos were fetched");
     Gettodos();
   }, []);
+
   let item_id = 0;
+  
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((element) => {
       if (element.isIntersecting) {
@@ -109,11 +109,11 @@ const Tasklist = () => {
               </tr>
               <tr>
                 <td>
-                  <Counter todo_id={todo.todo_id} />
+                  <Counter todo_id={todo.todo_id} set_name={"hmon_count"} />
                 </td>
 
                 <td>
-                  <Counter todo_id={todo.todo_id} />
+                  <Counter todo_id={todo.todo_id} set_name={"joakim_count"} />
                 </td>
               </tr>
               <tr>

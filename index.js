@@ -56,10 +56,10 @@ app.put("/todo/:id", async (req, res) => {
 
     const updateTOdo = await pool.query(
       `UPDATE todo SET "${set}"= ${set}+1 WHERE todo_id = $1`,
-      [ id]
+      [id]
     );
-    res.json(`To do id:${id} was updated`);
-    console.log(set, hmon_count);
+    res.json(`To do id:${id} of set:${set} was updated`);
+  
   } catch (error) {
     console.error(error.message);
   }

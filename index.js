@@ -59,7 +59,6 @@ app.put("/todo/:id", async (req, res) => {
       [id]
     );
     res.json(`To do id:${id} of set:${set} was updated`);
-  
   } catch (error) {
     console.error(error.message);
   }

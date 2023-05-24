@@ -6,9 +6,10 @@ const Counter = (props) => {
   let todo_id = props.todo_id;
   const gettodos = props.gettodos;
 
+
   const Updatecount = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/todo/${todo_id}`, {
+      const response = await fetch(`http://192.168.0.6:3000/todo/${todo_id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ set: `${set_name}` }),

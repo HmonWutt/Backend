@@ -23,7 +23,7 @@ const Counter = (props) => {
       // setconfettishow(true)
       // setTimeout(() => setconfettishow(false), 5000);
        setIsExploding(true)
-       setTimeout(() => setIsExploding(false), 500);
+       setTimeout(() => setIsExploding(false), 1500);
     
     } catch (error) {
       console.error(error.message);
@@ -36,8 +36,9 @@ const Counter = (props) => {
     <>
       <div>
        {/*} {confettishow && <Confettitrigger />} */}
-        <>{isExploding && <ConfettiExplosion />}</>
+        
         <Button variant="dark" onClick={() => Updatecount()}>
+          <>{isExploding && <ConfettiExplosion />}</>
           Count
         </Button>
       </div>

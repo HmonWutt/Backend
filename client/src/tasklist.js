@@ -139,22 +139,24 @@ const Tasklist = () => {
               </tr>
             </tbody>
           </Table>
-          <Bar
-            data={{
-              labels: ["Dishwasher"],
-              datasets: [
-                {
-                  label: "Hmon",
-                  data: [todo.hmon_count],
-                },
-                {
-                  label: "Joakim",
-                  data: [todo.joakim_count],
-                  
-                },
-              ],
-            }}
-          />
+          <div style={{ width: "50%" }}>
+            <Bar
+              
+              data={{
+                labels: ["Dishwasher"],
+                datasets: [
+                  {
+                    label: "Hmon",
+                    data: [todo.hmon_count],
+                  },
+                  {
+                    label: "Joakim",
+                    data: [todo.joakim_count],
+                  },
+                ],
+              }}
+            />
+          </div>
           {/* </div> */}
         </>
       ))}

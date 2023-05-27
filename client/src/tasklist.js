@@ -17,6 +17,7 @@ let star = (
     style={{
       display: "inline-block",
       transform: "rotate(-180deg)",
+      fontSize: window.innerWidth < 700 ? "0.5em" : "1em",
     }}
   >
     ⭐️
@@ -60,20 +61,33 @@ const Tasklist = () => {
       {todos.map((todo) => (
         <>
           <div
-            style={{ backgroundColor: " rgb(185,191,199)", margin: "5rem " }}
+            style={{
+              backgroundColor: " rgb(185,191,199)",
+              margin: "1rem",
+              borderRadius: "1rem",
+            }}
           >
-            <header style={{ paddingTop: "5rem" }}>Task Title</header>
-            <Row xs={1} md={2} className="g-2 mt-3">
+            <h1
+              style={{
+                margin: "auto",
+                paddingTop: window.innerWidth < 700 ? "2rem" : "4rem",
+                paddingBottom: "1rem",
+              }}
+            >
+              {todo.description}Task Name
+            </h1>
+            <Row xs={1} md={2} className="g-2 m-2">
               <Col>
                 <Card
-                  className="h-90 m-5"
+                  className="h-90 m-2"
                   style={{
-                    backgroundColor: "rgba(82, 97, 199, 0.6)",
+                    backgroundColor:
+                      "rgba(84,94,106,0.2)" /*"rgba(82, 97, 199, 0.6)"*/,
                   }}
                 >
-                  <Card.Img variant="top" src="holder.js/100px160" />
+                  {/*<Card.Img variant="top" src="holder.js/100px160" />*/}
                   <Card.Body>
-                    <Card.Title>Card title</Card.Title>
+                    {/*<Card.Title>Card title</Card.Title>*/}
                     <Card.Text>
                       <Table
                         striped={false}
@@ -87,11 +101,11 @@ const Tasklist = () => {
                           height: "90%",
                         }}
                       >
-                        <thead>
+                        {/* <thead>
                           <tr>
                             <th colSpan={3}>{todo.description}lala </th>
                           </tr>
-                        </thead>
+                      </thead> */}
                         <tbody>
                           <tr className="same-col-widths">
                             <td>Hmon </td>
@@ -159,15 +173,18 @@ const Tasklist = () => {
                 </Card>
               </Col>
               <Col>
-                <Card className="h-95 m-5 p-3">
-                  <Card.Img variant="top" src="holder.js/100px160" />
+                <Card className="h-90 m-2 p-5">
+                  {/*<Card.Img variant="top" src="holder.js/100px160" />*/}
                   <Card.Body>
-                    <Card.Title>Card title</Card.Title>
+                    {/*<Card.Title>Card title</Card.Title>*/}
                     <Card.Text>
                       <Bar
                         style={{ width: "80%", height: "80%" }}
                         data={{
                           labels: ["Dishwasher"],
+                          customCanvasBackgroundColor: {
+                            color: "lightGreen",
+                          },
                           datasets: [
                             {
                               label: "Hmon",
@@ -178,6 +195,20 @@ const Tasklist = () => {
                               data: [todo.joakim_count],
                             },
                           ],
+                        }}
+                        options={{
+                          plugins: {
+                            customCanvasBackgroundColor: {
+                              color: "lightGreen",
+                            },
+                          },
+                          scales: {
+                            xAxes: {
+                              ticks: {
+                                display: false, // Remove x-axis ticks
+                              },
+                            },
+                          },
                         }}
                       />
                     </Card.Text>

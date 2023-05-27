@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 //import Confettitrigger from "./confetti";
 import ConfettiExplosion from "react-confetti-explosion";
@@ -14,7 +14,7 @@ const Counter = (props) => {
 
   const Updatecount = async () => {
     try {
-      const response = await fetch(`http://192.168.0.6:3000/todo/${todo_id}`, {
+       await fetch(`http://192.168.0.6:3000/todo/${todo_id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ set: `${set_name}` }),

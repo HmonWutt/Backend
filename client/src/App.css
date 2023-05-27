@@ -37,11 +37,11 @@
   }
 }
 
-#card {
+/*#card {
 transform: translateX(-50%); 
   opacity: 0;
    
-  /*text-align: center;*/
+
 
 }
 
@@ -51,4 +51,4 @@ transform: translateX(-50%);
   opacity: 0.5 !important;
  transition: 500ms;
   transition-timing-function: ease-in-out;
-}
+}*/

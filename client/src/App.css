@@ -37,18 +37,18 @@
   }
 }
 
-  /*#card {
-transform: translateX(-90%); 
+#card {
+transform: translateX(-50%); 
   opacity: 0;
-  
-  text-align: center;
+   
+  /*text-align: center;*/
 
 }
 
 .slide-in {
   transform: translateX(0) !important;
   margin: auto;
-  opacity: 1 !important;
-  transition: 500ms;
+  opacity: 0.5 !important;
+ transition: 500ms;
   transition-timing-function: ease-in-out;
-}*/
+}

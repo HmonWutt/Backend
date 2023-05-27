@@ -7,6 +7,9 @@ import Image from "react-bootstrap/Image";
 import Counter from "./counter";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
+import Card from "react-bootstrap/Card";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 
 let star = (
   <svg
@@ -25,31 +28,6 @@ let star = (
 const Tasklist = () => {
   const [todos, setTodos] = useState([]);
 
-  const Gettodos = async () => {
-    try {
-      const response = await fetch(`http://192.168.0.6:3000/todo`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
-      const data = await response.json();
-      setTodos(data);
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-
-//  function MakeBarchart 
-//   ({ chartData }) {
-//   return <Bar data={chartData} />;
-// }
-
-
-  useEffect(() => {
-    Gettodos();
-  }, []);
-
-  let item_id = 0;
-
   // const observer = new IntersectionObserver((entries) => {
   //   entries.forEach((element) => {
   //     if (element.isIntersecting) {
@@ -59,105 +37,139 @@ const Tasklist = () => {
   //     }
   //   });
   // });
-  // const entries = document.querySelectorAll("#card");
-  // entries.forEach((element) => observer.observe(element));
+  const Gettodos = async () => {
+    try {
+      const response = await fetch(`http://192.168.0.6:3000/todo`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      setTodos(await response.json());
+
+      // const entries = document.querySelectorAll("#card");
+      //   console.log(entries);
+      //   entries && entries.forEach((element) => observer.observe(element));
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    Gettodos();
+  }, []);
 
   return (
     <>
       {todos.map((todo) => (
         <>
-          {/* <div
-            id="card"
-            className="mt-5"
-            style={{ width: "60%", height: "500px", margin: "auto" }}
-          >
-            <Image
-              src={`https://picsum.photos/id/${todo.todo_id}/200/300`}
-              alt="Todo Image"
-              rounded
-              style={{ width: " 100%", height: "60%" }}
-            /> */}
-          <Table
-            striped={false}
-            bordered={true}
-            hover={false}
-            className="table-fixed same-col-widths"
-            id="card"
-            style={{
-              width: "80%",
-              backgroundColor: "black",
-              color: "white",
-            }}
-          >
-            <thead>
-              <tr>
-                <th colSpan={3}>{todo.description}lala </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="same-col-widths">
-                <td>Hmon </td>
+          <Row xs={1} md={2} className="g-2">
+            <Col>
+              <Card className="h-100 mt-3 ">
+                <Card.Img variant="top" src="holder.js/100px160" />
+                <Card.Body>
+                  <Card.Title>Card title</Card.Title>
+                  <Card.Text>
+                    <Table
+                      striped={false}
+                      bordered={true}
+                      hover={false}
+                      tableLayout="table-fixed"
+                      id="card"
+                      style={{
+                        backgroundColor: "black",
+                        color: "white",
+                        height: "100%",
+                      }}
+                    >
+                      <thead>
+                        <tr>
+                          <th colSpan={3}>{todo.description}lala </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="same-col-widths">
+                          <td>Hmon </td>
 
-                <td>Joakim</td>
-              </tr>
-              <tr className="same-col-widths">
-                <td>
-                  <Counter
-                    todo_id={todo.todo_id}
-                    set_name={"hmon_count"}
-                    gettodos={Gettodos}
-                  />
-                </td>
+                          <td>Joakim</td>
+                        </tr>
+                        <tr className="same-col-widths">
+                          <td>
+                            <Counter
+                              todo_id={todo.todo_id}
+                              set_name={"hmon_count"}
+                              gettodos={Gettodos}
+                            />
+                          </td>
 
-                <td>
-                  <Counter
-                    todo_id={todo.todo_id}
-                    set_name={"joakim_count"}
-                    gettodos={Gettodos}
-                  />
-                </td>
-              </tr>
-              <tr className="same-col-widths">
-                <td rowSpan={3}>
-                  {Array.from({ length: todo.hmon_count }, (x) => star)}
-                  {todo.hmon_count}
-                </td>
-                <td rowSpan={3}>
-                  {Array.from(
-                    {
-                      length:
-                        todo.joakim_count > 100000
-                          ? todo.joakim_count / 100000
-                          : todo.joakim_count > 10000
-                          ? todo.joakim_count / 10000
-                          : todo.joakim_count,
-                    },
-                    () => star
-                  )}
-                  {todo.joakim_count}
-                </td>
-              </tr>
-            </tbody>
-          </Table>
-          <div style={{ width: "50%" }}>
-            <Bar
-              
-              data={{
-                labels: ["Dishwasher"],
-                datasets: [
-                  {
-                    label: "Hmon",
-                    data: [todo.hmon_count],
-                  },
-                  {
-                    label: "Joakim",
-                    data: [todo.joakim_count],
-                  },
-                ],
-              }}
-            />
-          </div>
-          {/* </div> */}
+                          <td>
+                            <Counter
+                              todo_id={todo.todo_id}
+                              set_name={"joakim_count"}
+                              gettodos={Gettodos}
+                            />
+                          </td>
+                        </tr>
+                        <tr className="same-col-widths">
+                          <td
+                            rowSpan={5}
+                            style={{ height: "15rem", verticalAlign: "bottom" }}
+                          >
+                            {Array.from(
+                              { length: todo.hmon_count },
+                              (x) => star
+                            )}
+                            {todo.hmon_count}
+                          </td>
+                          <td
+                            rowSpan={3}
+                            style={{ height: "15rem", verticalAlign: "bottom" }}
+                          >
+                            {Array.from(
+                              {
+                                length:
+                                  todo.joakim_count > 100000
+                                    ? todo.joakim_count / 100000
+                                    : todo.joakim_count > 10000
+                                    ? todo.joakim_count / 10000
+                                    : todo.joakim_count,
+                              },
+                              () => star
+                            )}
+                            {todo.joakim_count}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col>
+              <Card className="h-100 mt-3">
+                <Card.Img variant="top" src="holder.js/100px160" />
+                <Card.Body>
+                  <Card.Title>Card title</Card.Title>
+                  <Card.Text>
+                    <Bar style={{width:"80%", height: "80%"}}
+                      data={{
+                        labels: ["Dishwasher"],
+                        datasets: [
+                          {
+                            label: "Hmon",
+                            data: [todo.hmon_count],
+                          },
+                          {
+                            label: "Joakim",
+                            data: [todo.joakim_count],
+                          },
+                        ],
+                      }}
+                    />
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
         </>
       ))}
     </>

@@ -23,22 +23,22 @@ const Counter = (props) => {
       // setconfettishow(true)
       // setTimeout(() => setconfettishow(false), 5000);
        setIsExploding(true)
-       setTimeout(() => setIsExploding(false), 1500);
+       setTimeout(() => setIsExploding(false), 2500);
     
     } catch (error) {
       console.error(error.message);
     }
   };
-  //useEffect(()=>{
-  //   setTimeout(()=>setconfettishow(false),10000)
-   //},[])
+ 
   return (
     <>
       <div>
-       {/*} {confettishow && <Confettitrigger />} */}
-        
+        {/*} {confettishow && <Confettitrigger />} */}
+
         <Button variant="dark" onClick={() => Updatecount()}>
-          <>{isExploding && <ConfettiExplosion />}</>
+          <>
+            {isExploding && <ConfettiExplosion duration={2200} particleCount ={300} />}
+          </>
           Count
         </Button>
       </div>

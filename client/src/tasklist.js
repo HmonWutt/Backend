@@ -62,7 +62,7 @@ const Tasklist = () => {
         <>
           <div
             style={{
-              backgroundColor: "transparent", /*rgb(185,191,199)",*/
+              backgroundColor: "transparent" /*rgb(185,191,199)",*/,
               margin: "1rem",
               borderRadius: "1rem",
             }}
@@ -76,168 +76,168 @@ const Tasklist = () => {
             >
               {todo.description}Task Name
             </h3>
-            <Row xs={1} md={2} className="g-2 m-2">
-              <Col>
-                <Card
-                  className="h-90 m-2"
-                  style={{
-                    backgroundColor:
-                      "rgb(119,176,217)" /*"rgba(82, 97, 199, 0.6)"*/,
-                  }}
-                >
-                  {/*<Card.Img variant="top" src="holder.js/100px160" />*/}
-                  <Card.Body>
-                    {/*<Card.Title>Card title</Card.Title>*/}
-                    <Card.Text>
-                      <Table
-                        striped={false}
-                        bordered={false}
-                        borderless={true}
-                        hover={false}
-                        tableLayout="table-fixed"
-                        id="card"
-                        style={{
-                          color: "black",
-                          height: "90%",
-                        }}
-                      >
-                        {/* <thead>
+          </div>
+          <Row xs={1} md={2} className="g-2 m-2">
+            <Col>
+              <Card
+                className="h-90 m-2"
+                style={{
+                  backgroundColor:
+                    "rgb(119,176,217)" /*"rgba(82, 97, 199, 0.6)"*/,
+                }}
+              >
+                {/*<Card.Img variant="top" src="holder.js/100px160" />*/}
+                <Card.Body>
+                  {/*<Card.Title>Card title</Card.Title>*/}
+                  
+                    <Table
+                      striped={false}
+                      bordered={false}
+                      borderless={true}
+                      hover={false}
+                      tablelayout="table-fixed"
+                      id="card"
+                      style={{
+                        color: "black",
+                        height: "90%",
+                      }}
+                    >
+                      {/* <thead>
                           <tr>
                             <th colSpan={3}>{todo.description}lala </th>
                           </tr>
                       </thead> */}
-                        <tbody>
-                          <tr className="same-col-widths">
-                            <td>Hmon </td>
+                      <tbody>
+                        <tr className="same-col-widths">
+                          <td>Hmon </td>
 
-                            <td>Joakim</td>
-                          </tr>
-                          <tr className="same-col-widths">
-                            <td>
-                              <Counter
-                                todo_id={todo.todo_id}
-                                set_name={"hmon_count"}
-                                gettodos={Gettodos}
-                              />
-                            </td>
+                          <td>Joakim</td>
+                        </tr>
+                        <tr className="same-col-widths">
+                          <td>
+                            <Counter
+                              todo_id={todo.todo_id}
+                              set_name={"hmon_count"}
+                              gettodos={Gettodos}
+                            />
+                          </td>
 
-                            <td>
-                              <Counter
-                                todo_id={todo.todo_id}
-                                set_name={"joakim_count"}
-                                gettodos={Gettodos}
-                              />
-                            </td>
-                          </tr>
-                          <tr className="same-col-widths">
-                            <td
-                              rowSpan={5}
-                              style={{
-                                height: "15rem",
-                                /*verticalAlign: "bottom",*/ transform:
-                                  "rotate(-180deg)",
-                              }}
-                            >
-                              {Array.from(
-                                { length: todo.hmon_count },
-                                (x) => star
-                              )}
-                              {todo.hmon_count}
-                            </td>
-                            <td
-                              rowSpan={3}
-                              style={{
-                                height: "15rem",
-                                /*verticalAlign: "bottom",*/
-                                transform: "rotate(-180deg)",
-                              }}
-                            >
-                              {Array.from(
-                                {
-                                  length:
-                                    todo.joakim_count > 100000
-                                      ? todo.joakim_count / 100000
-                                      : todo.joakim_count > 10000
-                                      ? todo.joakim_count / 10000
-                                      : todo.joakim_count,
-                                },
-                                () => star
-                              )}
-                              {todo.joakim_count}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </Table>
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col>
-                <Card
-                  className="h-90 m-2 "
-                  style={{
-                    backgroundColor: "transparent",
-                    border: "none",
-                    width: "100%",
-                    height: "90%",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  {/*<Card.Img variant="top" src="holder.js/100px160" />*/}
-                  <Card.Body>
-                    {/*<Card.Title>Card title</Card.Title>*/}
-                    <Card.Text>
-                      <Bar
-                        className="mt-5"
-                        data={{
-                          labels: ["Dishwasher"],
+                          <td>
+                            <Counter
+                              todo_id={todo.todo_id}
+                              set_name={"joakim_count"}
+                              gettodos={Gettodos}
+                            />
+                          </td>
+                        </tr>
+                        <tr className="same-col-widths">
+                          <td
+                            rowSpan={5}
+                            style={{
+                              height: "15rem",
+                              /*verticalAlign: "bottom",*/ transform:
+                                "rotate(-180deg)",
+                            }}
+                          >
+                            {Array.from(
+                              { length: todo.hmon_count },
+                              (x) => star
+                            )}
+                            {todo.hmon_count}
+                          </td>
+                          <td
+                            rowSpan={3}
+                            style={{
+                              height: "15rem",
+                              /*verticalAlign: "bottom",*/
+                              transform: "rotate(-180deg)",
+                            }}
+                          >
+                            {Array.from(
+                              {
+                                length:
+                                  todo.joakim_count > 100000
+                                    ? todo.joakim_count / 100000
+                                    : todo.joakim_count > 10000
+                                    ? todo.joakim_count / 10000
+                                    : todo.joakim_count,
+                              },
+                              () => star
+                            )}
+                            {todo.joakim_count}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col>
+              <Card
+                className="h-90 m-2 "
+                style={{
+                  backgroundColor: "transparent",
+                  border: "none",
+                  width: "100%",
+                  height: "90%",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                {/*<Card.Img variant="top" src="holder.js/100px160" />*/}
+                <Card.Body>
+                  {/*<Card.Title>Card title</Card.Title>*/}
+                  <Card.Text>
+                    <Bar
+                      className="mt-5"
+                      data={{
+                        labels: ["Dishwasher"],
+                        customCanvasBackgroundColor: {
+                          color: "black",
+                        },
+                        datasets: [
+                          {
+                            label: "Hmon",
+                            data: [todo.hmon_count],
+                            barPercentage: 0.9,
+                            categoryPercentage: 0.7,
+                          },
+                          {
+                            label: "Joakim",
+                            data: [todo.joakim_count],
+                            barPercentage: 0.9,
+                            categoryPercentage: 0.7,
+                          },
+                        ],
+                      }}
+                      options={{
+                        plugins: {
                           customCanvasBackgroundColor: {
-                            color: "black",
+                            color: "lightGreen",
                           },
-                          datasets: [
-                            {
-                              label: "Hmon",
-                              data: [todo.hmon_count],
-                              barPercentage: 0.9,
-                              categoryPercentage: 0.7,
-                            },
-                            {
-                              label: "Joakim",
-                              data: [todo.joakim_count],
-                              barPercentage: 0.9,
-                              categoryPercentage: 0.7,
-                            },
-                          ],
-                        }}
-                        options={{
-                          plugins: {
-                            customCanvasBackgroundColor: {
-                              color: "lightGreen",
-                            },
-                          },
-                          scales: {
-                            y: {
-                              display: false,
-                              grid: {
-                                display: false,
-                              },
-                              ticks: {
-                                display: false, // Remove x-axis ticks
-                              },
-                            },
-                            x: {
+                        },
+                        scales: {
+                          y: {
+                            display: false,
+                            grid: {
                               display: false,
                             },
+                            ticks: {
+                              display: false, // Remove x-axis ticks
+                            },
                           },
-                        }}
-                      />
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-          </div>
+                          x: {
+                            display: false,
+                          },
+                        },
+                      }}
+                    />
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
         </>
       ))}
     </>

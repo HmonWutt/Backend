@@ -51,7 +51,7 @@ const Tasklist = () => {
       console.error(error.message);
     }
   };
-  console.log(todos)
+  console.log(todos);
   let taskIndex = -1;
 
   let taskNames = [
@@ -87,7 +87,7 @@ const Tasklist = () => {
                 paddingBottom: "1rem",
               }}
             >
-              {taskNames[(taskIndex + 1)]}
+              {taskNames[taskIndex + 1]}
               {/*{todo.description} */}
             </h3>
           </div>
@@ -132,7 +132,6 @@ const Tasklist = () => {
                           <Counter
                             todo_id={todo.todo_id}
                             set_name={"hmon_count"}
-                            
                             gettodos={Gettodos}
                           />
                         </td>
@@ -202,35 +201,24 @@ const Tasklist = () => {
                     <Bar
                       className="mt-5"
                       data={{
-                        labels: [ taskNames[(taskIndex += 1) ]],
-                        customCanvasBackgroundColor: {
-                        
-                        },
+                        labels: [taskNames[(taskIndex += 1)]],
+                        customCanvasBackgroundColor: {},
                         datasets: [
                           {
                             label: "Hmon",
                             data: [todo.hmon_count],
                             barPercentage: 0.9,
                             categoryPercentage: 0.7,
-                      
                           },
                           {
                             label: "Joakim",
                             data: [todo.joakim_count],
                             barPercentage: 0.9,
                             categoryPercentage: 0.7,
-                         
-                        
                           },
                         ],
                       }}
                       options={{
-                        plugins: {
-                          customCanvasBackgroundColor: {
-                            color: "lightGreen",
-                            legend: { color: "white" },
-                          },
-                        },
                         scales: {
                           y: {
                             display: false,

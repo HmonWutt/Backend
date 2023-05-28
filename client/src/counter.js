@@ -11,13 +11,24 @@ const Counter = (props) => {
   
   //const [confettishow, setconfettishow] = useState(false)
   const [isExploding, setIsExploding] = useState(false);
+  const Updatedescription=async ()=>{
+  try {
+    await fetch(`http://192.168.0.6:3000/todo/${todo_id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ set: `${set_name}` }),
+      });
+  } catch (error) {
+    
+  }
+  }
 
   const Updatecount = async () => {
     try {
        await fetch(`http://192.168.0.6:3000/todo/${todo_id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ set: `${set_name}` }),
+        body: JSON.stringify({ set: `${set_name}`, count:`${{set_name}+1}`}),
       });
       gettodos();
       // setconfettishow(true)

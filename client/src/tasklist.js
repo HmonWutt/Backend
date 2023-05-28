@@ -62,7 +62,7 @@ const Tasklist = () => {
         <>
           <div
             style={{
-              backgroundColor: " rgb(185,191,199)",
+              backgroundColor: "transparent", /*rgb(185,191,199)",*/
               margin: "1rem",
               borderRadius: "1rem",
             }}
@@ -82,7 +82,7 @@ const Tasklist = () => {
                   className="h-90 m-2"
                   style={{
                     backgroundColor:
-                      "rgba(84,94,106,0.2)" /*"rgba(82, 97, 199, 0.6)"*/,
+                      "rgb(119,176,217)" /*"rgba(82, 97, 199, 0.6)"*/,
                   }}
                 >
                   {/*<Card.Img variant="top" src="holder.js/100px160" />*/}

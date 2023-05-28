@@ -67,7 +67,7 @@ const Tasklist = () => {
               borderRadius: "1rem",
             }}
           >
-            <h1
+            <h3
               style={{
                 margin: "auto",
                 paddingTop: window.innerWidth < 700 ? "2rem" : "4rem",
@@ -75,7 +75,7 @@ const Tasklist = () => {
               }}
             >
               {todo.description}Task Name
-            </h1>
+            </h3>
             <Row xs={1} md={2} className="g-2 m-2">
               <Col>
                 <Card
@@ -173,26 +173,40 @@ const Tasklist = () => {
                 </Card>
               </Col>
               <Col>
-                <Card className="h-90 m-2 p-5">
+                <Card
+                  className="h-90 m-2 "
+                  style={{
+                    backgroundColor: "transparent",
+                    border: "none",
+                    width: "100%",
+                    height: "90%",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
                   {/*<Card.Img variant="top" src="holder.js/100px160" />*/}
                   <Card.Body>
                     {/*<Card.Title>Card title</Card.Title>*/}
                     <Card.Text>
                       <Bar
-                        style={{ width: "80%", height: "80%" }}
+                        className="mt-5"
                         data={{
                           labels: ["Dishwasher"],
                           customCanvasBackgroundColor: {
-                            color: "lightGreen",
+                            color: "black",
                           },
                           datasets: [
                             {
                               label: "Hmon",
                               data: [todo.hmon_count],
+                              barPercentage: 0.9,
+                              categoryPercentage: 0.7,
                             },
                             {
                               label: "Joakim",
                               data: [todo.joakim_count],
+                              barPercentage: 0.9,
+                              categoryPercentage: 0.7,
                             },
                           ],
                         }}
@@ -203,10 +217,17 @@ const Tasklist = () => {
                             },
                           },
                           scales: {
-                            xAxes: {
+                            y: {
+                              display: false,
+                              grid: {
+                                display: false,
+                              },
                               ticks: {
                                 display: false, // Remove x-axis ticks
                               },
+                            },
+                            x: {
+                              display: false,
                             },
                           },
                         }}

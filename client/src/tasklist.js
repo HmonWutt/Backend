@@ -51,6 +51,17 @@ const Tasklist = () => {
       console.error(error.message);
     }
   };
+  console.log(todos)
+  let taskIndex = -1;
+
+  let taskNames = [
+    "Dishwasher",
+    "Trash",
+    "Robot",
+    "Toilet-roll",
+    "Bedsheets",
+    "Bathroom",
+  ];
 
   useEffect(() => {
     Gettodos();
@@ -63,8 +74,10 @@ const Tasklist = () => {
           <div
             style={{
               backgroundColor: "transparent" /*rgb(185,191,199)",*/,
+              color: "yellow",
               margin: "1rem",
               borderRadius: "1rem",
+              textShadow: " 1px 0px 1px #180B07",
             }}
           >
             <h3
@@ -74,7 +87,8 @@ const Tasklist = () => {
                 paddingBottom: "1rem",
               }}
             >
-              {todo.description}Task Name
+              {taskNames[(taskIndex + 1)]}
+              {/*{todo.description} */}
             </h3>
           </div>
           <Row xs={1} md={2} className="g-2 m-2">
@@ -89,87 +103,83 @@ const Tasklist = () => {
                 {/*<Card.Img variant="top" src="holder.js/100px160" />*/}
                 <Card.Body>
                   {/*<Card.Title>Card title</Card.Title>*/}
-                  
-                    <Table
-                      striped={false}
-                      bordered={false}
-                      borderless={true}
-                      hover={false}
-                      tablelayout="table-fixed"
-                      id="card"
-                      style={{
-                        color: "black",
-                        height: "90%",
-                      }}
-                    >
-                      {/* <thead>
+
+                  <Table
+                    striped={false}
+                    bordered={false}
+                    borderless={true}
+                    hover={false}
+                    tablelayout="table-fixed"
+                    id="card"
+                    style={{
+                      color: "black",
+                      height: "90%",
+                    }}
+                  >
+                    {/* <thead>
                           <tr>
                             <th colSpan={3}>{todo.description}lala </th>
                           </tr>
                       </thead> */}
-                      <tbody>
-                        <tr className="same-col-widths">
-                          <td>Hmon </td>
+                    <tbody>
+                      <tr className="same-col-widths">
+                        <td>Hmon: {todo.hmon_count}</td>
 
-                          <td>Joakim</td>
-                        </tr>
-                        <tr className="same-col-widths">
-                          <td>
-                            <Counter
-                              todo_id={todo.todo_id}
-                              set_name={"hmon_count"}
-                              gettodos={Gettodos}
-                            />
-                          </td>
+                        <td>Joakim: {todo.joakim_count}</td>
+                      </tr>
+                      <tr className="same-col-widths">
+                        <td>
+                          <Counter
+                            todo_id={todo.todo_id}
+                            set_name={"hmon_count"}
+                            
+                            gettodos={Gettodos}
+                          />
+                        </td>
 
-                          <td>
-                            <Counter
-                              todo_id={todo.todo_id}
-                              set_name={"joakim_count"}
-                              gettodos={Gettodos}
-                            />
-                          </td>
-                        </tr>
-                        <tr className="same-col-widths">
-                          <td
-                            rowSpan={5}
-                            style={{
-                              height: "15rem",
-                              /*verticalAlign: "bottom",*/ transform:
-                                "rotate(-180deg)",
-                            }}
-                          >
-                            {Array.from(
-                              { length: todo.hmon_count },
-                              (x) => star
-                            )}
-                            {todo.hmon_count}
-                          </td>
-                          <td
-                            rowSpan={3}
-                            style={{
-                              height: "15rem",
-                              /*verticalAlign: "bottom",*/
-                              transform: "rotate(-180deg)",
-                            }}
-                          >
-                            {Array.from(
-                              {
-                                length:
-                                  todo.joakim_count > 100000
-                                    ? todo.joakim_count / 100000
-                                    : todo.joakim_count > 10000
-                                    ? todo.joakim_count / 10000
-                                    : todo.joakim_count,
-                              },
-                              () => star
-                            )}
-                            {todo.joakim_count}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </Table>
-                
+                        <td>
+                          <Counter
+                            todo_id={todo.todo_id}
+                            set_name={"joakim_count"}
+                            gettodos={Gettodos}
+                          />
+                        </td>
+                      </tr>
+                      <tr className="same-col-widths">
+                        <td
+                          rowSpan={5}
+                          style={{
+                            height: "15rem",
+                            /*verticalAlign: "bottom",*/ transform:
+                              "rotate(-180deg)",
+                          }}
+                        >
+                          {Array.from({ length: todo.hmon_count }, (x) => star)}
+                        </td>
+
+                        <td
+                          rowSpan={3}
+                          style={{
+                            height: "15rem",
+                            /*verticalAlign: "bottom",*/
+                            transform: "rotate(-180deg)",
+                          }}
+                        >
+                          {Array.from(
+                            {
+                              length:
+                                todo.joakim_count > 100000
+                                  ? todo.joakim_count / 100000
+                                  : todo.joakim_count > 10000
+                                  ? todo.joakim_count / 10000
+                                  : todo.joakim_count,
+                            },
+                            () => star
+                          )}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </Table>
                 </Card.Body>
               </Card>
             </Col>
@@ -192,9 +202,9 @@ const Tasklist = () => {
                     <Bar
                       className="mt-5"
                       data={{
-                        labels: ["Dishwasher"],
+                        labels: [ taskNames[(taskIndex += 1) ]],
                         customCanvasBackgroundColor: {
-                          color: "black",
+                        
                         },
                         datasets: [
                           {
@@ -202,12 +212,15 @@ const Tasklist = () => {
                             data: [todo.hmon_count],
                             barPercentage: 0.9,
                             categoryPercentage: 0.7,
+                      
                           },
                           {
                             label: "Joakim",
                             data: [todo.joakim_count],
                             barPercentage: 0.9,
                             categoryPercentage: 0.7,
+                         
+                        
                           },
                         ],
                       }}
@@ -215,6 +228,7 @@ const Tasklist = () => {
                         plugins: {
                           customCanvasBackgroundColor: {
                             color: "lightGreen",
+                            legend: { color: "white" },
                           },
                         },
                         scales: {

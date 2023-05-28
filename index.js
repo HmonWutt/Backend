@@ -52,15 +52,16 @@ app.get("/todo/:id", async (req, res) => {
 app.put("/todo/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const  set  = req.body.set;
-    
+    const set = req.body.set;
+    const count = req.body.count;
+    // const count = req.body.count;
 
     const updateTOdo = await pool.query(
-      `UPDATE todo SET "${set}"= ${set}+1 WHERE todo_id = $1`,
+      `UPDATE todo SET ${set}= ${count} WHERE todo_id = $1`,
       [id]
     );
     res.json(`To do id:${id} of set:${set} was updated`);
-
+    //console.log(set,count)
   } catch (error) {
     console.error(error.message);
   }

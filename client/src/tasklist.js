@@ -5,10 +5,27 @@ import Table from "react-bootstrap/Table";
 import "./App.css";
 import Counter from "./counter";
 import { Bar } from "react-chartjs-2";
-import { Chart as ChartJS } from "chart.js/auto";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 let star = (
   <span
@@ -41,8 +58,8 @@ const Tasklist = () => {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
-
-      setTodos(await response.json());
+      let data = await response.json();
+      setTodos(data);
 
       // const entries = document.querySelectorAll("#card");
       //   console.log(entries);
@@ -57,7 +74,7 @@ const Tasklist = () => {
   let taskNames = [
     "Dishwasher",
     "Trash",
-    "Robot",
+    "Mdm fann damn",
     "Toilet-roll",
     "Bedsheets",
     "Bathroom",
@@ -188,8 +205,7 @@ const Tasklist = () => {
                 style={{
                   backgroundColor: "transparent",
                   border: "none",
-                  width: "100%",
-                  height: "90%",
+
                   display: "flex",
                   alignItems: "center",
                 }}
@@ -201,24 +217,30 @@ const Tasklist = () => {
                     <Bar
                       className="mt-5"
                       data={{
-                        labels: [taskNames[(taskIndex += 1)]],
-                        customCanvasBackgroundColor: {},
+                        //labels: [taskNames[(taskIndex += 1)]],
+                        labels: ["Hmon", "Joakim"],
+
                         datasets: [
                           {
-                            label: "Hmon",
-                            data: [todo.hmon_count],
+                            label: taskNames[(taskIndex += 1)],
+                            data: [todo.hmon_count, todo.joakim_count],
                             barPercentage: 0.9,
                             categoryPercentage: 0.7,
-                          },
-                          {
-                            label: "Joakim",
-                            data: [todo.joakim_count],
-                            barPercentage: 0.9,
-                            categoryPercentage: 0.7,
+                            backgroundColor: ["#9BD0F5", "#FFB1C1"],
+                            color: "white",
+                            width: "100%",
+                            height: "90%",
                           },
                         ],
                       }}
                       options={{
+                        options: {
+                          plugins: {
+                            legend: {
+                              display: true,
+                            },
+                          },
+                        },
                         scales: {
                           y: {
                             display: false,
@@ -228,9 +250,6 @@ const Tasklist = () => {
                             ticks: {
                               display: false, // Remove x-axis ticks
                             },
-                          },
-                          x: {
-                            display: false,
                           },
                         },
                       }}

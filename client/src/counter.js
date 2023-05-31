@@ -15,7 +15,7 @@ const Counter = (props) => {
       await fetch(`http://192.168.0.6:3000/todo/${todo_id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ set: `${set_name}`, count: `${set_name}+1` }),
+        body: JSON.stringify({ set: `${set_name} = ${set_name} + 1` }),
       });
       setIsExploding(true);
       setTimeout(() => setIsExploding(false), 2500);
@@ -29,7 +29,7 @@ const Counter = (props) => {
       await fetch(`http://192.168.0.6:3000/todo/${todo_id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ set: `${set_name}`, count: `${set_name}-1` }),
+        body: JSON.stringify({ set: `${set_name} = ${set_name} - 1` }),
       });
       gettodos();
       // setconfettishow(true)

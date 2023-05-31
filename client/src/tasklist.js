@@ -18,7 +18,6 @@ import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 
-
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -92,8 +91,7 @@ const Tasklist = () => {
             <h3
               style={{
                 margin: "auto",
-                paddingTop: window.innerWidth < 700 ? "2rem" : "4rem",
-                paddingBottom: "1rem",
+                paddingTop: window.innerWidth < 700 ? "3rem" : "7rem",
               }}
             >
               {todo.description}

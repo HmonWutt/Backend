@@ -28,13 +28,13 @@ const Input = ({ gettodos, id }) => {
 
   return (
     <div>
-      <Button variant="dark" className="m-2" onClick={() => setiputshow(true)}>
+      <Button variant="dark" className="m-1" onClick={() => setiputshow(true)}>
         Update Description
         {inputshow && (
           <>
             <input
               type="text"
-              className="m-2"
+              className="m-1"
               value={input}
               onChange={(e) => setinput(e.target.value)}
             ></input>

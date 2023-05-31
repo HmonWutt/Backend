@@ -15,7 +15,7 @@ const Counter = (props) => {
       await fetch(`http://192.168.0.6:3000/todo/${todo_id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ set: `${set_name} = ${set_name} + 1` }),
+        body: JSON.stringify({ set: `SET ${set_name} = ${set_name} + 1` }),
       });
       setIsExploding(true);
       setTimeout(() => setIsExploding(false), 2500);
@@ -25,11 +25,11 @@ const Counter = (props) => {
 
   const Countdown = async () => {
     try {
-      console.log(set_name);
+      //console.log(typeof set_name);
       await fetch(`http://192.168.0.6:3000/todo/${todo_id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ set: `${set_name} = ${set_name} - 1` }),
+        body: JSON.stringify({ set: `SET ${set_name} = ${set_name} - 1` }),
       });
       gettodos();
       // setconfettishow(true)
@@ -44,7 +44,7 @@ const Counter = (props) => {
       <div style={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
         {/*} {confettishow && <Confettitrigger />} */}
 
-        <Button variant="dark" onClick={() => Countup()}>
+        <Button variant="dark" onClick={Countup}>
           <>
             {isExploding && (
               <ConfettiExplosion duration={2200} particleCount={300} />
@@ -52,7 +52,7 @@ const Counter = (props) => {
           </>
           Count up
         </Button>
-        <Button variant="dark" onClick={() => Countdown()}>
+        <Button variant="dark" onClick={Countdown}>
           Undo
         </Button>
       </div>

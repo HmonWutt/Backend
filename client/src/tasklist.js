@@ -4,6 +4,7 @@ import Table from "react-bootstrap/Table";
 import Input from "./input";
 import "./App.css";
 import Counter from "./counter";
+import Reserve from "./reserve";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -73,6 +74,7 @@ const Tasklist = () => {
 
   useEffect(() => {
     Gettodos();
+
   }, []);
 
   return (
@@ -97,6 +99,12 @@ const Tasklist = () => {
               {todo.description}
               <Input gettodos={Gettodos} id={todo.todo_id} />
             </h3>
+            {todo.todo_id === 115 && todo.hmon_reserve === true && (
+              <p className="text-danger">Hmon has reserved this task ⏰</p>
+            )}
+            {todo.todo_id === 115 && todo.joakim_reserve === true && (
+              <p className="text-danger">Joakim has reserved this task ⏰</p>
+            )}
           </div>
           <Row xs={1} md={2} className="g-2 m-2">
             <Col>
@@ -141,6 +149,9 @@ const Tasklist = () => {
                             set_name={"hmon_count"}
                             gettodos={Gettodos}
                           />
+                          {todo.todo_id === 115 && (
+                            <Reserve name={"Hmon"} input={"hmon_reserve"} />
+                          )}
                         </td>
 
                         <td>
@@ -149,6 +160,9 @@ const Tasklist = () => {
                             set_name={"joakim_count"}
                             gettodos={Gettodos}
                           />
+                          {todo.todo_id === 115 && (
+                            <Reserve name={"Joakim"} input={"joakim_reserve"} />
+                          )}
                         </td>
                       </tr>
                       <tr className="same-col-widths">

@@ -7,7 +7,6 @@ const Counter = (props) => {
   let set_name = props.set_name;
   let todo_id = props.todo_id;
   const gettodos = props.gettodos;
-  
 
   //const [confettishow, setconfettishow] = useState(false)
   const [isExploding, setIsExploding] = useState(false);
@@ -21,7 +20,9 @@ const Counter = (props) => {
       setIsExploding(true);
       setTimeout(() => setIsExploding(false), 2500);
       gettodos();
-    } catch (error) {}
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   const Countdown = async () => {
@@ -45,17 +46,41 @@ const Counter = (props) => {
       <div style={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
         {/*} {confettishow && <Confettitrigger />} */}
 
-        <Button variant="dark" onClick={Countup}>
-          <>
-            {isExploding && (
-              <ConfettiExplosion duration={2200} particleCount={300} />
-            )}
-          </>
-          Count up
-        </Button>
-        <Button variant="dark" onClick={Countdown}>
-          Undo
-        </Button>
+        {todo_id === 115 ? (
+          <Button
+            variant="dark"
+            onClick={() => {
+              console.log("special button");
+              setIsExploding(true);
+            }}
+          >
+            <>
+              {isExploding && (
+                <ConfettiExplosion duration={2200} particleCount={300} />
+              )}
+            </>
+            Count up
+          </Button>
+        ) : (
+          <Button variant="dark" onClick={Countup}>
+            <>
+              {isExploding && (
+                <ConfettiExplosion duration={2200} particleCount={300} />
+              )}
+            </>
+            Count up
+          </Button>
+        )}
+
+        {todo_id === 115 ? (
+          <Button variant="dark" onClick={() => console.log("special undo")}>
+            Undo
+          </Button>
+        ) : (
+          <Button variant="dark" onClick={Countdown}>
+            Undo
+          </Button>
+        )}
       </div>
     </>
   );

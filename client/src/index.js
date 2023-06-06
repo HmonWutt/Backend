@@ -4,7 +4,7 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Tasklist from "./tasklist";
-import Reminder from "./reminder";
+import Savetoday from "./savetoday";
 
 
 document.body.style.backgroundColor = `#dcdcdc`;
@@ -12,7 +12,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Tasklist />
-    <Reminder />
+    <Savetoday/>
   </React.StrictMode>
 );
 

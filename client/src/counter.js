@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 //import Confettitrigger from "./confetti";
 import ConfettiExplosion from "react-confetti-explosion";
+import Savetoday from "./savetoday";
 
 const Counter = (props) => {
   let set_name = props.set_name;
@@ -39,17 +40,18 @@ const Counter = (props) => {
     } catch (error) {
       console.error(error.message);
     }
-  };
+  }
 
   return (
     <>
       <div style={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
         {/*} {confettishow && <Confettitrigger />} */}
 
-        {todo_id === 115 ? (
-          <Button
+        {todo_id !== 115 ? (
+          /*<Button
             variant="dark"
             onClick={() => {
+              Savetoday.Updatedate();
               console.log("special button");
               setIsExploding(true);
             }}
@@ -58,10 +60,10 @@ const Counter = (props) => {
               {isExploding && (
                 <ConfettiExplosion duration={2200} particleCount={300} />
               )}
-            </>
+              </>
             Count up
           </Button>
-        ) : (
+              ) : */
           <Button variant="dark" onClick={Countup}>
             <>
               {isExploding && (
@@ -70,16 +72,18 @@ const Counter = (props) => {
             </>
             Count up
           </Button>
+        ) : ( 
+          <Savetoday countup = {Countup} countdown={Countdown}/>
+         
+            
         )}
 
-        {todo_id === 115 ? (
-          <Button variant="dark" onClick={() => console.log("special undo")}>
-            Undo
-          </Button>
-        ) : (
+        {todo_id !== 115 ? (
           <Button variant="dark" onClick={Countdown}>
             Undo
           </Button>
+        ) : (
+          <></>
         )}
       </div>
     </>

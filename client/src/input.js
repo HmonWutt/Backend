@@ -30,7 +30,7 @@ const Input = ({ gettodos, id }) => {
 
   return (
     <div>
-      <Button variant="primary" onClick={handleShow}>
+      <Button variant="primary" onClick={handleShow} className="m-3">
         Update description
       </Button>
 

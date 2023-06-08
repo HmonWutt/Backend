@@ -38,7 +38,7 @@ const Savetoday = (props) => {
     todayDate = today.format("YYYY-MM-DD");
     const nextmonth = today.add(1, "month");
     nextmonthDate = nextmonth.format("YYYY-MM-DD");
-    console.log(nextmonthDate);
+   // console.log(nextmonthDate);
     setlastdone(nextmonthDate);
     setShow(true);
     Countup();
@@ -72,8 +72,8 @@ const Savetoday = (props) => {
 
   useEffect(() => {
     Retrievelastdone();
-    console.log(retrievedlastdone && retrievedlastdone.lastdone);
-    console.log("last done retrieved!");
+    //console.log(retrievedlastdone && retrievedlastdone.lastdone);
+    //console.log("last done retrieved!");
   }, []);
   return (
     <>

@@ -5,6 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Tasklist from "./tasklist";
 import Savetoday from "./savetoday";
+import Scheduler from "./scheduler";
 
 
 document.body.style.backgroundColor = `#dcdcdc`;
@@ -13,6 +14,7 @@ root.render(
   <React.StrictMode>
     <Tasklist />
     <Savetoday/>
+    <Scheduler/>
   </React.StrictMode>
 );
 

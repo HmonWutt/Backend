@@ -23,5 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 #password
-google-credentials.js
+/google-credentials.js
 

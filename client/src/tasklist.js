@@ -52,6 +52,7 @@ const Tasklist = () => {
       });
       let data = await response.json();
       setTodos(data);
+      todos && console.log(todos)
 
       // const entries = document.querySelectorAll("#card");
       //   console.log(entries);

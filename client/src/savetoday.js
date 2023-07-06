@@ -3,8 +3,6 @@ import Modal from "react-bootstrap/Modal";
 import ConfettiExplosion from "react-confetti-explosion";
 import { useEffect, useState } from "react";
 
-
-
 // This arrangement can be altered based on how we want the date's format to appear.
 let todayDate;
 let nextmonthDate;
@@ -28,20 +26,6 @@ const Savetoday = (props) => {
     }
   };
 
-  // const Retrievelastdone = async () => {
-  //   try {
-  //     const response = await fetch(`http://192.168.0.6:3000/todo/bedsheet`, {
-  //       method: "GET",
-  //       headers: { "Content-Type": "application/json" },
-  //     });
-  //     retrievedlastdone = await response.json();
-  //     setlastdone(retrievedlastdone);
-  //     console.log("retrieved", retrievedlastdone);
-  //   } catch (error) {
-  //     console.error(error.message);
-  //   }
-  // };
-
   const Updatedate = () => {
     const moment = require("moment");
 
@@ -51,16 +35,10 @@ const Savetoday = (props) => {
     const nextmonth = today.add(1, "month");
     nextmonthDate = nextmonth.format("YYYY-MM-DD");
     // console.log(nextmonthDate);
-    setlastdone(nextmonthDate);
+    setlastdone(todayDate);
     setShow(true);
-    Countup();
   };
 
-  const UndoUpdatedate = () => {
-    console.log(retrievedlastdone.lastdone);
-    setlastdone(retrievedlastdone.lastdone);
-    Countdown();
-  };
   const Confirmupdate = async () => {
     try {
       await fetch(`http://192.168.0.6:3000/todo/115`, {
@@ -71,35 +49,37 @@ const Savetoday = (props) => {
         }),
       });
       //Retrievelastdone();
-      Updatelastdone();
     } catch (error) {
       console.error(error.message);
     }
-    Updatelastdone()
+
+    Updatelastdone();
     setShow(false);
     setIsExploding(true);
     setTimeout(() => setIsExploding(false), 2500);
   };
 
-
   useEffect(() => {
     //Retrievelastdone();
-
     //console.log(retrievedlastdone && retrievedlastdone.lastdone);
     //console.log("last done retrieved!");
   }, []);
 
-  useEffect(() => {
-    Updatelastdone();
-  }, [lastdone]);
+  // useEffect(() => {
+  //   Updatelastdone();
+  // }, [lastdone]);
   return (
     <>
-
       <div>
-        
         <div className="d-flex justify-content-evenly">
-          <Button onClick={Updatedate}>Count up</Button>
-          <Button onClick={UndoUpdatedate}>Undo</Button>
+          <Button
+            onClick={() => {
+              setShow(true);
+              Updatedate();
+            }}
+          >
+            Count up
+          </Button>
         </div>
       </div>
 
@@ -120,14 +100,34 @@ const Savetoday = (props) => {
           <p className="text-danger m-2">
             Once clicked, the change cannot be undone 🛑
           </p>
-          <Button className="m-1" onClick={Confirmupdate} variant="warning">
+          <Button
+            className="m-1"
+            onClick={() => {
+              Confirmupdate();
+              Countup();
+            }}
+            variant="warning"
+          >
             I did it by myself! 🥳{" "}
           </Button>
-          <Button className="m-1" onClick={Confirmupdate} variant="primary">
+          <Button
+            className="m-1"
+            onClick={() => {
+              Confirmupdate();
+              Countup();
+            }}
+            variant="primary"
+          >
             We did it together 👩‍❤️‍👨{" "}
           </Button>
-          <Button className="m-1" onClick={() => {setShow(false);}}>
-            Opps Undo and go back!
+          <Button
+            className="m-1"
+            onClick={() => {
+              setShow(false);
+       
+            }}
+          >
+            Opps undo countup and go back!
           </Button>
         </Modal.Dialog>
       </Modal>

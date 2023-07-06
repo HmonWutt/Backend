@@ -4,7 +4,7 @@ import Table from "react-bootstrap/Table";
 import Input from "./input";
 import "./App.css";
 import Counter from "./counter";
-import Reserve from "./reserve";
+
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -20,7 +20,6 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Lastdoneretriver from "./retrievelastdone";
 import Whoreserved from "./whoreserved";
-
 
 ChartJS.register(
   CategoryScale,
@@ -77,7 +76,6 @@ const Tasklist = () => {
 
   useEffect(() => {
     Gettodos();
-  
   }, []);
 
   return (
@@ -149,10 +147,6 @@ const Tasklist = () => {
                             set_name={"hmon_count"}
                             gettodos={Gettodos}
                           />
-
-                          {todo.todo_id === 115 && (
-                            <Reserve name={"Hmon"} input={"hmon_reserve"} />
-                          )}
                         </td>
 
                         <td>
@@ -161,9 +155,6 @@ const Tasklist = () => {
                             set_name={"joakim_count"}
                             gettodos={Gettodos}
                           />
-                          {todo.todo_id === 115 && (
-                            <Reserve name={"Joakim"} input={"joakim_reserve"} />
-                          )}
                         </td>
                       </tr>
                       <tr className="same-col-widths">

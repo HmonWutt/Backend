@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const Lastdoneretriver = () => {
   const [lastdone, setlastdone] = useState("");
-
+  console.log("component renders")
   const Retrievelastdone = async () => {
     try {
       const response = await fetch(`http://192.168.0.6:3000/todo/bedsheet`, {
@@ -11,16 +11,14 @@ const Lastdoneretriver = () => {
       });
       let retrievedlastdone = await response.json();
       setlastdone(retrievedlastdone);
-      console.log("retrieved", retrievedlastdone);
+      console.log("retrieved and updated lastdone", retrievedlastdone);
     } catch (error) {
       console.error(error.message);
     }
   };
   useEffect(() => {
     Retrievelastdone();
-    //console.log(retrievedlastdone && retrievedlastdone.lastdone);
-    //console.log("last done retrieved!");
-  }, [lastdone]);
+  });
 
   return (
     <div>

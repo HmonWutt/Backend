@@ -124,12 +124,12 @@ async function Getlastdone() {
       //lastdone.slice(8, 10) < 10
       //   ? `0${Number(lastdone.slice(8, 10)) + 1}`
       //   : `Number(lastdone.slice(8, 10)) + 1`;
-      month = Number(lastdone.slice(5, 7)) + 1;
+      month = Number(lastdone.slice(5, 7))+ 1;
       // lastdone.slice(5, 7) < 10
       //   ? `0${Number(lastdone.slice(5, 7)) + 1}`
       //   : `Number(lastdone.slice(5, 7)) + 1`; //month
     }
-    day = day - 3;
+    day = day-3;
     let year = lastdone.slice(0, 4);
 
     let scheduleddate = year + "-" + month + "-" + day;
@@ -144,11 +144,11 @@ async function Getlastdone() {
         "Time for washing bedsheets!",
         today.format("YYYY-MM-DD-HH-mm-ss")
       );
-
+      Reset();
       emailer()
         .then((result) => console.log("Reminder sent", result))
         .catch((error) => console.log(error.message));
-      Reset();
+
       async function Reset() {
         try {
           await fetch(`http://192.168.0.6:3000/todo/115`, {
@@ -158,14 +158,12 @@ async function Getlastdone() {
               set: `SET joakim_reserve = 'false' , hmon_reserve = 'false'`,
             }),
           });
-           console.log("reservation reset done");
+          console.log("reservation reset done");
         } catch (error) {
           console.error(error.message);
         }
       }
     });
-
-   
   } catch (error) {
     console.error(error.message);
   }

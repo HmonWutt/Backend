@@ -3,7 +3,6 @@ import Modal from "react-bootstrap/Modal";
 import ConfettiExplosion from "react-confetti-explosion";
 import { useEffect, useState } from "react";
 
-const schedule = require("node-schedule");
 
 // This arrangement can be altered based on how we want the date's format to appear.
 let todayDate;
@@ -17,14 +16,26 @@ const Savetoday = (props) => {
   const [lastdone, setlastdone] = useState("");
   const [show, setShow] = useState(false);
 
+  const Updatelastdone = async () => {
+    try {
+      await fetch(`http://192.168.0.6:3000/todo/bedsheet`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   const Retrievelastdone = async () => {
     try {
-      const response = await fetch(`http://192.168.0.6:3000/todo/115`, {
+      const response = await fetch(`http://192.168.0.6:3000/todo/bedsheet`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
       retrievedlastdone = await response.json();
-      setlastdone(retrievedlastdone.lastdone);
+      setlastdone(retrievedlastdone);
+      console.log("retrieved", retrievedlastdone);
     } catch (error) {
       console.error(error.message);
     }
@@ -55,9 +66,11 @@ const Savetoday = (props) => {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          set: `SET lastdone='${todayDate}', nextmonth = '${nextmonthDate}'`,
+          set: `SET lastdone='${lastdone}', nextmonth = '${nextmonthDate}'`,
         }),
       });
+      Retrievelastdone();
+      Updatelastdone();
     } catch (error) {
       console.error(error.message);
     }
@@ -66,15 +79,17 @@ const Savetoday = (props) => {
     setTimeout(() => setIsExploding(false), 2500);
   };
 
-  const job = schedule.scheduleJob("* 9 * * *", () => {
-    console.log("Time for tea!");
-  });
 
   useEffect(() => {
     Retrievelastdone();
+
     //console.log(retrievedlastdone && retrievedlastdone.lastdone);
     //console.log("last done retrieved!");
   }, []);
+
+  useEffect(() => {
+    Updatelastdone();
+  }, [lastdone]);
   return (
     <>
       <div>

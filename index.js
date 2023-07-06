@@ -85,7 +85,11 @@ const emailer = async (req, res) => {
   }
 };
 
-app.post("/email", emailer);
+app.post("/todo/bedsheet", async (req, res) => {
+  res.send("hello");
+  console.log("post");
+  Getlastdone();
+});
 
 app.get("/todo/bedsheet", async (req, res) => {
   try {
@@ -97,18 +101,8 @@ app.get("/todo/bedsheet", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-const triggeremailer = async () => {
-  try {
-    const response = await fetch(`http://192.168.0.6:3000/email`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-    });
-  } catch (error) {
-    console.error(error.message);
-  }
-};
 
-const Getlastdone = async () => {
+async function Getlastdone() {
   try {
     const response = await fetch(`http://192.168.0.6:3000/todo/bedsheet`, {
       method: "GET",
@@ -142,9 +136,9 @@ const Getlastdone = async () => {
 
     let scheduleddate = year + "-" + month + "-" + day;
     let crondate = `29 16 ${day} ${month} *`;
-    //crondate = "57 15 5 7 *";
-    console.log("scheduleddate:", scheduleddate);
-    console.log("crondate", crondate);
+    crondate = "28 19 5 7 *";
+    //console.log("scheduleddate:", scheduleddate);
+    //console.log("crondate", crondate);
 
     const job = schedule.scheduleJob(crondate, () => {
       console.log(
@@ -152,14 +146,14 @@ const Getlastdone = async () => {
         today.format("YYYY-MM-DD-HH-mm-ss")
       );
 
-      triggeremailer()
+      emailer()
         .then((result) => console.log("Reminder sent", result))
         .catch((error) => console.log(error.message));
     });
   } catch (error) {
     console.error(error.message);
   }
-};
+}
 
 Getlastdone();
 ///////////////////////////////////////////////////////END OF EMAILER////////////////////////////////////////////

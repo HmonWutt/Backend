@@ -117,10 +117,10 @@ async function Getlastdone() {
       Number(lastdone.slice(5, 7)) + 1 === 2 &&
       Number(lastdone.slice(8, 10)) > 28
     ) {
-      day = "28";
+      day = 28;
       month = "2";
     } else {
-      day = lastdone.slice(8, 11);
+      day = Number(lastdone.slice(8, 11));
       //lastdone.slice(8, 10) < 10
       //   ? `0${Number(lastdone.slice(8, 10)) + 1}`
       //   : `Number(lastdone.slice(8, 10)) + 1`;
@@ -129,16 +129,15 @@ async function Getlastdone() {
       //   ? `0${Number(lastdone.slice(5, 7)) + 1}`
       //   : `Number(lastdone.slice(5, 7)) + 1`; //month
     }
-
+    day = day - 3;
     let year = lastdone.slice(0, 4);
-    day = "5";
-    month = "7";
 
     let scheduleddate = year + "-" + month + "-" + day;
-    let crondate = `29 16 ${day} ${month} *`;
-    crondate = "28 19 5 7 *";
+    let crondate = `50 07 ${day} ${month} *`;
+    //crondate = "31 12 6 7 *";
+
     //console.log("scheduleddate:", scheduleddate);
-    //console.log("crondate", crondate);
+    console.log("crondate", crondate);
 
     const job = schedule.scheduleJob(crondate, () => {
       console.log(
@@ -149,7 +148,24 @@ async function Getlastdone() {
       emailer()
         .then((result) => console.log("Reminder sent", result))
         .catch((error) => console.log(error.message));
+      Reset();
+      async function Reset() {
+        try {
+          await fetch(`http://192.168.0.6:3000/todo/115`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              set: `SET joakim_reserve = 'false' , hmon_reserve = 'false'`,
+            }),
+          });
+           console.log("reservation reset done");
+        } catch (error) {
+          console.error(error.message);
+        }
+      }
     });
+
+   
   } catch (error) {
     console.error(error.message);
   }

@@ -4,6 +4,7 @@ import ConfettiExplosion from "react-confetti-explosion";
 import { useEffect, useState } from "react";
 
 
+
 // This arrangement can be altered based on how we want the date's format to appear.
 let todayDate;
 let nextmonthDate;
@@ -27,19 +28,19 @@ const Savetoday = (props) => {
     }
   };
 
-  const Retrievelastdone = async () => {
-    try {
-      const response = await fetch(`http://192.168.0.6:3000/todo/bedsheet`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
-      retrievedlastdone = await response.json();
-      setlastdone(retrievedlastdone);
-      console.log("retrieved", retrievedlastdone);
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
+  // const Retrievelastdone = async () => {
+  //   try {
+  //     const response = await fetch(`http://192.168.0.6:3000/todo/bedsheet`, {
+  //       method: "GET",
+  //       headers: { "Content-Type": "application/json" },
+  //     });
+  //     retrievedlastdone = await response.json();
+  //     setlastdone(retrievedlastdone);
+  //     console.log("retrieved", retrievedlastdone);
+  //   } catch (error) {
+  //     console.error(error.message);
+  //   }
+  // };
 
   const Updatedate = () => {
     const moment = require("moment");
@@ -69,11 +70,12 @@ const Savetoday = (props) => {
           set: `SET lastdone='${lastdone}', nextmonth = '${nextmonthDate}'`,
         }),
       });
-      Retrievelastdone();
+      //Retrievelastdone();
       Updatelastdone();
     } catch (error) {
       console.error(error.message);
     }
+    Updatelastdone()
     setShow(false);
     setIsExploding(true);
     setTimeout(() => setIsExploding(false), 2500);
@@ -81,7 +83,7 @@ const Savetoday = (props) => {
 
 
   useEffect(() => {
-    Retrievelastdone();
+    //Retrievelastdone();
 
     //console.log(retrievedlastdone && retrievedlastdone.lastdone);
     //console.log("last done retrieved!");
@@ -92,12 +94,9 @@ const Savetoday = (props) => {
   }, [lastdone]);
   return (
     <>
+
       <div>
-        {lastdone ? (
-          <div className="m-3">last done: {lastdone}</div>
-        ) : (
-          <div>No last done data available</div>
-        )}
+        
         <div className="d-flex justify-content-evenly">
           <Button onClick={Updatedate}>Count up</Button>
           <Button onClick={UndoUpdatedate}>Undo</Button>
@@ -127,8 +126,8 @@ const Savetoday = (props) => {
           <Button className="m-1" onClick={Confirmupdate} variant="primary">
             We did it together 👩‍❤️‍👨{" "}
           </Button>
-          <Button className="m-1" onClick={() => setShow(false)}>
-            Opps go back!
+          <Button className="m-1" onClick={() => {setShow(false);}}>
+            Opps Undo and go back!
           </Button>
         </Modal.Dialog>
       </Modal>

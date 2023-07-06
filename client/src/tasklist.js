@@ -18,6 +18,9 @@ import {
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import Lastdoneretriver from "./retrievelastdone";
+import Whoreserved from "./whoreserved";
+
 
 ChartJS.register(
   CategoryScale,
@@ -74,6 +77,7 @@ const Tasklist = () => {
 
   useEffect(() => {
     Gettodos();
+  
   }, []);
 
   return (
@@ -98,12 +102,9 @@ const Tasklist = () => {
               {todo.description}
               <Input gettodos={Gettodos} id={todo.todo_id} />
             </h3>
-            {todo.todo_id === 115 && todo.hmon_reserve === true && (
-              <p className="text-danger">Hmon has reserved this task ⏰</p>
-            )}
-            {todo.todo_id === 115 && todo.joakim_reserve === true && (
-              <p className="text-danger">Joakim has reserved this task ⏰</p>
-            )}
+            {todo.todo_id === 115 && <Whoreserved />}
+
+            {todo.todo_id === 115 && <Lastdoneretriver />}
           </div>
           <Row xs={1} md={2} className="g-2 m-2">
             <Col>
@@ -148,6 +149,7 @@ const Tasklist = () => {
                             set_name={"hmon_count"}
                             gettodos={Gettodos}
                           />
+
                           {todo.todo_id === 115 && (
                             <Reserve name={"Hmon"} input={"hmon_reserve"} />
                           )}

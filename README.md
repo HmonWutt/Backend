@@ -15,7 +15,7 @@ So far it currently has these features:
 2) A side by side display of the number of stars we each have earned (one star for one completed chore)
 3) "Count up" button to add a star (with confetti effect) and "undo" button to remove a star if added accidently
 4) A bar chart showing who is ahead
+5) Email reminder for chores to be done at regular interval: Washing Bedsheets
 
 Features in progress:
-An email reminder for chores to be done at regular interval,for example, washing bedsheets.
-
+Log in feature to reserve the task (washing bedsheets)

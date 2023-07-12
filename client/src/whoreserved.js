@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 function Whoreserved() {
   const [reservedname, setReservedname] = useState(" ");
 
+  //////////////////const Authenticate = 
+
   const Reservedtrue = async (name) => {
     try {
       await fetch(`http://192.168.0.6:3000/todo/115`, {
@@ -43,15 +45,11 @@ function Whoreserved() {
       joakim = reserved.joakim_reserve;
       hmon = reserved.hmon_reserve;
 
-      console.log("disabled button run", joakim, hmon);
       let list = document.querySelectorAll("#disable");
       let elementarray = Array.from(list);
       //.foreach((item) => item.classList.add("disabled"));
-      console.log(list);
-      if (joakim === true || hmon === true) {
-        console.log("one true");
-        console.log("new reservedname run", "joakim", joakim, "hmon", hmon);
 
+      if (joakim === true || hmon === true) {
         elementarray.map((item) => item.classList.add("disabled"));
         if (joakim === true) {
           setReservedname("Joakim");

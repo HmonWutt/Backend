@@ -7,9 +7,22 @@ const Input = ({ gettodos, id }) => {
   const [modalshow, setmodalshow] = useState(false);
   const [submitmodal, setsubmitmodal] = useState(false);
   const [show, setShow] = useState(false);
+  const [emptystringmodal, setShowemptystringmodal] = useState(false)
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  
+
+  function Isemptystring() {
+    if (!input)
+    {
+    alert("Description cannot be empty!")}
+      
+    else {
+      setmodalshow(true);
+      handleClose();
+    }
+  }
 
   async function Updatedescription(id) {
     try {
@@ -20,9 +33,11 @@ const Input = ({ gettodos, id }) => {
       });
       setmodalshow(false);
       gettodos();
-      setinput("");
       setsubmitmodal(true);
-      setTimeout(() => setsubmitmodal(false), 1000);
+      setTimeout(() => {
+        setsubmitmodal(false);
+      }, 1000);
+      return setinput("");
     } catch (error) {
       console.error(error.message);
     }
@@ -50,14 +65,7 @@ const Input = ({ gettodos, id }) => {
             value={input}
             onChange={(e) => setinput(e.target.value)}
           ></input>
-          <Button
-            onClick={() => {
-              setmodalshow(true);
-              handleClose();
-            }}
-          >
-            Submit
-          </Button>
+          <Button onClick={() => Isemptystring()}>Submit</Button>
         </Modal.Body>
       </Modal>
 

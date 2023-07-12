@@ -4,6 +4,7 @@ const cors = require("cors");
 const pool = require("./db");
 const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
+const bcrypt = require("bcrypt");
 
 //middleware
 
@@ -12,6 +13,66 @@ app.use(express.json());
 
 app.listen(3000, () => {
   console.log("Server has started on port 3000");
+});
+
+///////////////////////////////authenticate//////////////////////////////////
+const saltrounds = 10;
+
+
+app.post("/users", async (req, res) => {
+  try {
+    const name = await req.body.name;
+    const password = await bcrypt.hash(req.body.password, saltrounds);
+
+    const userList = await pool.query(
+      "insert into users  (name, password) values ($1, $2) RETURNING *",
+      [name, password]
+    );
+    res.json(userList.rows[0]);
+    //console.log(res.json(userList.rows[0]));
+    //res.status(201).send("User created successfully!");
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+app.post("/login", async (req, res) => {
+  try {
+    const name  = await req.body.name;
+    const password = await req.body.password
+    const usernames = await pool.query(
+      "SELECT name FROM users"
+    );
+  
+    if (usernames.rows.some((obj) => obj.name === name)){
+    try {
+      const result = await pool.query(
+        "SELECT password FROM users where name=$1",
+        [name]
+      );
+    
+      
+        const retrievedPassword = await result.rows[0].password
+   
+      if (await bcrypt.compare(password, retrievedPassword)) {
+        console.log("login successful");
+        res.status(200).send("Login successful!");
+      } else {
+        res.status(404).send("Login failed!");
+      }
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).json({ error: "Internal server error" });
+    }
+      
+    }
+    else{
+      res.status(404).send("Authentication failed!")
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 ////////////////////////////////////google api///////////////////////////////
 const {
@@ -124,12 +185,12 @@ async function Getlastdone() {
       //lastdone.slice(8, 10) < 10
       //   ? `0${Number(lastdone.slice(8, 10)) + 1}`
       //   : `Number(lastdone.slice(8, 10)) + 1`;
-      month = Number(lastdone.slice(5, 7))+ 1;
+      month = Number(lastdone.slice(5, 7)) + 1;
       // lastdone.slice(5, 7) < 10
       //   ? `0${Number(lastdone.slice(5, 7)) + 1}`
       //   : `Number(lastdone.slice(5, 7)) + 1`; //month
     }
-    day = day-3;
+    day = day - 3;
     let year = lastdone.slice(0, 4);
 
     let scheduleddate = year + "-" + month + "-" + day;

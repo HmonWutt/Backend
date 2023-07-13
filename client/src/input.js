@@ -7,18 +7,14 @@ const Input = ({ gettodos, id }) => {
   const [modalshow, setmodalshow] = useState(false);
   const [submitmodal, setsubmitmodal] = useState(false);
   const [show, setShow] = useState(false);
-  const [emptystringmodal, setShowemptystringmodal] = useState(false)
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  
 
   function Isemptystring() {
-    if (!input)
-    {
-    alert("Description cannot be empty!")}
-      
-    else {
+    if (!input) {
+      alert("Description cannot be empty!");
+    } else {
       setmodalshow(true);
       handleClose();
     }

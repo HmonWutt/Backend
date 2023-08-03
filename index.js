@@ -18,7 +18,6 @@ app.listen(3000, () => {
 ///////////////////////////////authenticate//////////////////////////////////
 const saltrounds = 10;
 
-
 app.post("/users", async (req, res) => {
   try {
     const name = await req.body.name;
@@ -38,36 +37,31 @@ app.post("/users", async (req, res) => {
 
 app.post("/login", async (req, res) => {
   try {
-    const name  = await req.body.name;
-    const password = await req.body.password
-    const usernames = await pool.query(
-      "SELECT name FROM users"
-    );
-  
-    if (usernames.rows.some((obj) => obj.name === name)){
-    try {
-      const result = await pool.query(
-        "SELECT password FROM users where name=$1",
-        [name]
-      );
-    
-      
-        const retrievedPassword = await result.rows[0].password
-   
-      if (await bcrypt.compare(password, retrievedPassword)) {
-        console.log("login successful");
-        res.status(200).send("Login successful!");
-      } else {
-        res.status(404).send("Login failed!");
+    const name = await req.body.name;
+    const password = await req.body.password;
+    const usernames = await pool.query("SELECT name FROM users");
+
+    if (usernames.rows.some((obj) => obj.name === name)) {
+      try {
+        const result = await pool.query(
+          "SELECT password FROM users where name=$1",
+          [name]
+        );
+
+        const retrievedPassword = await result.rows[0].password;
+
+        if (await bcrypt.compare(password, retrievedPassword)) {
+          console.log("login successful");
+          res.status(200).send("Login successful!");
+        } else {
+          res.status(404).send("Login failed!");
+        }
+      } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ error: "Internal server error" });
       }
-    } catch (error) {
-      console.error(error.message);
-      res.status(500).json({ error: "Internal server error" });
-    }
-      
-    }
-    else{
-      res.status(404).send("Authentication failed!")
+    } else {
+      res.status(404).send("Authentication failed!");
     }
   } catch (err) {
     console.error(err.message);
@@ -283,4 +277,32 @@ app.delete("/todo/:id", async (req, res) => {
   } catch (err) {
     console.log(err.message);
   }
+});
+/////////////////////////////////////create table/////////////////////
+
+app.post("/create-table/:tablename", async (req, res) => {
+  try {
+    const { person1_name, person2_name} = req.body;
+    const { tablename } = req.params;
+    console.log(req.body.person1_name);
+
+    const newTable = await pool.query(
+      `CREATE TABLE ${tablename} (
+      id serial PRIMARY KEY,
+      description VARCHAR(100) NOT NULL,
+      ${person1_name} integer,
+      ${person2_name} integer
+    )`
+    );
+    const table = res.json(newTable.rows[0]);
+    console.log("this was called");
+    // console.log(table)
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+app.get("/create-table", async (req, res) => {
+  res.send("hello, request to create table received");
+  console.log("create table ");
 });

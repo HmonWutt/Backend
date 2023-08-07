@@ -4,6 +4,7 @@ import Table from "react-bootstrap/Table";
 import Input from "./input";
 import "./App.css";
 import Counter from "./counter";
+import Getrequest from "./getrequest";
 
 import { Bar } from "react-chartjs-2";
 import {
@@ -45,24 +46,8 @@ let star = (
 );
 const Tasklist = () => {
   const [todos, setTodos] = useState([]);
-
-  const Gettodos = async () => {
-    try {
-      const response = await fetch(`http://192.168.0.6:3000/todo`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
-      let data = await response.json();
-      setTodos(data);
-
-      // const entries = document.querySelectorAll("#card");
-      //   console.log(entries);
-      //   entries && entries.forEach((element) => observer.observe(element));
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-
+ const url = `http://192.168.0.6:3000/todo`;
+   
   let taskIndex = -1;
 
   let taskNames = [
@@ -75,7 +60,8 @@ const Tasklist = () => {
   ];
 
   useEffect(() => {
-    Gettodos();
+   Getrequest(url).then(x=>setTodos(x))
+   
   }, []);
 
   return (
@@ -98,7 +84,7 @@ const Tasklist = () => {
               }}
             >
               {todo.description}
-              <Input gettodos={Gettodos} id={todo.todo_id} />
+           {/*  <Input gettodos={Gettodos} id={todo.todo_id} /> */}
             </h3>
             {todo.todo_id === 115 && <Whoreserved />}
 
@@ -145,7 +131,7 @@ const Tasklist = () => {
                           <Counter
                             todo_id={todo.todo_id}
                             set_name={"hmon_count"}
-                            gettodos={Gettodos}
+                            //gettodos={Gettodos}
                           />
                         </td>
 
@@ -153,7 +139,7 @@ const Tasklist = () => {
                           <Counter
                             todo_id={todo.todo_id}
                             set_name={"joakim_count"}
-                            gettodos={Gettodos}
+                            //gettodos={Gettodos}
                           />
                         </td>
                       </tr>

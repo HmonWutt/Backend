@@ -108,6 +108,8 @@ app.post("/todo", async (req, res) => {
     console.error(err.message);
   }
 });
+
+
 //////////////////////////////////////START OF EMAAILER/////////////////////////////////////////
 const emailer = async (req, res) => {
   try {
@@ -281,9 +283,11 @@ app.delete("/todo/:id", async (req, res) => {
 /////////////////////////////////////create table/////////////////////
 
 app.post("/create-table/:tablename", async (req, res) => {
+  res.send("create table requested");
   try {
-    const { person1_name, person2_name} = req.body;
+    const { person1_name, person2_name } = req.body;
     const { tablename } = req.params;
+    console.log("create table requested");
     console.log(req.body.person1_name);
 
     const newTable = await pool.query(
@@ -305,4 +309,33 @@ app.post("/create-table/:tablename", async (req, res) => {
 app.get("/create-table", async (req, res) => {
   res.send("hello, request to create table received");
   console.log("create table ");
+});
+
+app.delete("/delete-table/:tablename", async (req, res) => {
+  
+  try {
+    const { tablename } = req.params;
+    //const deleteTodo = await pool.query(`DROP TABLE ${sanitizeIdentifier(tablename)}`);
+    const deleteTodo = await pool.query(`DROP TABLE ${sanitizeIdentifier(tablename)}`)
+    res.json(`Table ${tablename} was deleted!`);
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+function sanitizeIdentifier(identifier) {
+  // Implement your own logic to sanitize the identifier if needed.
+  // For simplicity, we're just removing any invalid characters here.
+  return identifier.replace(/[^a-zA-Z0-9_]/g, "");
+}
+
+app.get("/descriptions", async (req, res) => {
+  try {
+    const specific_todo = await pool.query(
+      "SELECT description,todo_id FROM todo"
+    );
+    res.json(specific_todo.rows);
+    console.log(specific_todo.rows)
+  } catch (error) {
+    console.error(error.message);
+  }
 });

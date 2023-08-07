@@ -5,6 +5,8 @@ import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Tasklist from "./tasklist";
 import Loginapp from "./createuser";
+import Task from "./task";
+import Home from "./home"
 
 
 document.body.style.backgroundColor = `#dcdcdc`;
@@ -13,6 +15,8 @@ root.render(
   <React.StrictMode>
     <Tasklist />
     <Loginapp/>
+    <Task id={114}/>
+    <Home />
   </React.StrictMode>
 );
 

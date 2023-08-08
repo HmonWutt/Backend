@@ -4,6 +4,8 @@ import Button from "react-bootstrap/Button";
 import ConfettiExplosion from "react-confetti-explosion";
 import Savetoday from "./savetoday";
 import Getrequest from "./getrequest";
+import Starbucket from "./starbucket";
+import "./index.css";
 
 const Counter = (props) => {
   let set_name = props.set_name;
@@ -16,6 +18,7 @@ const Counter = (props) => {
 
   const [isExploding, setIsExploding] = useState(false);
   const [count, setCount] = useState(0);
+  console.log("counter", todo_id);
   const Countup = async () => {
     try {
       await fetch(url, {
@@ -33,7 +36,6 @@ const Counter = (props) => {
 
   const Countdown = async () => {
     try {
-      //console.log(typeof set_name);
       await fetch(url, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -49,18 +51,21 @@ const Counter = (props) => {
   };
   useEffect(() => {
     Getrequest(url).then((x) => setCount(x[set_name]));
-  }, []);
+  }, [todo_id]);
 
   return (
     <>
-      <div>
-        {set_name.charAt(0).toUpperCase() + set_name.slice(1, -6)}: {count}
-      </div>
-      <div style={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
-        {/*} {confettishow && <Confettitrigger />} */}
+      <div id="card">
+        <div id="name" >
+          {set_name.charAt(0).toUpperCase() + set_name.slice(1, -6)}
+        </div>
+        <div id="score">{count}</div>
+        <Starbucket count={count} />
+        <div id="button-container">
+          {/*} {confettishow && <Confettitrigger />} */}
 
-        {todo_id !== 115 ? (
-          /*<Button
+          {todo_id !== 115 ? (
+            /*<Button
             variant="dark"
             onClick={() => {
               Savetoday.Updatedate();
@@ -77,25 +82,26 @@ const Counter = (props) => {
           </Button>
               ) : */
 
-          <Button variant="dark" onClick={Countup}>
-            <>
-              {isExploding && (
-                <ConfettiExplosion duration={2200} particleCount={300} />
-              )}
-            </>
-            Count up
-          </Button>
-        ) : (
-          <Savetoday countup={Countup} countdown={Countdown} />
-        )}
+            <Button className="m-1" variant="warning" onClick={Countup}>
+              <>
+                {isExploding && (
+                  <ConfettiExplosion duration={2200} particleCount={300} />
+                )}
+              </>
+              Count up
+            </Button>
+          ) : (
+            <Savetoday countup={Countup} countdown={Countdown} />
+          )}
 
-        {todo_id !== 115 ? (
-          <Button variant="dark" onClick={Countdown}>
-            Undo
-          </Button>
-        ) : (
-          <></>
-        )}
+          {todo_id !== 115 ? (
+            <Button className="m-1" variant="dark" onClick={Countdown}>
+              Undo
+            </Button>
+          ) : (
+            <></>
+          )}
+        </div>
       </div>
     </>
   );

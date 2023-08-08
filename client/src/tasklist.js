@@ -6,6 +6,7 @@ import "./App.css";
 import Counter from "./counter";
 import Getrequest from "./getrequest";
 
+
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -21,6 +22,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Lastdoneretriver from "./retrievelastdone";
 import Whoreserved from "./whoreserved";
+import Starbucket from "./starbucket";
 
 ChartJS.register(
   CategoryScale,
@@ -31,19 +33,7 @@ ChartJS.register(
   Legend
 );
 
-let star = (
-  <span
-    role="img"
-    aria-label="sheep"
-    style={{
-      display: "inline-block",
-      transform: "rotate(-180deg)",
-      fontSize: window.innerWidth < 700 ? "0.5em" : "1em",
-    }}
-  >
-    ⭐️
-  </span>
-);
+
 const Tasklist = () => {
   const [todos, setTodos] = useState([]);
  const url = `http://192.168.0.6:3000/todo`;
@@ -66,9 +56,10 @@ const Tasklist = () => {
 
   return (
     <>
-      {todos.map((todo) => (
+      {todos.map((todo, index) => (
         <>
           <div
+            key={index}
             style={{
               backgroundColor: "transparent" /*rgb(185,191,199)",*/,
               color: "yellow",
@@ -84,7 +75,7 @@ const Tasklist = () => {
               }}
             >
               {todo.description}
-           {/*  <Input gettodos={Gettodos} id={todo.todo_id} /> */}
+              {/*  <Input gettodos={Gettodos} id={todo.todo_id} /> */}
             </h3>
             {todo.todo_id === 115 && <Whoreserved />}
 
@@ -122,11 +113,6 @@ const Tasklist = () => {
                       </thead> */}
                     <tbody>
                       <tr className="same-col-widths">
-                        <td>Hmon: {todo.hmon_count}</td>
-
-                        <td>Joakim: {todo.joakim_count}</td>
-                      </tr>
-                      <tr className="same-col-widths">
                         <td>
                           <Counter
                             todo_id={todo.todo_id}
@@ -152,7 +138,7 @@ const Tasklist = () => {
                               "rotate(-180deg)",
                           }}
                         >
-                          {Array.from({ length: todo.hmon_count }, (x) => star)}
+                          {/*Array.from({ length: todo.hmon_count }, (x) => star)*/}
                         </td>
 
                         <td
@@ -163,7 +149,7 @@ const Tasklist = () => {
                             transform: "rotate(-180deg)",
                           }}
                         >
-                          {Array.from(
+                          {/*Array.from(
                             {
                               length:
                                 todo.joakim_count > 100000
@@ -173,7 +159,7 @@ const Tasklist = () => {
                                   : todo.joakim_count,
                             },
                             () => star
-                          )}
+                          )*/}
                         </td>
                       </tr>
                     </tbody>

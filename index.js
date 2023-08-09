@@ -94,14 +94,16 @@ today = moment();
 // console.log(today);
 todayDate = today.format("YYYY-MM-DD");
 
-///////////////////////////////////////////////////
+/////////////////////////////add new task//////////////////////
 
 app.post("/todo", async (req, res) => {
   try {
+    const firstcolumn = "hmon_count = 0"
+    const secondcolumn = "joakim_count = 0"
     const { description } = req.body;
     const newTodo = await pool.query(
-      "INSERT INTO todo (description) VALUES ($1) RETURNING *",
-      [description]
+      "INSERT INTO todo (description, hmon_count, joakim_count) VALUES ($1,$2,$3) RETURNING *",
+      [description, 0, 0]
     );
     res.json(newTodo.rows[0]);
   } catch (err) {
@@ -339,3 +341,34 @@ app.get("/descriptions", async (req, res) => {
     console.error(error.message);
   }
 });
+
+
+////////////////////////////////add column##########
+app.post("/add-column", async (req, res) => {
+  try {
+    const { tableName, columnName} = req.body;
+    const newColumn = await pool.query(
+      `ALTER TABLE ${sanitizeIdentifier(tableName)} ADD COLUMN ${sanitizeIdentifier(columnName)} text `
+      
+    );
+    res.send(`New column: ${columnName} created in table: ${tableName}`); 
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+app.delete("/delete-column", async (req, res) => {
+  try {
+    const { tableName, columnName } = req.body;
+    await pool.query(
+      `ALTER TABLE ${sanitizeIdentifier(
+        tableName
+      )} DROP COLUMN ${sanitizeIdentifier(columnName)} `
+    );
+    res.send(`Column: ${columnName} deleted from table: ${tableName}`);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+

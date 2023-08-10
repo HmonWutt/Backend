@@ -35,29 +35,33 @@ app.post("/users", async (req, res) => {
   }
 });
 app.post("/createuser", async (req, res) => {
-  try {
-    const username = await req.body.username;
+  let username;
+  let password;
 
+  try {
+    username = await req.body.username;
+    password = await req.body.password;
     const usernames = await pool.query(
       "SELECT * FROM users WHERE username = $1",
       [username]
     );
     if (usernames.rows.length > 0) {
-      res.send("Username already exists.");
+      res.json({ message: "Username already exists." });
     } else {
       try {
-        const password = await bcrypt.hash(req.body.password, saltrounds);
+        const hashedpassword = await bcrypt.hash(password, saltrounds);
+
         const result = await pool.query(
           `INSERT INTO users(username,password) VALUES ($1,$2) `,
-          [username, password]
+          [username, hashedpassword]
         );
-        res.send("success");
+        res.json({ message: "User created successfully!" });
       } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
       }
     }
   } catch (error) {
-    console.log(error.message);
+    console.error(error.message);
   }
 });
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Postrequest from "./postrequest";
 
 function Loginapp() {
   const [password, setPassword] = useState("");
@@ -7,35 +8,28 @@ function Loginapp() {
   const [usernameError, setusernameError] = useState("");
   const [userexists, setUserexists] = useState(false);
   const [usernotexists, setUsernotexists] = useState(false);
-  let res;
-
+  
   async function saveuser(username, password) {
     console.log("saveuser request sent");
-    try {
-      const body = { username, password };
-      const response = await fetch("http://192.168.0.6:3000/createuser", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      res = await response.json();
-      console.log(res.message);
-      if (res.message === "Username already exists.") {
-        setUserexists(true);
-        setTimeout(() => setUserexists(false), 1000);
-      } else {
-        setUsernotexists(true);
-        setUsername("");
-        setPassword("");
-        setTimeout(() => setUsernotexists(false), 1000);
-      }
 
-      //debugger;
-    } catch (error) {
-      console.error(error.message);
+    const url = "http://192.168.0.6:3000/createuser";
+    const body = { username, password };
+
+    Postrequest(url, body).then((data) => {
+      isuserexists(data.message);
+    });
+  }
+  async function isuserexists(message) {
+    if (message === "Username already exists.") {
+      setUserexists(true);
+      setTimeout(() => setUserexists(false), 1000);
+    } else {
+      setUsernotexists(true);
+      setUsername("");
+      setPassword("");
+      setTimeout(() => setUsernotexists(false), 1000);
     }
   }
-
   let formIsValid = true;
   const handleValidation = (event) => {
     console.log("handleValidation ran");

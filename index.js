@@ -34,6 +34,58 @@ app.post("/users", async (req, res) => {
     console.error(err.message);
   }
 });
+app.post("/createuser", async (req, res) => {
+  try {
+    const username = await req.body.username;
+
+    const usernames = await pool.query(
+      "SELECT * FROM users WHERE username = $1",
+      [username]
+    );
+    if (usernames.rows.length > 0) {
+      res.send("Username already exists.");
+    } else {
+      try {
+        const password = await bcrypt.hash(req.body.password, saltrounds);
+        const result = await pool.query(
+          `INSERT INTO users(username,password) VALUES ($1,$2) `,
+          [username, password]
+        );
+        res.send("success");
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
+app.post("/addidentifier/:username", async (req, res) => {
+  try {
+    const { identifier } = req.body;
+    const existingIdentifiers = await pool.query(
+      "SELECT * FROM users where identifier = $1",
+      [identifier]
+    );
+    if (existingIdentifiers.rows.length > 0) {
+      res.send("Hymph! Not unique enough.");
+    } else {
+      try {
+        const { username } = req.params;
+        await pool.query(
+          `Update users SET identifier = $1 WHERE username = $2`,
+          [identifier, username]
+        );
+        res.send("Chore tracker name added!");
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+});
 
 app.post("/login", async (req, res) => {
   try {
@@ -98,8 +150,8 @@ todayDate = today.format("YYYY-MM-DD");
 
 app.post("/todo", async (req, res) => {
   try {
-    const firstcolumn = "hmon_count = 0"
-    const secondcolumn = "joakim_count = 0"
+    const firstcolumn = "hmon_count = 0";
+    const secondcolumn = "joakim_count = 0";
     const { description } = req.body;
     const newTodo = await pool.query(
       "INSERT INTO todo (description, hmon_count, joakim_count) VALUES ($1,$2,$3) RETURNING *",
@@ -110,7 +162,6 @@ app.post("/todo", async (req, res) => {
     console.error(err.message);
   }
 });
-
 
 //////////////////////////////////////START OF EMAAILER/////////////////////////////////////////
 const emailer = async (req, res) => {
@@ -314,11 +365,12 @@ app.get("/create-table", async (req, res) => {
 });
 
 app.delete("/delete-table/:tablename", async (req, res) => {
-  
   try {
     const { tablename } = req.params;
     //const deleteTodo = await pool.query(`DROP TABLE ${sanitizeIdentifier(tablename)}`);
-    const deleteTodo = await pool.query(`DROP TABLE ${sanitizeIdentifier(tablename)}`)
+    const deleteTodo = await pool.query(
+      `DROP TABLE ${sanitizeIdentifier(tablename)}`
+    );
     res.json(`Table ${tablename} was deleted!`);
   } catch (err) {
     console.log(err.message);
@@ -336,22 +388,22 @@ app.get("/descriptions", async (req, res) => {
       "SELECT description,todo_id FROM todo"
     );
     res.json(specific_todo.rows);
-    console.log(specific_todo.rows)
+    console.log(specific_todo.rows);
   } catch (error) {
     console.error(error.message);
   }
 });
 
-
 ////////////////////////////////add column##########
 app.post("/add-column", async (req, res) => {
   try {
-    const { tableName, columnName} = req.body;
+    const { tableName, columnName } = req.body;
     const newColumn = await pool.query(
-      `ALTER TABLE ${sanitizeIdentifier(tableName)} ADD COLUMN ${sanitizeIdentifier(columnName)} text `
-      
+      `ALTER TABLE ${sanitizeIdentifier(
+        tableName
+      )} ADD COLUMN ${sanitizeIdentifier(columnName)} text `
     );
-    res.send(`New column: ${columnName} created in table: ${tableName}`); 
+    res.send(`New column: ${columnName} created in table: ${tableName}`);
   } catch (err) {
     console.error(err.message);
   }
@@ -370,5 +422,3 @@ app.delete("/delete-column", async (req, res) => {
     console.error(err.message);
   }
 });
-
-

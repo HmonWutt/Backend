@@ -15,6 +15,20 @@ body {
   width: 100%;
   box-sizing: border-box;
 }
+li {
+  list-style-type: none;
+}
+a {
+  text-decoration: none;
+  color: rgb(139, 0, 139);
+  
+  font-size: 1.2em;
+  text-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+#sidebar a.active {
+    color: rgb(139, 0, 139);
+  font-weight: bold;
+}
 #root {
   display: flex;
   flex-direction: column;
@@ -50,25 +64,58 @@ code {
 tr.same-col-widths td {
   width: 50%;
 }
+#rootcontainer {
+  height: 100%;
+  width: 100%;
+}
+#sidebar {
+  display: block;
+}
 
+#navbaritems {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1rem;
+}
+#detail {
+  position: block;
+  padding: 1rem;
+}
 #task-description {
   color: rgb(15, 15, 15);
-  background-color: rgb(243, 81, 23);
-  margin: 1rem;
+ background-color:rgb(246, 117, 117);
+  margin-top: 1.5rem; 
   font-size: 1.3em;
   padding: 0.5rem;
-  border-radius: 0.5rem;
+ border-radius: 0.25rem;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
-#score-display-container {
+#card-container {
   display: flex;
   flex-direction: row;
   /* background-color: blueviolet; */
   flex: 1;
-
+  flex-wrap: wrap;
+  min-height: 10rem;
+  /* max-height: calc(max-content + 5rem) ; */
+  width: 40vw;
+}
+#card-container * {
+  flex: 1;
   flex-wrap: wrap;
 }
-
+@media only screen and (max-width: 700px) {
+  #card-container {
+    width: 100vw;
+    /* ... other styles ... */
+  }
+}
+@media only screen and (min-height: 500px) {
+  #card-container {
+    max-height: 20rem;
+  }
+}
 #card {
   display: flex;
   flex-direction: column;
@@ -93,17 +140,19 @@ Button {
   color: rgb(255, 0, 170);
   font-size: 1.1em;
   text-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  flex: 1;
 }
 #name {
   font-size: 1.2em;
   text-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  flex: 1;
 }
 #starbucket {
   width: 80%;
   transform: rotate(180deg);
   align-content: bottom;
   min-height: 1.5rem;
-  flex-grow: 1;
+  flex: 1;
 }
 .star {
   text-shadow: 0 -0.5rem 1rem #f4f3efe0, 0 0.5rem 1rem #f8f6f6df;

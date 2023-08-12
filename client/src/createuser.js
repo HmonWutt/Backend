@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Postrequest from "./postrequest";
 
-function Loginapp() {
+function Createuserapp() {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [passwordError, setpasswordError] = useState("");
   const [usernameError, setusernameError] = useState("");
   const [userexists, setUserexists] = useState(false);
   const [usernotexists, setUsernotexists] = useState(false);
-  
+
   async function saveuser(username, password) {
     console.log("saveuser request sent");
 
@@ -217,4 +217,4 @@ function Loginapp() {
     </div>
   );
 }
-export default Loginapp;
+export default Createuserapp;

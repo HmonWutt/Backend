@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
-import Input from "./input";
+
 import Counter from "./counter";
 import "./index.css";
 import { Bar } from "react-chartjs-2";
@@ -35,7 +35,7 @@ const Task = ({ id }) => {
       <div id="task-description">
         {data ? <div>{data.description}</div> : <div>No data found</div>}
       </div>
-      <div id="score-display-container">
+      <div id="card-container">
         <Counter set_name={"hmon_count"} todo_id={id} />
 
         <Counter set_name={"joakim_count"} todo_id={id} />

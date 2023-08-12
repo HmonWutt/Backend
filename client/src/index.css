@@ -18,11 +18,9 @@ body {
 li {
   list-style-type: none;
 }
-a {
+#sidebar a {
   text-decoration: none;
   color: rgb(139, 0, 139);
-  
-  font-size: 1.2em;
   text-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 #sidebar a.active {

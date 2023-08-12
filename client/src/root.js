@@ -31,16 +31,17 @@ export default function Root() {
                 Demo
               </NavLink>
             </li>
-            {/*  <li>
-          }   <Link
-                id="login-link"
-                onClick={handleclick}
-                className="link"
-                to={`login`}
+            <li>
+              <NavLink
+                id="create-link"
+                to="/createaccount"
+                className={({ isActive, isPending }) =>
+                  isPending ? "pending" : isActive ? "active" : ""
+                }
               >
-                Log in
-  </Link> 
-            </li>*/}
+                Create account
+              </NavLink>
+            </li>
           </ul>
         </nav>
       </div>

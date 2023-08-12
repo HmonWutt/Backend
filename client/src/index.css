@@ -133,6 +133,7 @@ tr.same-col-widths td {
 }
 Button {
   box-shadow: rgba(0, 0, 0, 0.55) 0px 5px 5px;
+  margin: 0.5rem;
 }
 #score {
   color: rgb(255, 0, 170);

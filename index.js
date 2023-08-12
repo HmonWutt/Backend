@@ -93,35 +93,35 @@ app.post("/addidentifier/:username", async (req, res) => {
 
 app.post("/login", async (req, res) => {
   try {
-    const name = await req.body.name;
+    const username = await req.body.username;
     const password = await req.body.password;
-    const usernames = await pool.query("SELECT name FROM users");
+    const usernames = await pool.query("SELECT username FROM users");
 
-    if (usernames.rows.some((obj) => obj.name === name)) {
+    if (usernames.rows.some((obj) => obj.username === username)) {
       try {
         const result = await pool.query(
-          "SELECT password FROM users where name=$1",
-          [name]
+          "SELECT password FROM users where username=$1",
+          [username]
         );
 
         const retrievedPassword = await result.rows[0].password;
 
         if (await bcrypt.compare(password, retrievedPassword)) {
           console.log("login successful");
-          res.status(200).send("Login successful!");
+          res.status(200).json({ message: "success" });
         } else {
           res.status(404).send("Login failed!");
         }
       } catch (error) {
         console.error(error.message);
-        res.status(500).json({ error: "Internal server error" });
+        res.status(500).json({ message: "error" });
       }
     } else {
-      res.status(404).send("Authentication failed!");
+      res.status(404).json({message:"error"});
     }
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ message:"error" });
   }
 });
 ////////////////////////////////////google api///////////////////////////////

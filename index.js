@@ -73,7 +73,7 @@ app.post("/addidentifier/:username", async (req, res) => {
       [identifier]
     );
     if (existingIdentifiers.rows.length > 0) {
-      res.send("Hymph! Not unique enough.");
+      res.json({ message: "Hymph! Not unique enough." });
     } else {
       try {
         const { username } = req.params;
@@ -81,9 +81,10 @@ app.post("/addidentifier/:username", async (req, res) => {
           `Update users SET identifier = $1 WHERE username = $2`,
           [identifier, username]
         );
-        res.send("Chore tracker name added!");
+        res.status(200).json({ identifier: identifier });
       } catch (error) {
         console.log(error.message);
+        res.status(500).json({ message: "error" });
       }
     }
   } catch (error) {
@@ -100,15 +101,17 @@ app.post("/login", async (req, res) => {
     if (usernames.rows.some((obj) => obj.username === username)) {
       try {
         const result = await pool.query(
-          "SELECT password FROM users where username=$1",
+          "SELECT password,identifier FROM users where username=$1",
           [username]
         );
 
         const retrievedPassword = await result.rows[0].password;
-
+        const identifier = await result.rows[0].identifier;
+        console.log("identifier", identifier);
         if (await bcrypt.compare(password, retrievedPassword)) {
           console.log("login successful");
-          res.status(200).json({ message: "success" });
+
+          res.status(200).json({ message: "success", identifier: identifier });
         } else {
           res.status(404).send("Login failed!");
         }
@@ -117,11 +120,11 @@ app.post("/login", async (req, res) => {
         res.status(500).json({ message: "error" });
       }
     } else {
-      res.status(404).json({message:"error"});
+      res.status(404).json({ message: "error" });
     }
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ message:"error" });
+    res.status(500).json({ message: "error" });
   }
 });
 ////////////////////////////////////google api///////////////////////////////
@@ -389,7 +392,7 @@ function sanitizeIdentifier(identifier) {
 app.get("/descriptions", async (req, res) => {
   try {
     const specific_todo = await pool.query(
-      "SELECT description,todo_id FROM todo"
+      "SELECT description,todo_id FROM todo "
     );
     res.json(specific_todo.rows);
     console.log(specific_todo.rows);

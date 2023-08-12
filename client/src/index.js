@@ -13,6 +13,7 @@ import Task from "./task";
 import Home from "./home";
 import ErrorPage from "./errorhandler";
 import Loginapp from "./loginapp";
+import AdminPanel from "./admin_panel";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,15 @@ const router = createBrowserRouter([
       <>
         <Root />
         <Loginapp />
+      </>
+    ),
+  },
+  {
+    path: "adminpanel",
+    element: (
+      <>
+        <Root />
+        <AdminPanel />
       </>
     ),
   },

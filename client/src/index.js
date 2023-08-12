@@ -12,6 +12,7 @@ import Createuserapp from "./createuser";
 import Task from "./task";
 import Home from "./home";
 import ErrorPage from "./errorhandler";
+import Loginapp from "./loginapp";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,15 @@ const router = createBrowserRouter([
       <>
         <Root />
         <Home />
+      </>
+    ),
+  },
+  {
+    path: "login",
+    element: (
+      <>
+        <Root />
+        <Loginapp />
       </>
     ),
   },

@@ -113,7 +113,7 @@ app.post("/login", async (req, res) => {
 
           res.status(200).json({ message: "success", identifier: identifier });
         } else {
-          res.status(404).send("Login failed!");
+          res.status(404).json({message:"Login failed!"});
         }
       } catch (error) {
         console.error(error.message);
@@ -309,6 +309,20 @@ app.get("/todo/:id", async (req, res) => {
     );
     res.json(specific_todo.rows[0]);
   } catch (error) {
+    console.error(error.message);
+  }
+});
+
+app.get("/todo/:identifier", async (req, res) => {
+  try {
+    const { identifier } = req.params;
+    const specific_todo = await pool.query(
+      "SELECT * FROM todo WHERE identifier = $1 ",
+      [identifier]
+    );
+    res.json(specific_todo.rows[0]);
+  } catch (error) {
+    res.json({message:"Not found!"})
     console.error(error.message);
   }
 });

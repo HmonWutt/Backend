@@ -1,11 +1,10 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
-import Input from "./input";
+import Input from "./changetaskname";
 import "./App.css";
 import Counter from "./counter";
 import Getrequest from "./getrequest";
-
 
 import { Bar } from "react-chartjs-2";
 import {
@@ -33,11 +32,10 @@ ChartJS.register(
   Legend
 );
 
-
 const Tasklist = () => {
   const [todos, setTodos] = useState([]);
- const url = `http://192.168.0.6:3000/todo`;
-   
+  const url = `http://192.168.0.6:3000/todo`;
+
   let taskIndex = -1;
 
   let taskNames = [
@@ -50,8 +48,7 @@ const Tasklist = () => {
   ];
 
   useEffect(() => {
-   Getrequest(url).then(x=>setTodos(x))
-   
+    Getrequest(url).then((x) => setTodos(x));
   }, []);
 
   return (

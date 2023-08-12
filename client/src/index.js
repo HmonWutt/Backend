@@ -1,22 +1,46 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Tasklist from "./tasklist";
-import Loginapp from "./createuser";
-import Task from "./task";
-import Home from "./home"
 
+import "./index.css";
+
+import Root from "./root";
+import Tasklist from "./tasklist";
+import Createuserapp from "./createuser";
+import Task from "./task";
+import Home from "./home";
+import ErrorPage from "./errorhandler";
+
+const router = createBrowserRouter([
+  {
+    path: "/createaccount",
+
+    element: (
+      <>
+        <Root />
+        <Createuserapp />
+      </>
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "home",
+    element: (
+      <>
+        <Root />
+        <Home />
+      </>
+    ),
+  },
+]);
 
 document.body.style.backgroundColor = `#dcdcdc`;
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-   {/*<Tasklist />*/}
-    <Loginapp/>
-   {/*} <Task id={114}/> */}
-    <Home />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 

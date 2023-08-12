@@ -14,9 +14,10 @@ function Loginapp() {
     const body = { username, password };
 
     Postrequest(url, body).then((data) => {
-      if (data.message !== "error") {
+      if (data.message === "success") {
         console.log("Login success! Redirecting...");
         console.log("username" ,username)
+        console.log("message",data.message)
         console.log("identifier", data.identifier)
         setIserror("success");
       } else {
@@ -120,8 +121,11 @@ function Loginapp() {
         <button type="submit" className="btn btn-primary">
           Log in
         </button>
-      </form>
+      </form> 
+      <div>Default username: default</div>
+      <div>Default password: defaultpassword</div>
     </div>
+   
   );
 }
 export default Loginapp;

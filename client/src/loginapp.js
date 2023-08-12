@@ -5,6 +5,7 @@ function Loginapp() {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [iserror, setIserror] = useState("");
+  const [identifier,setIdentifier] = useState("")
 
   async function verifyuser(username, password) {
     console.log("saveuser request sent");
@@ -13,8 +14,10 @@ function Loginapp() {
     const body = { username, password };
 
     Postrequest(url, body).then((data) => {
-      if (data.message === "success") {
+      if (data.message !== "error") {
         console.log("Login success! Redirecting...");
+        console.log("username" ,username)
+        console.log("identifier", data.identifier)
         setIserror("success");
       } else {
         setIserror("error");

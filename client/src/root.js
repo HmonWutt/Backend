@@ -42,6 +42,17 @@ export default function Root() {
                 Create account
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                id="admin-link"
+                to="/adminpanel"
+                className={({ isActive, isPending }) =>
+                  isPending ? "pending" : isActive ? "active" : ""
+                }
+              >
+                Admin panel
+              </NavLink>
+            </li>
           </ul>
         </nav>
       </div>

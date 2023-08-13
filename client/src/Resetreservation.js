@@ -1,7 +1,8 @@
+import url from "./url"
 const Resetreservation =()=> {
     
    const Reset = async () => {try {
-  await fetch(`http://192.168.0.6:3000/todo/115`, {
+  await fetch(`${url}/todo/115`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({

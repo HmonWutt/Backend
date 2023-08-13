@@ -15,7 +15,7 @@ const Counter = (props) => {
   // const gettodos = props.gettodos;
 
   //const [confettishow, setconfettishow] = useState(false)
-  const newurl = `${url}/todo/${todo_id}`;
+  const newurl = `${url}/todo/id/${todo_id}`;
 
   const [isExploding, setIsExploding] = useState(false);
   const [count, setCount] = useState(0);

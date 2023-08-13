@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 
 import Postrequest from "./postrequest";
 import Getrequest from "./getrequest";
+import url from "./url"
 
 const AdminPanel = () => {
 const username = "default"
@@ -16,12 +17,11 @@ async function checkidentifier(){
     
   }
 }
-const url = `http://192.168.0.6:3000/addidentifier/${username}`
-console.log(url)
-
+const newurl = `${url}/addidentifier/${username}`
+console.log(newurl)
 async function addidentifier (identifier){
 const body = {identifier: `'${identifier}'`}
-    Postrequest (url, body).then(data=> console.log(data.message))}
+    Postrequest (newurl, body).then(data=> console.log(data.message))}
 
 const loginSubmit = (e) => {
     e.preventDefault();
@@ -29,7 +29,7 @@ const loginSubmit = (e) => {
   };
 let x;
 useEffect(()=>{
-   // Getrequest(`http://192.168.0.6:3000/todo/${identifier}`).then(data =>  {console.log(typeof(data));console.log(data.values)})//data.map((x)=>{ console.log(x.description); console.log(x.hmon_count)}))
+   // Getrequest(`${url}/todo/${identifier}`).then(data =>  {console.log(typeof(data));console.log(data.values)})//data.map((x)=>{ console.log(x.description); console.log(x.hmon_count)}))
 ;
 
 },[])
@@ -94,7 +94,7 @@ return (
       Add new chore
     </Button>
     <Button
-      onClick={()=>{Getrequest(`http://192.168.0.6:3000/todo/${identifier}`).then(
+      onClick={()=>{Getrequest(`${url}/todo/${identifier}`).then(
         (data) => {
           console.log(typeof data);
           console.log(data[0]);

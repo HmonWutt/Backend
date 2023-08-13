@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
 
+import url from "./url";
 import Counter from "./counter";
 import "./index.css";
 import { Bar } from "react-chartjs-2";
@@ -25,10 +26,10 @@ const Task = ({ id }) => {
   const [data, setData] = useState([]);
   console.log("task", id);
 
-  const url = `http://192.168.0.6:3000/todo/${id}`;
+  const newurl = `${url}/todo/${id}`;
 
   useEffect(() => {
-    Getrequest(url).then((getrequestoutput) => setData(getrequestoutput));
+    Getrequest(newurl).then((getrequestoutput) => setData(getrequestoutput));
   }, [id]);
   return (
     <>

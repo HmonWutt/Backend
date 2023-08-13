@@ -1,12 +1,13 @@
 import Button from "react-bootstrap/esm/Button";
 import { useState, useEffect } from "react";
+import url from "./url"
 
 function Reserve({ name, input }) {
   let unreservedname;
 
   const Reservedtrue = async () => {
     try {
-      await fetch(`http://192.168.0.6:3000/todo/115`, {
+      await fetch(`${url}/todo/115`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ set: `SET ${input} = 'true'` }),
@@ -17,7 +18,7 @@ function Reserve({ name, input }) {
     name === "Hmon" ? (unreservedname = "joakim") : (unreservedname = "hmon");
     console.log(name);
     try {
-      await fetch(`http://192.168.0.6:3000/todo/115`, {
+      await fetch(`${url}/todo/115`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -32,7 +33,7 @@ function Reserve({ name, input }) {
 
   const Reservedfalse = async () => {
     try {
-      await fetch(`http://192.168.0.6:3000/todo/115`, {
+      await fetch(`${url}/todo/115`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ set: `SET ${input} = 'false'` }),
@@ -48,7 +49,7 @@ function Reserve({ name, input }) {
     let joakimreserved;
     let hmonreserved;
     try {
-      const response = await fetch(`http://192.168.0.6:3000/todo/115`, {
+      const response = await fetch(`${url}/todo/115`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });

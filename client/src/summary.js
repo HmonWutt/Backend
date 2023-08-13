@@ -7,13 +7,13 @@ list.forEach(element => {element.map((task, index)=>console.log(task))
 return (
   <>
     <Button>Summary</Button>
-    <div id="summary-container">
+    <div id="cards">
       {list.map((element, elementIndex) =>
         element.map((task, taskIndex) => (
-          <div key={taskIndex} className="task-item">
-            <div className="description">{task.description}</div>
-            <div className="count-1">{task.hmon_count}</div>
-            <div className="count-2">{task.joakim_count}</div>
+          <div key={taskIndex} className="card">
+            <div className="card-content">{task.description}</div>
+            <div className="card-content">{task.hmon_count}</div>
+            <div className="card-content">{task.joakim_count}</div>
           </div>
         ))
       )}

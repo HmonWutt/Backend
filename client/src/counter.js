@@ -6,6 +6,7 @@ import Savetoday from "./savetoday";
 import Getrequest from "./getrequest";
 import Starbucket from "./starbucket";
 import "./index.css";
+import url from "./url";
 
 const Counter = (props) => {
   let set_name = props.set_name;
@@ -14,21 +15,21 @@ const Counter = (props) => {
   // const gettodos = props.gettodos;
 
   //const [confettishow, setconfettishow] = useState(false)
-  const url = `http://192.168.0.6:3000/todo/${todo_id}`;
+  const newurl = `${url}/todo/${todo_id}`;
 
   const [isExploding, setIsExploding] = useState(false);
   const [count, setCount] = useState(0);
   console.log("counter", todo_id);
   const Countup = async () => {
     try {
-      await fetch(url, {
+      await fetch(newurl, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ set: `SET ${set_name} = ${set_name} + 1` }),
       });
       setIsExploding(true);
       setTimeout(() => setIsExploding(false), 2500);
-      Getrequest(url).then((x) => setCount(x[set_name]));
+      Getrequest(newurl).then((x) => setCount(x[set_name]));
     } catch (error) {
       console.error(error.message);
     }
@@ -36,27 +37,27 @@ const Counter = (props) => {
 
   const Countdown = async () => {
     try {
-      await fetch(url, {
+      await fetch(newurl, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ set: `SET ${set_name} = ${set_name} - 1` }),
       });
-      //Getrequest(url).then(x=>setCount(x.set_name));
+      //Getrequest(newurl).then(x=>setCount(x.set_name));
       // setconfettishow(true)
       // setTimeout(() => setconfettishow(false), 5000);
-      Getrequest(url).then((x) => setCount(x[set_name]));
+      Getrequest(newurl).then((x) => setCount(x[set_name]));
     } catch (error) {
       console.error(error.message);
     }
   };
   useEffect(() => {
-    Getrequest(url).then((x) => setCount(x[set_name]));
+    Getrequest(newurl).then((x) => setCount(x[set_name]));
   }, [todo_id]);
 
   return (
     <>
       <div id="card">
-        <div id="name" >
+        <div id="name">
           {set_name.charAt(0).toUpperCase() + set_name.slice(1, -6)}
         </div>
         <div id="score">{count}</div>

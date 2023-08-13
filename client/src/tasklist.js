@@ -22,6 +22,7 @@ import Row from "react-bootstrap/Row";
 import Lastdoneretriver from "./retrievelastdone";
 import Whoreserved from "./whoreserved";
 import Starbucket from "./starbucket";
+import url from "./url";
 
 ChartJS.register(
   CategoryScale,
@@ -34,7 +35,7 @@ ChartJS.register(
 
 const Tasklist = () => {
   const [todos, setTodos] = useState([]);
-  const url = `http://192.168.0.6:3000/todo`;
+  const newurl = `${url}/todo`;
 
   let taskIndex = -1;
 
@@ -48,7 +49,7 @@ const Tasklist = () => {
   ];
 
   useEffect(() => {
-    Getrequest(url).then((x) => setTodos(x));
+    Getrequest(newurl).then((x) => setTodos(x));
   }, []);
 
   return (

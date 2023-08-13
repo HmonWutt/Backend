@@ -6,6 +6,8 @@ const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const bcrypt = require("bcrypt");
 
+const url = `http://192.168.0.6:3000`
+
 //middleware
 
 app.use(cors());
@@ -221,7 +223,7 @@ app.get("/todo/bedsheet", async (req, res) => {
 
 async function Getlastdone() {
   try {
-    const response = await fetch(`http://192.168.0.6:3000/todo/bedsheet`, {
+    const response = await fetch(`${url}/todo/bedsheet`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
@@ -268,7 +270,7 @@ async function Getlastdone() {
 
       async function Reset() {
         try {
-          await fetch(`http://192.168.0.6:3000/todo/115`, {
+          await fetch(`${url}todo/115`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

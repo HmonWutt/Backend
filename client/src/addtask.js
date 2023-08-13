@@ -2,6 +2,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
+import url from "./url"
 
 function Addtask() {
   const [description, setDescription] = useState("");
@@ -17,7 +18,7 @@ function Addtask() {
     if (description !== "") {
       try {
         const body = { description };
-        const response = await fetch("http://192.168.0.6:3000/todo", {
+        const response = await fetch(`${url}todo`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),

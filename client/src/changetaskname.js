@@ -2,6 +2,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useState,useEffect } from "react";
 import Getrequest from "./getrequest";
+import url from "./url"
 
 const Changetaskname = ({ id, description }) => {
   const [input, setinput] = useState("");
@@ -23,7 +24,7 @@ const Changetaskname = ({ id, description }) => {
 
   async function Updatedescription(id) {
     try {
-      await fetch(`http://192.168.0.6:3000/todo/${id}`, {
+      await fetch(`${url}/todo/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ set: `SET description =  '${input}'` }),

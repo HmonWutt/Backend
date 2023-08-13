@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Taskselector from "./taskselector";
 import "./index.css";
+import url from "./url"
 const Home = () => {
   const [descriptions, setDescriptions] = useState([]);
   const [taskid, setTaskid] = useState("");
@@ -9,7 +10,7 @@ const Home = () => {
 
   const Gettodo = async () => {
     try {
-      const response = await fetch(`http://192.168.0.6:3000/descriptions`, {
+      const response = await fetch(`${url}/descriptions`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });

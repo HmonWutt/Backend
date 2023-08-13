@@ -2,6 +2,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import ConfettiExplosion from "react-confetti-explosion";
 import { useEffect, useState } from "react";
+import url from "./url"
 
 // This arrangement can be altered based on how we want the date's format to appear.
 let todayDate;
@@ -17,7 +18,7 @@ const Savetoday = (props) => {
 
   const Updatelastdone = async () => {
     try {
-      await fetch(`http://192.168.0.6:3000/todo/bedsheet`, {
+      await fetch(`${url}/todo/bedsheet`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
       });
@@ -41,7 +42,7 @@ const Savetoday = (props) => {
 
   const Confirmupdate = async () => {
     try {
-      await fetch(`http://192.168.0.6:3000/todo/115`, {
+      await fetch(`${url}/todo/115`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -6,7 +6,7 @@ const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const bcrypt = require("bcrypt");
 
-const url = `http://192.168.0.6:3000`
+const url = `http://192.168.0.6:3000`;
 
 //middleware
 
@@ -115,7 +115,7 @@ app.post("/login", async (req, res) => {
 
           res.status(200).json({ message: "success", identifier: identifier });
         } else {
-          res.status(404).json({message:"Login failed!"});
+          res.status(404).json({ message: "Login failed!" });
         }
       } catch (error) {
         console.error(error.message);
@@ -302,29 +302,32 @@ app.get("/todo", async (req, res) => {
   }
 });
 
-app.get("/todo/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const specific_todo = await pool.query(
-      "SELECT * FROM todo WHERE todo_id = $1 ",
-      [id]
-    );
-    res.json(specific_todo.rows[0]);
-  } catch (error) {
-    console.error(error.message);
-  }
-});
+// app.get("/todo/:id", async (req, res) => {
+//   try {
+
+//     const { id } = req.params;
+//     console.log(id)
+//     const specific_todo = await pool.query(
+//       "SELECT * FROM todo WHERE todo_id = $1 ",
+//       [id]
+//     );
+//     res.json(specific_todo.rows[0]);
+//   } catch (error) {
+//     console.error(error.message);
+//   }
+// });
 
 app.get("/todo/:identifier", async (req, res) => {
   try {
     const { identifier } = req.params;
+    console.log("identifier", identifier);
     const specific_todo = await pool.query(
       "SELECT * FROM todo WHERE identifier = $1 ",
       [identifier]
     );
-    res.json(specific_todo.rows[0]);
+    res.json(specific_todo.rows);
   } catch (error) {
-    res.json({message:"Not found!"})
+    res.json({ message: "Not found!" });
     console.error(error.message);
   }
 });

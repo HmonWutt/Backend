@@ -10,9 +10,9 @@ import css from "./index.css";
 import Summary from "./summary";
 
 const AdminPanel = () => {
-  const username = "Default";
+  const username = "default";
   const [data, setData] = useState("");
-  const [identifier, setIdentifier] = useState("Default tracker");
+  const [identifier, setIdentifier] = useState("default tracker");
   const [list, setList] = useState([]);
   //////////replace " " with hypens
   const { newchorename, setNewchorename } = useState("");
@@ -23,6 +23,7 @@ const AdminPanel = () => {
   }
   const newurl = `${url}/addidentifier/${username}`;
   console.log(newurl);
+
   async function addidentifier(identifier) {
     const body = {
       identifier: `'${identifier.replace(/\s+/g, "-").toLowerCase()}'`,
@@ -31,6 +32,7 @@ const AdminPanel = () => {
   }
   let tmp_list = [];
   async function getsummary() {
+  
     Getrequest(`${url}/todo/${identifier.replace(/\s+/g, "-").toLowerCase()}`)
       .then((data) => {
         console.log(typeof data);
@@ -50,6 +52,7 @@ const AdminPanel = () => {
   };
 
   useEffect(() => {
+    console.log("get summary runs")
     getsummary();
   }, []);
 

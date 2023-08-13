@@ -21,10 +21,10 @@ li {
 #sidebar a {
   text-decoration: none;
   color: rgb(139, 0, 139);
-  text-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  text-shadow: rgba(0, 0, 0, 0.638) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 #sidebar a.active {
-    color: rgb(139, 0, 139);
+  color: rgb(139, 0, 139);
   font-weight: bold;
 }
 #root {
@@ -32,8 +32,9 @@ li {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  background-color: rgb(250, 148, 148);
-  z-index: 1;
+  background-color:  rgba(0, 0, 0, 0.6);
+ /* background-color: rgb(250, 148, 148); 
+ /* background-color: black; */
   margin: 0;
   width: 100%;
   height: 100%;
@@ -82,11 +83,11 @@ tr.same-col-widths td {
 }
 #task-description {
   color: rgb(15, 15, 15);
- background-color:rgb(246, 117, 117);
-  margin-top: 1.5rem; 
+  background-color: rgb(246, 117, 117);
+  margin-top: 1.5rem;
   font-size: 1.3em;
   padding: 0.5rem;
- border-radius: 0.25rem;
+  border-radius: 0.25rem;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 #card-container {
@@ -157,38 +158,115 @@ Button {
   text-shadow: 0 -0.5rem 1rem #f4f3efe0, 0 0.5rem 1rem #f8f6f6df;
 }
 /*************************************admin-panel**********************************/
-#admin-panel{
+#admin-panel {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 #admin-panel * > {
-  flex:1;
+  flex: 1;
 }
-#tracker-name{
- margin-top: -2rem;
-  color:blue;
+#tracker-name {
+  margin-top: -2rem;
+  color: blue;
 }
 
-.input{
+.input {
   display: flex;
-  
 }
 
-#cards{
-  display:flex;
+#cards {
+  display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;  
+  gap: 0.5rem;
   max-width: 40rem;
-  width: calc(100% - 1rem);
+  width: calc(100% - 2rem);
   justify-content: center;
 }
 
-#cards >{
-  flex:1
+
+.card {
+  min-width: 11rem;
+  min-height: 10rem;
+  position: relative;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 0.3rem;
+  border: 1px;
+  overflow: hidden;
+  box-sizing: border-box;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 12px 12px;
 }
 
-.card{
-  min-width: 11rem;
-  min-height: 10rem;;
+.card::before, 
+.card::after{
+  left: 0px;
+  top: 0px;
+  position: absolute;
+  content: "";
+  border-radius: inherit;
+  height: 100%;
+  width: 100%;
+  transition: opacity 500ms;
+  
 }
+.card::before {
+  opacity: 0;
+  background: radial-gradient(
+    20rem circle at var(--mouse-x) var(--mouse-y),
+     rgba(255, 255, 255, 0.06),
+    transparent 40%
+  );
+  pointer-events: none;
+  
+    z-index: 3; 
+}
+.card::after{
+  opacity: 0;
+  background: radial-gradient(
+    17rem circle at var(--mouse-x) var(--mouse-y),
+     rgba(255, 255, 255, 0.4),
+    transparent 40%
+  );
+    z-index: 1;
+    
+}
+
+
+.card:hover::before {
+  opacity: 1;
+}
+#cards:hover > .card::after {
+  opacity: 1;
+}
+.card > .card-content {
+background-color: rgb(62, 61, 61);
+border-radius: inherit;
+  position: absolute;
+  z-index: 2;
+ padding: 2rem;
+  inset: 1px;
+  flex-grow: 1;
+  color: aliceblue;
+}
+/*.card::after {  
+  background: radial-gradient(
+    600px circle at var(--mouse-x) var(--mouse-y), 
+    rgba(255, 255, 255, 0.4),
+    transparent 40%
+  );
+  z-index: 1;
+}
+
+.card::before,
+.card::after {
+  border-radius: inherit;
+  content: "";
+  height: 100%;
+  left: 0px;
+  opacity: 0;
+  position: absolute;
+  top: 0px;
+  transition: opacity 500ms;
+  width: 100%;
+} */

@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
+import url from "./url"
 
 const Lastdoneretriver = () => {
   const [lastdone, setlastdone] = useState("");
   console.log("component renders")
   const Retrievelastdone = async () => {
     try {
-      const response = await fetch(`http://192.168.0.6:3000/todo/bedsheet`, {
+      const response = await fetch(`${url}todo/bedsheet`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });

@@ -156,3 +156,39 @@ Button {
 .star {
   text-shadow: 0 -0.5rem 1rem #f4f3efe0, 0 0.5rem 1rem #f8f6f6df;
 }
+/*************************************admin-panel**********************************/
+#admin-panel{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#admin-panel * > {
+  flex:1;
+}
+#tracker-name{
+ margin-top: -2rem;
+  color:blue;
+}
+
+.input{
+  display: flex;
+  
+}
+
+#cards{
+  display:flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;  
+  max-width: 40rem;
+  width: calc(100% - 1rem);
+  justify-content: center;
+}
+
+#cards >{
+  flex:1
+}
+
+.card{
+  min-width: 11rem;
+  min-height: 10rem;;
+}

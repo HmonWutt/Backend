@@ -1,6 +1,8 @@
 import Button from "react-bootstrap/esm/Button";
 import { useState, useEffect } from "react";
 
+import url from "./url"
+
 function Whoreserved() {
   const [reservedname, setReservedname] = useState(" ");
 
@@ -8,7 +10,7 @@ function Whoreserved() {
 
   const Reservedtrue = async (name) => {
     try {
-      await fetch(`http://192.168.0.6:3000/todo/115`, {
+      await fetch(`${url}/todo/115`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ set: `SET ${name}_reserve = 'true'` }),
@@ -23,7 +25,7 @@ function Whoreserved() {
   const Reservedfalse = async (name) => {
     console.log(name);
     try {
-      await fetch(`http://192.168.0.6:3000/todo/115`, {
+      await fetch(`${url}/todo/115`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ set: `SET ${name}_reserve = 'false'` }),
@@ -37,7 +39,7 @@ function Whoreserved() {
   let hmon;
   async function Disablereservebutton() {
     try {
-      const response = await fetch(`http://192.168.0.6:3000/todo/115`, {
+      const response = await fetch(`${url}/todo/115`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });

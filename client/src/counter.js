@@ -7,48 +7,38 @@ import Getrequest from "./getrequest";
 import Starbucket from "./starbucket";
 import "./index.css";
 import url from "./url";
+import Putrequest from "./putrequest";
 
 const Counter = (props) => {
   let set_name = props.set_name;
-
   let todo_id = props.todo_id;
-  // const gettodos = props.gettodos;
-
-  //const [confettishow, setconfettishow] = useState(false)
   const newurl = `${url}/todo/id/${todo_id}`;
 
   const [isExploding, setIsExploding] = useState(false);
   const [count, setCount] = useState(0);
+
   console.log("counter", todo_id);
   const Countup = async () => {
-    try {
-      await fetch(newurl, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ set: `SET ${set_name} = ${set_name} + 1` }),
-      });
+    const body = { set: `SET ${set_name} = ${set_name} + 1` };
+    const confetti = () => {
       setIsExploding(true);
-      setTimeout(() => setIsExploding(false), 2500);
+      document.getElementById("countup-button").disabled = true;
       Getrequest(newurl).then((x) => setCount(x[set_name]));
-    } catch (error) {
-      console.error(error.message);
-    }
+      setTimeout(() => {
+        setIsExploding(false);
+        document.getElementById("countup-button").disabled = false;
+      }, 2000);
+    };
+
+    Putrequest(newurl, body, confetti);
   };
 
   const Countdown = async () => {
-    try {
-      await fetch(newurl, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ set: `SET ${set_name} = ${set_name} - 1` }),
-      });
-      //Getrequest(newurl).then(x=>setCount(x.set_name));
-      // setconfettishow(true)
-      // setTimeout(() => setconfettishow(false), 5000);
+    const body = { set: `SET ${set_name} = ${set_name} - 1` };
+    const getrequest = () => {
       Getrequest(newurl).then((x) => setCount(x[set_name]));
-    } catch (error) {
-      console.error(error.message);
-    }
+    };
+    Putrequest(newurl, body, getrequest);
   };
   useEffect(() => {
     Getrequest(newurl).then((x) => setCount(x[set_name]));
@@ -57,6 +47,11 @@ const Counter = (props) => {
   return (
     <>
       <div id="card">
+        <>
+          {isExploding && (
+            <ConfettiExplosion duration={2200} particleCount={300} />
+          )}
+        </>
         <div id="name">
           {set_name.charAt(0).toUpperCase() + set_name.slice(1, -6)}
         </div>
@@ -83,12 +78,12 @@ const Counter = (props) => {
           </Button>
               ) : */
 
-            <Button className="m-1" variant="warning" onClick={Countup}>
-              <>
-                {isExploding && (
-                  <ConfettiExplosion duration={2200} particleCount={300} />
-                )}
-              </>
+            <Button
+              id="countup-button"
+              className="m-1"
+              variant="warning"
+              onClick={Countup}
+            >
               Count up
             </Button>
           ) : (

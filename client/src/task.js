@@ -26,7 +26,7 @@ const Task = ({ id }) => {
   const [data, setData] = useState([]);
   console.log("task", id);
 
-  const newurl = `${url}/todo/${id}`;
+  const newurl = `${url}/todo/id/${id}`;
 
   useEffect(() => {
     Getrequest(newurl).then((getrequestoutput) => setData(getrequestoutput));

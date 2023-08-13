@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import url from "./url"
 
 //import {sendMail} from
 //const sendMail = require ('./emailer')
@@ -16,7 +17,7 @@ const Scheduler = () => {
   const [lastdone, setlastdone] = useState("");
   const getlastdone = async () => {
     try {
-      const response = await fetch(`http://192.168.0.6:3000/todo/115`, {
+      const response = await fetch(`${url}/todo/115`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
@@ -41,7 +42,7 @@ const Scheduler = () => {
   console.log("scheduler initiated");
   const emailer = async () => {
     try {
-      const response = await fetch(`http://192.168.0.6:3000/email`, {
+      const response = await fetch(`${url}/email`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
       });

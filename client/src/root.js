@@ -53,6 +53,17 @@ export default function Root() {
                 Admin panel
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                id="component-link"
+                to="/component"
+                className={({ isActive, isPending }) =>
+                  isPending ? "pending" : isActive ? "active" : ""
+                }
+              >
+                Test component
+              </NavLink>
+            </li>
           </ul>
         </nav>
       </div>

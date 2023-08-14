@@ -16,7 +16,7 @@ const AdminPanel = ({ list }) => {
   // const [list, setList] = useState([]);
   //////////replace " " with hypens
   const { newchorename, setNewchorename } = useState("");
-
+console.log("admin panel component runs")
   async function checkidentifier() {
     if (!identifier) {
     }
@@ -37,7 +37,7 @@ const AdminPanel = ({ list }) => {
   };
 
   useEffect(() => {
-    console.log("get summary runs");
+    console.log("admin panel use effect runs");
   }, []);
 
   return (

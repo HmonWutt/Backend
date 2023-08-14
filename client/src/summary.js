@@ -2,11 +2,11 @@ import { useEffect } from "react";
 import Button from "react-bootstrap/Button";
 
 function Summary({list}) {
-  console.log("list", list);
+  console.log("summary runs")
 
-  list.forEach((element) => {
-    element.map((task, index) => console.log(task));
-  });
+  // list.forEach((element) => {
+  //   element.map((task, index) => console.log(task));
+  // });
 
   useEffect(() => {
     console.log("summary use effect runs");
@@ -14,7 +14,7 @@ function Summary({list}) {
     const cardArray = Array.from(cards);
     console.log("cards", cards);
     console.log("cardarry", cardArray);
-    console.log(document.getElementById("cards"));
+   
     document.getElementById("cards").onmousemove = (e) => {
       for (const card of cardArray) {
         const rect = card.getBoundingClientRect();

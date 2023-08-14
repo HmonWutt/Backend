@@ -13,7 +13,8 @@ import Task from "./task";
 import Home from "./home";
 import ErrorPage from "./errorhandler";
 import Loginapp from "./loginapp";
-import AdminPanel from "./admin_panel";
+//import {AdminPanel} from "./admin_panel";
+import Component from "./test";
 
 const router = createBrowserRouter([
   {
@@ -46,11 +47,22 @@ const router = createBrowserRouter([
     ),
   },
   {
+    /*
     path: "adminpanel",
     element: (
       <>
         <Root />
         <AdminPanel />
+      </>
+    ),
+    */
+  },
+  {
+    path: "component",
+    element: (
+      <>
+        <Root />
+        <Component />
       </>
     ),
   },
@@ -59,9 +71,9 @@ const router = createBrowserRouter([
 document.body.style.backgroundColor = `#dcdcdc`;
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
- // <React.StrictMode>
-    <RouterProvider router={router} />
- // </React.StrictMode>
+  // <React.StrictMode>
+  <RouterProvider router={router} />
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

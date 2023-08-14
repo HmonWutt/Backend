@@ -9,11 +9,11 @@ import url from "./url";
 import css from "./index.css";
 import Summary from "./summary";
 
-const AdminPanel = () => {
+const AdminPanel = ({ list }) => {
   const username = "default";
   const [data, setData] = useState("");
   const [identifier, setIdentifier] = useState("default tracker");
-  const [list, setList] = useState([]);
+  // const [list, setList] = useState([]);
   //////////replace " " with hypens
   const { newchorename, setNewchorename } = useState("");
 
@@ -30,21 +30,6 @@ const AdminPanel = () => {
     };
     Postrequest(newurl, body).then((data) => console.log(data.message));
   }
-  let tmp_list = [];
-  async function getsummary() {
-  
-    Getrequest(`${url}/todo/${identifier.replace(/\s+/g, "-").toLowerCase()}`)
-      .then((data) => {
-        console.log(typeof data);
-        console.log(data[0]);
-        tmp_list.push(data);
-        return tmp_list; // Returning the updated tmp_list
-      })
-      .then((updatedList) => {
-        setList(updatedList); // Update the state with the updated list
-        console.log(updatedList); // Logging the updated list
-      });
-  }
 
   const loginSubmit = (e) => {
     e.preventDefault();
@@ -52,8 +37,7 @@ const AdminPanel = () => {
   };
 
   useEffect(() => {
-    console.log("get summary runs")
-    getsummary();
+    console.log("get summary runs");
   }, []);
 
   return (
@@ -128,7 +112,6 @@ const AdminPanel = () => {
           Change chore name
         </Button>
       </div>
-      <Summary list={list} />
     </>
   );
 };

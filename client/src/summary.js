@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import Button from "react-bootstrap/Button";
 
-function Summary({ list }) {
+function Summary({list}) {
   console.log("list", list);
 
   list.forEach((element) => {
@@ -9,7 +9,7 @@ function Summary({ list }) {
   });
 
   useEffect(() => {
-    console.log("this runs");
+    console.log("summary use effect runs");
     const cards = document.getElementsByClassName("card");
     const cardArray = Array.from(cards);
     console.log("cards", cards);

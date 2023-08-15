@@ -9,14 +9,14 @@ import url from "./url";
 import css from "./index.css";
 import Summary from "./summary";
 
-const AdminPanel = ({ list }) => {
+const AdminPanel = ({ list, isHidden, setIsHidden }) => {
   const username = "default";
   const [data, setData] = useState("");
   const [identifier, setIdentifier] = useState("default tracker");
   // const [list, setList] = useState([]);
   //////////replace " " with hypens
   const { newchorename, setNewchorename } = useState("");
-console.log("admin panel component runs")
+  console.log("admin panel component runs");
   async function checkidentifier() {
     if (!identifier) {
     }
@@ -44,7 +44,10 @@ console.log("admin panel component runs")
     <>
       {" "}
       {identifier && <div id="tracker-name">{identifier}</div>}
-      <div id="admin-panel">
+      <div
+        id="admin-panel"
+        style={{ visibility: isHidden ? "visible" : "hidden" }}
+      >
         {!identifier && (
           <form id="loginform" onSubmit={loginSubmit}>
             <div className="input">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
+import Button from "react-bootstrap/esm/Button";
 import Postrequest from "./postrequest";
-import url from "./url"
+import url from "./url";
 
 function Createuserapp() {
   const [password, setPassword] = useState("");
@@ -121,7 +122,7 @@ function Createuserapp() {
   };
 
   return (
-    <div className="App">
+    <div id="login-page" className="App">
       <form id="loginform" onSubmit={loginSubmit}>
         <div
           style={{
@@ -159,7 +160,7 @@ function Createuserapp() {
             User created successfully!
           </div>
         )}
-        <div className="form-group">
+        <div className="form-group m-2">
           <label
             style={{
               color: "black",
@@ -171,7 +172,7 @@ function Createuserapp() {
           </label>
           <input
             type="text"
-            className="form-control m-2"
+            className="form-control"
             id="Username"
             name="Username"
             placeholder="Enter username"
@@ -180,11 +181,14 @@ function Createuserapp() {
               Checkusername(e.target.value);
             }}
           />
-          <small id="usernameerror" className="text-danger form-text">
-            {usernameError}
-          </small>
+          <div>
+            {" "}
+            <small id="usernameerror" className="text-danger form-text">
+              {usernameError}
+            </small>
+          </div>
         </div>
-        <div id="passworderror" className="form-group">
+        <div id="password" className="form-group m-2">
           <label
             style={{
               color: "black",
@@ -195,25 +199,26 @@ function Createuserapp() {
             Password
           </label>
 
-          <input
-            type="password"
-            className="form-control m-2"
-            id="exampleInputPassword1"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => {
-              Checkpassword(e.target.value);
-            }}
-          />
+          <div className="input-container">
+            <input
+              type="password"
+              className="form-control "
+              id="exampleInputPassword1"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => {
+                Checkpassword(e.target.value);
+              }}
+            />
+            <small id="passworderror" className="text-danger form-text">
+              {passwordError}
+            </small>
+          </div>
+          <div> </div>
+          <Button type="submit" className="btn btn-primary">
+            Create new user
+          </Button>
         </div>
-        <div>
-          <small id="passworderror" className="text-danger form-text">
-            {passwordError}
-          </small>
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Create new user
-        </button>
       </form>
     </div>
   );

@@ -4,7 +4,9 @@ const cors = require("cors");
 const pool = require("./db");
 const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
-const bcrypt = require("bcrypt");
+
+const authRoutetodo = require("./routes/auth_todo");
+const authRouteusers = require("./routes/auth_users.js");
 
 const url = `http://192.168.0.6:3000`;
 
@@ -13,122 +15,14 @@ const url = `http://192.168.0.6:3000`;
 app.use(cors());
 app.use(express.json());
 
+/////////////auth route////////////////
+app.use("/todo", authRoutetodo);
+app.use("/users", authRouteusers);
+///////////////////////////////////////////
 app.listen(3000, () => {
   console.log("Server has started on port 3000");
 });
 
-///////////////////////////////authenticate//////////////////////////////////
-const saltrounds = 10;
-
-app.post("/users", async (req, res) => {
-  try {
-    const name = await req.body.name;
-    const password = await bcrypt.hash(req.body.password, saltrounds);
-
-    const userList = await pool.query(
-      "insert into users  (name, password) values ($1, $2) RETURNING *",
-      [name, password]
-    );
-    res.json(userList.rows[0]);
-    //console.log(res.json(userList.rows[0]));
-    //res.status(201).send("User created successfully!");
-  } catch (err) {
-    console.error(err.message);
-  }
-});
-app.post("/createuser", async (req, res) => {
-  let username;
-  let password;
-
-  try {
-    username = await req.body.username;
-    password = await req.body.password;
-    const usernames = await pool.query(
-      "SELECT * FROM users WHERE username = $1",
-      [username]
-    );
-    if (usernames.rows.length > 0) {
-      res.json({ message: "Username already exists." });
-    } else {
-      try {
-        const hashedpassword = await bcrypt.hash(password, saltrounds);
-
-        const result = await pool.query(
-          `INSERT INTO users(username,password) VALUES ($1,$2) `,
-          [username, hashedpassword]
-        );
-        res.json({ message: "User created successfully!" });
-      } catch (error) {
-        console.error(error.message);
-      }
-    }
-  } catch (error) {
-    console.error(error.message);
-  }
-});
-
-app.post("/addidentifier/:username", async (req, res) => {
-  try {
-    const { identifier } = req.body;
-    const existingIdentifiers = await pool.query(
-      "SELECT * FROM users where identifier = $1",
-      [identifier]
-    );
-    if (existingIdentifiers.rows.length > 0) {
-      res.json({ message: "Hymph! Not unique enough." });
-    } else {
-      try {
-        const { username } = req.params;
-        await pool.query(
-          `Update users SET identifier = $1 WHERE username = $2`,
-          [identifier, username]
-        );
-        res.status(200).json({ identifier: identifier });
-      } catch (error) {
-        console.log(error.message);
-        res.status(500).json({ message: "error" });
-      }
-    }
-  } catch (error) {
-    console.log(error.message);
-  }
-});
-
-app.post("/login", async (req, res) => {
-  try {
-    const username = await req.body.username;
-    const password = await req.body.password;
-    const usernames = await pool.query("SELECT username FROM users");
-
-    if (usernames.rows.some((obj) => obj.username === username)) {
-      try {
-        const result = await pool.query(
-          "SELECT password,identifier FROM users where username=$1",
-          [username]
-        );
-
-        const retrievedPassword = await result.rows[0].password;
-        const identifier = await result.rows[0].identifier;
-        console.log("identifier", identifier);
-        if (await bcrypt.compare(password, retrievedPassword)) {
-          console.log("login successful");
-
-          res.status(200).json({ message: "success", identifier: identifier });
-        } else {
-          res.status(404).json({ message: "Login failed!" });
-        }
-      } catch (error) {
-        console.error(error.message);
-        res.status(500).json({ message: "error" });
-      }
-    } else {
-      res.status(404).json({ message: "error" });
-    }
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ message: "error" });
-  }
-});
 ////////////////////////////////////google api///////////////////////////////
 const {
   CLIENT_ID,
@@ -154,23 +48,6 @@ let retrievedlastdone;
 today = moment();
 // console.log(today);
 todayDate = today.format("YYYY-MM-DD");
-
-/////////////////////////////add new task//////////////////////
-
-app.post("/todo", async (req, res) => {
-  try {
-    const firstcolumn = "hmon_count = 0";
-    const secondcolumn = "joakim_count = 0";
-    const { description } = req.body;
-    const newTodo = await pool.query(
-      "INSERT INTO todo (description, hmon_count, joakim_count) VALUES ($1,$2,$3) RETURNING *",
-      [description, 0, 0]
-    );
-    res.json(newTodo.rows[0]);
-  } catch (err) {
-    console.error(err.message);
-  }
-});
 
 //////////////////////////////////////START OF EMAAILER/////////////////////////////////////////
 const emailer = async (req, res) => {
@@ -203,23 +80,6 @@ const emailer = async (req, res) => {
     console.error(error.message);
   }
 };
-
-app.post("/todo/bedsheet", async (req, res) => {
-  res.send("hello");
-  console.log("post");
-  Getlastdone();
-});
-
-app.get("/todo/bedsheet", async (req, res) => {
-  try {
-    const result = await pool.query("SELECT * FROM todo WHERE todo_id = 115");
-    const lastdone = result.rows[0].lastdone;
-    res.json(lastdone);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
 
 async function Getlastdone() {
   try {
@@ -291,75 +151,7 @@ async function Getlastdone() {
 Getlastdone();
 ///////////////////////////////////////////////////////END OF EMAILER////////////////////////////////////////////
 
-app.get("/todo", async (req, res) => {
-  try {
-    const allTodos = await pool.query(
-      "SELECT * FROM todo ORDER BY todo_id ASC"
-    );
-    res.json(allTodos.rows);
-  } catch (error) {
-    console.error(error.message);
-  }
-});
-
-app.get("/todo/id/:id", async (req, res) => {
-  try {
-
-    const { id } = req.params;
-    console.log(id)
-    const specific_todo = await pool.query(
-      "SELECT * FROM todo WHERE todo_id = $1 ",
-      [id]
-    );
-    res.json(specific_todo.rows[0]);
-  } catch (error) {
-    console.error(error.message);
-  }
-});
-
-app.get("/todo/:identifier", async (req, res) => {
-  try {
-    const { identifier } = req.params;
-    console.log("identifier", identifier);
-    const specific_todo = await pool.query(
-      "SELECT * FROM todo WHERE identifier = $1 ",
-      [identifier]
-    );
-    res.json(specific_todo.rows);
-  } catch (error) {
-    res.json({ message: "Not found!" });
-    console.error(error.message);
-  }
-});
-
-app.put("/todo/id/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { set } = req.body;
-    console.log(set);
-
-    const updateTOdo = await pool.query(
-      `UPDATE todo ${set}  WHERE todo_id = $1`,
-      [id]
-    );
-    res.json(`To do id:${id} of set:${set} was updated`);
-  } catch (error) {
-    console.error(error.message);
-  }
-});
-
-app.delete("/todo/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const deleteTodo = await pool.query("DELETE FROM todo WHERE todo_id = $1", [
-      id,
-    ]);
-    res.json(`Todo ${id} was deleted!`);
-  } catch (err) {
-    console.log(err.message);
-  }
-});
-/////////////////////////////////////create table/////////////////////
+/////////////////////////////////////create table/delete table/ add column/ delete column//////////////////////////////////
 
 app.post("/create-table/:tablename", async (req, res) => {
   res.send("create table requested");
@@ -407,18 +199,6 @@ function sanitizeIdentifier(identifier) {
   // For simplicity, we're just removing any invalid characters here.
   return identifier.replace(/[^a-zA-Z0-9_]/g, "");
 }
-
-app.get("/descriptions", async (req, res) => {
-  try {
-    const specific_todo = await pool.query(
-      "SELECT description,todo_id FROM todo "
-    );
-    res.json(specific_todo.rows);
-    console.log(specific_todo.rows);
-  } catch (error) {
-    console.error(error.message);
-  }
-});
 
 ////////////////////////////////add column##########
 app.post("/add-column", async (req, res) => {

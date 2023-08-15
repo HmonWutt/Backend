@@ -13,6 +13,7 @@ console.log("newurl2", newurl2);
 
 function Component() {
   const [list, setList] = useState([]);
+   const [isHidden, setIsHidden] = useState(true);
   async function getsummary(url) {
     let tmp_list = [];
     Getrequest(url)
@@ -33,9 +34,10 @@ function Component() {
     // console.log("list from getsummary", list);
   }, []);
   return (
-    <ListContext.Provider value={list}>
-      <AdminPanel list={list} />
-      <Summary list={list} />
+    <ListContext.Provider value={{ list, isHidden, setIsHidden }}>
+      <Summary list={list} isHidden={isHidden} setIsHidden={setIsHidden} />
+      <AdminPanel list={list} isHidden={isHidden} setIsHidden={setIsHidden} />
+      
     </ListContext.Provider>
   );
 }

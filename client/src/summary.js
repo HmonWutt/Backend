@@ -1,15 +1,13 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Button from "react-bootstrap/Button";
 
-function Summary({ list , isHidden, setIsHidden}) {
+function Summary({ list, isHidden, setIsHidden }) {
   console.log("summary runs");
-
 
   // list.forEach((element) => {
   //   element.map((task, index) => console.log(task));
   // });
   const handleclick = (e) => {
-    //document.getElementById("summary").classList.add("hidden")
     setIsHidden(!isHidden);
   };
   useEffect(() => {
@@ -31,12 +29,10 @@ function Summary({ list , isHidden, setIsHidden}) {
     };
   });
 
-  //
   return (
     <>
       <div
         id="summary"
-        class=""
         style={{
           backgroundColor: isHidden ? "rgb(250, 148, 148)" : "rgb(12,12,8)",
         }}
@@ -47,11 +43,7 @@ function Summary({ list , isHidden, setIsHidden}) {
         >
           Close
         </Button>
-        <div
-          id="cards"
-          className=""
-          style={{ visibility: isHidden ? "hidden" : "visible" }}
-        >
+        <div id="cards" style={{ visibility: isHidden ? "hidden" : "visible" }}>
           {list.map((element, elementIndex) =>
             element.map((task, taskIndex) => (
               <div key={taskIndex} className="card">

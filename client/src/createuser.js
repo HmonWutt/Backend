@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Postrequest from "./postrequest";
+import url from "./url"
 
 function Createuserapp() {
   const [password, setPassword] = useState("");
@@ -12,10 +13,10 @@ function Createuserapp() {
   async function saveuser(username, password) {
     console.log("saveuser request sent");
 
-    const url = "http://192.168.0.6:3000/createuser";
+    const newurl = `${url}/users/createuser`;
     const body = { username, password };
 
-    Postrequest(url, body).then((data) => {
+    Postrequest(newurl, body).then((data) => {
       isuserexists(data.message);
     });
   }

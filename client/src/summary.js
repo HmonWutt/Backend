@@ -38,11 +38,14 @@ function Summary({ list , isHidden, setIsHidden}) {
         id="summary"
         class=""
         style={{
-          backgroundColor: isHidden ? "rgb(250, 148, 148)" : "rgb(30, 30, 30)",
+          backgroundColor: isHidden ? "rgb(250, 148, 148)" : "rgb(12,12,8)",
         }}
       >
-        <Button onClick={handleclick}>
-          {isHidden ? "Show summary" : "Close"}
+        <Button
+          onClick={handleclick}
+          style={{ visibility: isHidden ? "hidden" : "visible" }}
+        >
+          Close
         </Button>
         <div
           id="cards"

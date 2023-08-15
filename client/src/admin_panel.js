@@ -15,8 +15,15 @@ const AdminPanel = ({ list, isHidden, setIsHidden }) => {
   const [identifier, setIdentifier] = useState("default tracker");
   // const [list, setList] = useState([]);
   //////////replace " " with hypens
+
   const { newchorename, setNewchorename } = useState("");
   console.log("admin panel component runs");
+
+  const handleclick = (e) => {
+    //document.getElementById("summary").classList.add("hidden")
+    setIsHidden(!isHidden);
+  };
+
   async function checkidentifier() {
     if (!identifier) {
     }
@@ -43,11 +50,12 @@ const AdminPanel = ({ list, isHidden, setIsHidden }) => {
   return (
     <>
       {" "}
-      {identifier && <div id="tracker-name">{identifier}</div>}
       <div
         id="admin-panel"
         style={{ visibility: isHidden ? "visible" : "hidden" }}
       >
+        {" "}
+        {identifier && <div id="tracker-name">{identifier}</div>}
         {!identifier && (
           <form id="loginform" onSubmit={loginSubmit}>
             <div className="input">
@@ -113,6 +121,9 @@ const AdminPanel = ({ list, isHidden, setIsHidden }) => {
           className="btn btn-primary"
         >
           Change chore name
+        </Button>
+        <Button onClick={handleclick}>
+          {isHidden ? "Show summary" : "Close"}
         </Button>
       </div>
     </>

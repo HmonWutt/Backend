@@ -49,12 +49,25 @@ const AdminPanel = ({ list, isHidden, setIsHidden }) => {
 
   return (
     <>
-      {" "}
       <div
         id="admin-panel"
         style={{ visibility: isHidden ? "visible" : "hidden" }}
       >
-        {" "}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            width: "100%",
+            height: "5rem",
+            justifyContent: "center",
+          }}
+        >
+          {list.map((task, taskIndex) => (
+            <div key={taskIndex}>
+              <div>{task.description}</div>
+            </div>
+          ))}
+        </div>
         {identifier && <div id="tracker-name">{identifier}</div>}
         {!identifier && (
           <form id="loginform" onSubmit={loginSubmit}>

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
+import { useNavigate,useOutletContext,Outlet}  from "react-router-dom";
 import Postrequest from "./postrequest";
 import url from "./url";
 
@@ -7,7 +8,10 @@ function Loginapp() {
   const [username, setUsername] = useState("");
   const [iserror, setIserror] = useState("");
   const [identifier, setIdentifier] = useState("");
-  const [isLoggedIn, setIsloggedIn] = useState(true)
+  const [isLoggedIn, setIsloggedIn] = useState(false)
+  const nav = useNavigate();
+  const [isAuth, setIsAuth] = useOutletContext()
+
 
   async function verifyuser(username, password) {
     console.log("saveuser request sent");
@@ -22,8 +26,12 @@ function Loginapp() {
         console.log("message", data.message);
         console.log("identifier", data.identifier);
         setIserror("success");
+        setUsername(username)
+        setIsloggedIn(true)
         setIdentifier(data.identifier)
         setIsloggedIn(true)
+       setIsAuth(true)
+       // nav("/component")
       } else {
         setIsloggedIn(false)
         setIserror("error");
@@ -130,6 +138,7 @@ function Loginapp() {
         </form>
         <div>Default username: default</div>
         <div>Default password: defaultpassword</div>
+        <Outlet context={[isAuth, setIsAuth]} />
       </div>
     </>
   );

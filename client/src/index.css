@@ -33,8 +33,8 @@ li {
   align-items: center;
   text-align: center;
   /* background-color: rgb(20,20,20); */
-  background-color: rgb(250, 148, 148); 
- /* background: rgb(0,0,0); */
+  background-color: rgb(250, 148, 148);
+  /* background: rgb(0,0,0); */
   margin: 0;
   width: 100%;
   height: 100%;
@@ -76,13 +76,12 @@ tr.same-col-widths td {
   display: flex;
   justify-content: center;
   gap: 2rem;
-  
-  padding: 0.5rem 0.1rem 0;
 
+  padding: 0.5rem 0.1rem 0;
 }
 #detail {
- display: block;
- 
+  display: block;
+
   width: 100%;
   height: 100%;
 }
@@ -139,7 +138,7 @@ tr.same-col-widths td {
 }
 Button {
   box-shadow: rgba(0, 0, 0, 0.55) 0px 5px 5px;
-  margin: 0.5rem
+  margin: 0.5rem;
 }
 #score {
   color: rgb(255, 0, 170);
@@ -164,8 +163,7 @@ Button {
 }
 /*************************************admin-panel**********************************/
 #admin-panel {
-  
- position: relative; 
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -173,7 +171,6 @@ Button {
   height: 100%;
   margin-top: 3.5rem;
   z-index: 4;
-  
 }
 #admin-panel * > {
   flex: 1;
@@ -187,7 +184,7 @@ Button {
   display: flex;
 }
 #summary {
-  height: 100% ;
+  height: 100%;
   width: 100%;
   background-color: rgb(30, 30, 30);
   display: flex;
@@ -195,9 +192,9 @@ Button {
   align-items: center;
   justify-content: center;
   overflow: auto;
- position: absolute; 
-  padding:2rem;
-  margin:0
+  position: absolute;
+  padding: 2rem;
+  margin: 0;
 }
 
 #cards {
@@ -205,26 +202,34 @@ Button {
   flex-wrap: wrap;
   gap: 0.5rem;
   max-width: 50rem;
-padding:1rem;
+  padding: 1rem;
   justify-content: center;
   overflow: auto;
-  background-color: rgb(12,12,8);
+  background-color: rgb(12, 12, 8);
+  position: relative;
 }
 
 .card {
   min-width: 15rem;
   min-height: 15rem;
- 
+
   cursor: pointer;
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 0.3rem;
   border: 1px;
 }
 @media only screen and (max-width: 700px) {
-  .card {
-    min-width: 11rem;
-    min-height: 11rem;
+  #summary {
+    padding: 0.5rem;
   }
+  #cards {
+    max-width: 100%;
+  }
+  .card {
+    min-width: 10rem;
+    min-height: 10rem;
+  }
+
   .card::before {
     opacity: 0;
     background: radial-gradient(
@@ -244,7 +249,7 @@ padding:1rem;
     );
     z-index: 1;
   }
-  #navbaritems{
+  #navbaritems {
     font-size: 0.8em;
   }
 }
@@ -287,8 +292,8 @@ padding:1rem;
   opacity: 1;
 }
 .card > .card-content {
-  background-color:  rgb(23,25,24) ; /* rgb(42, 42, 42);*/
- 
+  background-color: rgb(23, 25, 24); /* rgb(42, 42, 42);*/
+
   border-radius: inherit;
   position: absolute;
   z-index: 2;
@@ -300,6 +305,75 @@ padding:1rem;
 .hidden {
   display: none;
 }
+.close {
+  position: absolute;
+  /*right: 50%;
+  top: 50%;
+  transform: translate(50%, -50%); */
+  right: 0;
+  top: 1rem;
+  width: 32px;
+  height: 32px;
+  opacity: 0.3;
+}
+.close {
+  animation-name: periodicfading;
+  animation-duration: 2.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-delay: 0s;
+}
+
+@keyframes periodicfading {
+  0% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.3;
+  }
+}
+.close:hover {
+  animation-name: hover-animation;
+  animation-duration: 0.5s;
+  animation-iteration-count: initial;
+  animation-direction: initial;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+}
+
+@keyframes hover-animation {
+  0% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.close,
+.close:before,
+.close:after {
+  z-index: 5;
+  cursor: pointer;
+}
+.close:before,
+.close:after {
+  position: absolute;
+  left: 15px;
+  content: " ";
+  height: 20px;
+  width: 2px;
+  background-color: #e6e3e3;
+}
+.close:before {
+  transform: rotate(45deg);
+}
+.close:after {
+  transform: rotate(-45deg);
+}
+
 /*.card::after {  
   background: radial-gradient(
     600px circle at var(--mouse-x) var(--mouse-y), 

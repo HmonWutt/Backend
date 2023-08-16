@@ -38,13 +38,12 @@ function Summary({ list, isHidden, setIsHidden }) {
           backgroundColor: isHidden ? "rgb(250, 148, 148)" : "rgb(12,12,8)",
         }}
       >
-        <Button
-          onClick={handleclick}
-          style={{ visibility: isHidden ? "hidden" : "visible" }}
-        >
-          Close
-        </Button>
         <div id="cards" style={{ visibility: isHidden ? "hidden" : "visible" }}>
+          <div
+            class="close"
+            style={{ visibility: isHidden ? "hidden" : "visible" }}
+            onClick={handleclick}
+          ></div>
           {list.map((task, taskIndex) => (
             <div key={taskIndex} className="card">
               <div className="card-content">

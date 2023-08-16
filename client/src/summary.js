@@ -1,8 +1,8 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 
 function Summary({ list, isHidden, setIsHidden }) {
-  console.log("summary runs");
+  console.log("summary runs", "ishidden", isHidden);
 
   // list.forEach((element) => {
   //   element.map((task, index) => console.log(task));
@@ -12,6 +12,7 @@ function Summary({ list, isHidden, setIsHidden }) {
   };
   useEffect(() => {
     console.log("summary use effect runs");
+
     const cards = document.getElementsByClassName("card");
     const cardArray = Array.from(cards);
     console.log("cards", cards);
@@ -44,17 +45,15 @@ function Summary({ list, isHidden, setIsHidden }) {
           Close
         </Button>
         <div id="cards" style={{ visibility: isHidden ? "hidden" : "visible" }}>
-          {list.map((element, elementIndex) =>
-            element.map((task, taskIndex) => (
-              <div key={taskIndex} className="card">
-                <div className="card-content">
-                  {task.description}
-                  {task.hmon_count}
-                  {task.joakim_count}
-                </div>
+          {list.map((task, taskIndex) => (
+            <div key={taskIndex} className="card">
+              <div className="card-content">
+                {task.description}
+                {task.hmon_count}
+                {task.joakim_count}
               </div>
-            ))
-          )}
+            </div>
+          ))}
         </div>
       </div>
     </>

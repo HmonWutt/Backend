@@ -1,14 +1,16 @@
-import { Outlet, Link, NavLink } from "react-router-dom";
-import { useState } from "react";
+import { Outlet } from "react-router-dom";
+import { useState, createContext } from "react";
 import { NavBar } from "./navbar";
 
+export const Context = createContext("");
 export default function Root() {
-  const[isAuth,setIsAuth]=useState(false)
+  const [isAuth, setIsAuth] = useState(false);
+  const [identifier, setIdentifier] = useState("");
+
   return (
     <>
       <NavBar />
-      {/* other elements */}
-      <Outlet context={[isAuth, setIsAuth]} />
+      <Outlet context={[isAuth, setIsAuth, identifier, setIdentifier]} />
     </>
   );
 }

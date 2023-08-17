@@ -19,12 +19,19 @@ export const DescriptionsContext = createContext("default");
 export const Homedata = () => {
   //const [isAuth, setIsAuth] = useOutletContext();
 
-  const descriptions = useLoaderData();
-  const navigation = useNavigation();
-  if (navigation.state === "loading") {
-    return <Spinner animation="grow" />;
-  }
+  //const descriptions = useLoaderData();
 
+  const [descriptions, setDescriptions] = useState([]);
+
+  // const navigation = useNavigation();
+  // if (navigation.state === "loading") {
+  //   return <Spinner animation="grow" />;
+  // }
+  useEffect(() => {
+    Getrequest(`${url}/todo/descriptionlist/descriptions`).then((data) =>
+      setDescriptions(data)
+    );
+  }, []);
   return (
     <DescriptionsContext.Provider value={{ descriptions }}>
       <Home descriptions={descriptions} />

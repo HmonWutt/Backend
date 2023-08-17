@@ -1,5 +1,11 @@
-import React, { useState, useEffect} from "react";
-import { useNavigate,useOutletContext,Outlet}  from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import {
+  useLocation,
+  useNavigate,
+  useOutletContext,
+  Outlet,
+  Navigate,
+} from "react-router-dom";
 import Postrequest from "./postrequest";
 import url from "./url";
 
@@ -7,11 +13,12 @@ function Loginapp() {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [iserror, setIserror] = useState("");
-  const [identifier, setIdentifier] = useState("");
-  const [isLoggedIn, setIsloggedIn] = useState(false)
-  const nav = useNavigate();
-  const [isAuth, setIsAuth] = useOutletContext()
 
+  const [isLoggedIn, setIsloggedIn] = useState(false);
+  const nav = useNavigate();
+
+  const [isAuth, setIsAuth, identifier, setIdentifier] = useOutletContext();
+  const location = useLocation();
 
   async function verifyuser(username, password) {
     console.log("saveuser request sent");
@@ -26,14 +33,21 @@ function Loginapp() {
         console.log("message", data.message);
         console.log("identifier", data.identifier);
         setIserror("success");
-        setUsername(username)
-        setIsloggedIn(true)
-        setIdentifier(data.identifier)
-        setIsloggedIn(true)
-       setIsAuth(true)
-       // nav("/component")
+        setUsername(username);
+        setIsloggedIn(true);
+        setIdentifier(data.identifier);
+        setIsloggedIn(true);
+        setIsAuth(true);
+        // nav("/component")
+        console.log("identifier from loginapp", identifier);
+        if (location.state?.from) {
+          const to = location.state.from.pathname;
+          nav(`${to}`);
+        }
+        //nav("/location.state.from.pathname");
+        // nav("/");
       } else {
-        setIsloggedIn(false)
+        setIsloggedIn(false);
         setIserror("error");
       }
     });
@@ -138,7 +152,7 @@ function Loginapp() {
         </form>
         <div>Default username: default</div>
         <div>Default password: defaultpassword</div>
-        <Outlet context={[isAuth, setIsAuth]} />
+        <Outlet context={[isAuth, setIsAuth, identifier, setIdentifier]} />
       </div>
     </>
   );

@@ -6,11 +6,21 @@ export const Context = createContext("");
 export default function Root() {
   const [isAuth, setIsAuth] = useState(false);
   const [identifier, setIdentifier] = useState("");
+  const [token, setToken] = useState("");
 
   return (
     <>
       <NavBar />
-      <Outlet context={[isAuth, setIsAuth, identifier, setIdentifier]} />
+      <Outlet
+        context={[
+          isAuth,
+          setIsAuth,
+          identifier,
+          setIdentifier,
+          token,
+          setToken,
+        ]}
+      />
     </>
   );
 }

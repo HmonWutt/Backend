@@ -17,7 +17,8 @@ function Loginapp() {
   const [isLoggedIn, setIsloggedIn] = useState(false);
   const nav = useNavigate();
 
-  const [isAuth, setIsAuth, identifier, setIdentifier] = useOutletContext();
+  const [isAuth, setIsAuth, identifier, setIdentifier, token, setToken] =
+    useOutletContext();
   const location = useLocation();
 
   async function verifyuser(username, password) {
@@ -32,12 +33,14 @@ function Loginapp() {
         console.log("username", username);
         console.log("message", data.message);
         console.log("identifier", data.identifier);
+        console.log(data.token);
         setIserror("success");
         setUsername(username);
         setIsloggedIn(true);
         setIdentifier(data.identifier);
         setIsloggedIn(true);
         setIsAuth(true);
+        setToken(data.token);
         // nav("/component")
         console.log("identifier from loginapp", identifier);
         if (location.state?.from) {
@@ -152,7 +155,16 @@ function Loginapp() {
         </form>
         <div>Default username: default</div>
         <div>Default password: defaultpassword</div>
-        <Outlet context={[isAuth, setIsAuth, identifier, setIdentifier]} />
+        <Outlet
+          context={[
+            isAuth,
+            setIsAuth,
+            identifier,
+            setIdentifier,
+            token,
+            setToken,
+          ]}
+        />
       </div>
     </>
   );

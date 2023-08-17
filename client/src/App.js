@@ -13,6 +13,7 @@ import { Homedata, descriptionLoader } from "./homedata";
 import Home from "./home";
 import { Component, dataLoader } from "./test";
 import ProtectedRoutes from "./Protectedroute";
+import url from "./url";
 
 function Apps() {
   const router = createBrowserRouter(
@@ -21,16 +22,18 @@ function Apps() {
         <Route path="/" element={<Root />}>
           <Route index element={<Loginapp />} />
           <Route path="/register" element={<Createuserapp />} />
-          <Route
-            path="/home"
-            element={<Homedata />}
-            loader={descriptionLoader}
-          />
+
           <Route element={<ProtectedRoutes />}>
+            <Route
+              path="/home"
+              element={<Homedata />}
+              /*loader={descriptionLoader}
+              loader={async (req,params) =>dataLoader(`${url}/todo/${params.identifier}.json`)}*/
+            />
             <Route
               path="/component"
               element={<Component />}
-              loader={dataLoader}
+              /*  loader={dataLoader} */
             />
           </Route>
         </Route>

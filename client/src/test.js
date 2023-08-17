@@ -35,7 +35,8 @@ export function Component() {
   // }
   useEffect(() => {
     Getrequest(
-      `${url}/todo/${identifier.replace(/\s+/g, "-").replace(/'+/g, "")}`
+      `${url}/todo/${identifier.replace(/\s+/g, "-").replace(/'+/g, "")}`,
+      token
     ).then((data) => setList(data));
   }, []);
   return (

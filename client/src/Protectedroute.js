@@ -16,14 +16,15 @@ const useAuth = () => {
 };
 
 const ProtectedRoutes = () => {
-  const [isAuth, setIsAuth, identifier, setIdentifier] = useOutletContext();
+  const [isAuth, setIsAuth, identifier, setIdentifier, token, setToken] =
+    useOutletContext();
 
   console.log("protected route identifier", isAuth, identifier);
   const location = useLocation();
 
   //const isAuth = useAuth();
   return isAuth ? (
-    <Outlet context={identifier} />
+    <Outlet context={[identifier, token]} />
   ) : (
     <Navigate to="/" replace state={{ from: location }} />
   );

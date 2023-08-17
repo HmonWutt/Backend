@@ -1,5 +1,13 @@
-import { Outlet, Navigate, useOutletContext } from "react-router-dom";
+import {
+  Route,
+  Outlet,
+  Navigate,
+  useOutletContext,
+  useLocation,
+} from "react-router-dom";
+import { createContext } from "react";
 import Loginapp from "./loginapp";
+import Home from "./home";
 import { Component } from "./test";
 
 const useAuth = () => {
@@ -8,9 +16,16 @@ const useAuth = () => {
 };
 
 const ProtectedRoutes = () => {
-  const [isAuth, setIsAuth] = useOutletContext();
-  //const isAuth = useAuth();
-  return isAuth ? <Outlet/> : <Navigate to="/" />;
+  const [isAuth, setIsAuth, identifier, setIdentifier] = useOutletContext();
 
+  console.log("protected route identifier", isAuth, identifier);
+  const location = useLocation();
+
+  //const isAuth = useAuth();
+  return isAuth ? (
+    <Outlet context={identifier} />
+  ) : (
+    <Navigate to="/" replace state={{ from: location }} />
+  );
 };
 export default ProtectedRoutes;

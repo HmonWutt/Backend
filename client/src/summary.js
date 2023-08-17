@@ -40,7 +40,7 @@ function Summary({ list, isHidden, setIsHidden }) {
       >
         <div id="cards" style={{ visibility: isHidden ? "hidden" : "visible" }}>
           <div
-            class="close"
+            className="close"
             style={{ visibility: isHidden ? "hidden" : "visible" }}
             onClick={handleclick}
           ></div>

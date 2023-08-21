@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
+import { motion, variants } from "framer-motion";
 
 function Summary({ list, isHidden, setIsHidden }) {
   console.log("summary runs", "ishidden", isHidden);
@@ -7,6 +8,26 @@ function Summary({ list, isHidden, setIsHidden }) {
   // list.forEach((element) => {
   //   element.map((task, index) => console.log(task));
   // });
+  const variants = {
+    hidden: {
+      opacity: 0,
+      y: 500,
+      scale: 0,
+      transition: {
+        duration: 0.5,
+      },
+    },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: [0.25, 0.1, 0.25, 1],
+      },
+    },
+  };
+
   const handleclick = (e) => {
     setIsHidden(!isHidden);
   };
@@ -32,13 +53,18 @@ function Summary({ list, isHidden, setIsHidden }) {
 
   return (
     <>
-      <div
+      <motion.div
+        variants={variants}
+        initial={false}
+        animate={isHidden ? "hidden" : "visible"}
         id="summary"
         style={{
           backgroundColor: isHidden ? "rgb(250, 148, 148)" : "rgb(12,12,8)",
         }}
       >
-        <div id="cards" style={{ visibility: isHidden ? "hidden" : "visible" }}>
+        <div
+          id="cards" /*style={{ visibility: isHidden ? "hidden" : "visible" }}*/
+        >
           <div
             className="close"
             style={{ visibility: isHidden ? "hidden" : "visible" }}
@@ -54,7 +80,7 @@ function Summary({ list, isHidden, setIsHidden }) {
             </div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }

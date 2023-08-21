@@ -3,6 +3,7 @@ import { Outlet, useOutletContext } from "react-router-dom";
 import Button from "react-bootstrap/esm/Button";
 import Postrequest from "./postrequest";
 import url from "./url";
+import { Checkpassword, Checkusername } from "./usernameandpassword";
 
 function Createuserapp() {
   const [password, setPassword] = useState("");
@@ -42,12 +43,12 @@ function Createuserapp() {
       //setTimeout(() => setUsernotexists(false), 1000);
     }
   }
-  let formIsValid = true;
+  var formIsValid = true;
   const handleValidation = (event) => {
     console.log("handleValidation ran");
     Checkusername(username);
-    console.log(formIsValid);
-    Checkpassword(password);
+    formIsValid = Checkpassword(password)[0] && Checkusername(username)[0];
+    console.log("formisvalid", formIsValid);
     console.log("username", username, "password", password);
     if (username === "" || password === "") {
       formIsValid = false;
@@ -66,57 +67,6 @@ function Createuserapp() {
     }
   };
 
-  function Checkusername(username) {
-    setUsername(username);
-    if (
-      !username.match(/^[a-zA-Z0-9]{5,10}$/) ||
-      username.length < 5 ||
-      username.length > 10
-    ) {
-      formIsValid = false;
-
-      if (
-        (username.length < 5 || username.length > 10) &&
-        !username.match(/^[a-zA-Z0-9]{5,10}$/)
-      ) {
-        setusernameError(
-          "User name must be only letters and numbers and 5-10 characters long!"
-        );
-      } else if (!username.match(/^[a-zA-Z0-9]{5,10}$/)) {
-        setusernameError("User name must be only letters and numbers !");
-      } else {
-        setusernameError("User name must be 5-10 characters long!");
-      }
-    } else {
-      formIsValid = true;
-      setusernameError("");
-    }
-  }
-
-  function Checkpassword(password) {
-    setPassword(password);
-    if (
-      !password.match(/^[a-zA-Z0-9@#$%^&*?()]{8,22}$/) ||
-      password.length < 8 ||
-      password.length > 22
-    ) {
-      formIsValid = false;
-      if (
-        !password.match(/^[a-zA-Z0-9@#$%^&*?()]{8,22}$/) &&
-        (password.length < 8 || password.length > 22)
-      ) {
-        setpasswordError(
-          "Password must be only numbers, letters or @ # $ % ^ & * ? between 8-22 characters long"
-        );
-      } else if (!password.match(/^[a-zA-Z0-9@#$%^&*?()]{8,22}$/)) {
-        setpasswordError("Only numbers, letters or @ # $ % ^ & * ?) ( ");
-      } else {
-        setpasswordError("Password must be 8-22 characters long");
-      }
-    } else {
-      setpasswordError("");
-    }
-  }
   async function addidentifier(e) {
     const body = {
       identifier: `${identifier.replace(/\s+/g, "-").toLowerCase()}`,
@@ -143,108 +93,47 @@ function Createuserapp() {
   };
 
   return (
-    <div id="login-page" className="App">
-      <form id="loginform" onSubmit={loginSubmit}>
-        <div
-          style={{
-            color: "yellow",
-            fontSize: "1.5em",
-            /* */
-          }}
-        ></div>
-
-        {userexists && (
-          <div
-            style={{
-              boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
-              padding: "1rem",
-              borderRadius: "0.5rem",
-              backgroundColor: "rgb(254, 98, 98)",
-              margin: "0.5rem",
-            }}
-            id="status"
-          >
-            User already exists!
-          </div>
-        )}
-        {usernotexists && (
-          <div
-            style={{
-              backgroundColor: "rgb(254, 98, 98)",
-              boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
-              padding: "1rem",
-              borderRadius: "0.5rem",
-              margin: "0.5rem",
-            }}
-            id="status"
-          >
-            User created successfully!
-          </div>
-        )}
-        <div className="form-group m-2">
-          <label
-            style={{
-              color: "black",
-              textShadow:
-                "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
-            }}
-          >
-            Username
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="Username"
-            name="Username"
-            placeholder="Enter username"
-            value={username}
-            onChange={(e) => {
-              Checkusername(e.target.value);
-            }}
-          />
-          <div>
-            {" "}
-            <small id="usernameerror" className="text-danger form-text">
-              {usernameError}
-            </small>
-          </div>
-        </div>
-        <div id="password" className="form-group m-2">
-          <label
-            style={{
-              color: "black",
-              textShadow:
-                "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
-            }}
-          >
-            Password
-          </label>
-
-          <div className="input-container">
-            <input
-              type="password"
-              className="form-control "
-              id="exampleInputPassword1"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => {
-                Checkpassword(e.target.value);
+    <>
+      {success !== true && (
+        <div id="login-page" className="App" style={{ margin: "2rem" }}>
+          <form id="loginform" onSubmit={loginSubmit}>
+            <div
+              style={{
+                color: "yellow",
+                fontSize: "1.5em",
+                /* */
               }}
-            />
-            <small id="passworderror" className="text-danger form-text">
-              {passwordError}
-            </small>
-          </div>
+            ></div>
 
-          <Button type="submit" className="btn btn-primary">
-            Create new user
-          </Button>
-        </div>
-      </form>
-      {success === true ? (
-        <div>
-          <form id="loginform" onSubmit={submitaddidentifier}>
-            <div className="input">
+            {userexists && (
+              <div
+                style={{
+                  boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+                  padding: "1rem",
+                  borderRadius: "0.5rem",
+                  backgroundColor: "rgb(254, 98, 98)",
+                  margin: "0.5rem",
+                }}
+                id="status"
+              >
+                User already exists!
+              </div>
+            )}
+            {usernotexists && (
+              <div
+                style={{
+                  backgroundColor: "rgb(254, 98, 98)",
+                  boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+                  padding: "1rem",
+                  borderRadius: "0.5rem",
+                  margin: "0.5rem",
+                }}
+                id="status"
+              >
+                User created successfully!
+              </div>
+            )}
+            <div className="form-group m-2">
               <label
                 style={{
                   color: "black",
@@ -252,29 +141,116 @@ function Createuserapp() {
                     "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
                 }}
               >
-                Tracker nickname
+                Username
               </label>
               <input
                 type="text"
-                className="form-control m-2"
+                className="form-control"
                 id="Username"
                 name="Username"
                 placeholder="Enter username"
-                value={identifier}
+                value={username}
                 onChange={(e) => {
-                  setIdentifier(e.target.value);
+                  setUsername(e.target.value);
+                  setusernameError(Checkusername(e.target.value));
                 }}
               />
-              <small
-                id="usernameerror"
-                className="text-danger form-text"
-              ></small>
+              <div>
+                {" "}
+                <small id="usernameerror" className="text-danger form-text">
+                  {usernameError}
+                </small>
+              </div>
+            </div>
+            <div id="password" className="form-group m-2">
+              <label
+                style={{
+                  color: "black",
+                  textShadow:
+                    "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
+                }}
+              >
+                Password
+              </label>
 
-              <button type="submit" className="btn btn-primary">
-                Submit
-              </button>
+              <div className="input-container">
+                <input
+                  type="password"
+                  className="form-control "
+                  id="exampleInputPassword1"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setpasswordError(Checkpassword(e.target.value)[1]);
+                  }}
+                />
+                <small id="passworderror" className="text-danger form-text">
+                  {passwordError}
+                </small>
+              </div>
+
+              <Button type="submit" className="btn btn-primary">
+                Create new user
+              </Button>
             </div>
           </form>
+        </div>
+      )}
+      {success === true ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            alignItems: "center",
+            margin: "2rem",
+          }}
+        >
+          <div>
+            <h4>
+              Registration successful. Please enter a unique name for your chore
+              tracker.
+            </h4>
+          </div>
+          <div>
+            <form
+              id="loginform"
+              onSubmit={submitaddidentifier}
+              style={{ maxWidth: "20rem" }}
+            >
+              <div className="input">
+                <label
+                  style={{
+                    color: "black",
+                    textShadow:
+                      "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
+                  }}
+                >
+                  Tracker nickname
+                </label>
+                <input
+                  type="text"
+                  className="form-control m-2"
+                  id="Username"
+                  name="Username"
+                  placeholder="Enter username"
+                  value={identifier}
+                  onChange={(e) => {
+                    setIdentifier(e.target.value);
+                  }}
+                />
+                <small
+                  id="usernameerror"
+                  className="text-danger form-text"
+                ></small>
+
+                <button type="submit" className="btn btn-primary">
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       ) : (
         <div>success status unknown</div>
@@ -292,7 +268,7 @@ function Createuserapp() {
           setToken,
         ]}
       />
-    </div>
+    </>
   );
 }
 export default Createuserapp;

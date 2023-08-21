@@ -4,7 +4,7 @@ const pool = require("../db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const saltrounds = 10;
-const {secret} = require("./secret");
+const { secret } = require("./secret");
 
 routerusers.post("/", async (req, res) => {
   try {
@@ -41,16 +41,23 @@ routerusers.post("/createuser", async (req, res) => {
         const hashedpassword = await bcrypt.hash(password, saltrounds);
 
         const result = await pool.query(
-          `INSERT INTO users(username,password) VALUES ($1,$2) `,
+          `INSERT INTO users(username,password) VALUES ($1,$2) returning username`,
           [username, hashedpassword]
         );
-        res.json({ message: "User created successfully!" });
+
+        res.json({
+          message: "User created successfully!",
+          username: result.rows[0].username,
+        });
+        console.log(`New user ${username} registered`);
       } catch (error) {
-        console.error(error.message);
+        console.log(error.message);
+        res.json({ message: "error" });
       }
     }
   } catch (error) {
     console.error(error.message);
+    res.json({ message: "error" });
   }
 });
 
@@ -73,9 +80,10 @@ routerusers.post("/login", async (req, res) => {
         if (await bcrypt.compare(password, retrievedPassword)) {
           console.log("login successful");
           const token = jwt.sign({ _id: { username } }, secret);
-          res.header('auth-token', token)
-          res.status(200).json({ message: "success", identifier: identifier,token:token });
-          
+          res.header("auth-token", token);
+          res
+            .status(200)
+            .json({ message: "success", identifier: identifier, token: token });
         } else {
           res.status(404).json({ message: "Login failed!" });
         }
@@ -89,6 +97,29 @@ routerusers.post("/login", async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ message: "error" });
+  }
+});
+
+routerusers.post("/addidentifier/:username", async (req, res) => {
+  try {
+    console.log("addidentifier called");
+    const username = req.params.username;
+    const identifier = req.body.identifier;
+    const result = await pool.query(
+      "UPDATE users SET identifier = $1 WHERE username = $2 returning *",
+      [identifier, username]
+    );
+    console.log(`'${identifier}'`, `'${username}'`);
+    console.log("addidentifier", result.rows);
+    const user = result.rows;
+    res.json({
+      message: "success",
+      username: user.username,
+      identifier: user.identifier,
+    });
+  } catch (error) {
+    console.error(error.message);
+    res.json({ message: "failed" });
   }
 });
 

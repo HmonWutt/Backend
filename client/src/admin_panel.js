@@ -1,26 +1,72 @@
 //name the personalised tracker
 //add task/edit tasks
-import { useState, useEffect } from "react";
-import Button from "react-bootstrap/Button";
+import { useState, useEffect, useRef } from "react";
+import { Button as buttun } from "react-bootstrap/Button";
+import { motion, variants, AnimatePresence } from "framer-motion";
 
 import Postrequest from "./postrequest";
 import Getrequest from "./getrequest";
 import url from "./url";
 import css from "./index.css";
 import Summary from "./summary";
+import Addtask from "./addtask";
 
 const AdminPanel = ({ list, isHidden, setIsHidden }) => {
   const username = "default";
-  const [data, setData] = useState("");
+  const [addshow, setaddShow] = useState(false);
+  const [changeshow, setchangeShow] = useState(false);
+  const [isaddOpen, setaddIsOpen] = useState(false);
+  const [showaddtask, setSHowaddtask] = useState(false);
+
+  const [ischangeOpen, setchangeIsOpen] = useState(false);
   const [identifier, setIdentifier] = useState("default tracker");
-  // const [list, setList] = useState([]);
-  //////////replace " " with hypens
+  const ref = useRef(null);
+
+  const variants = {
+    visible: {
+      opacity: 0,
+      y: -500,
+
+      transition: {
+        duration: 0.5,
+        ease: [0.25, 0.1, 0.25, 1],
+      },
+    },
+    hidden: {
+      opacity: 1,
+
+      y: 0,
+      transition: {
+        duration: 0.5,
+        easeIn: [0.25, 0.1, 0.25, 1],
+      },
+    },
+  };
+  const buttonVariants = {};
+  const itemVariants = {
+    open: {
+      opacity: 1,
+      delay: 0.5,
+      y: -20,
+
+      transition: { type: "spring", stiffness: 300, damping: 24 },
+    },
+    closed: { opacity: 0, y: -20, transition: { duration: 0.2 } },
+  };
+
+  const trackernamevariants = {
+    enter: { opacity: 0, x: -100 },
+    display: {
+      opacity: 1,
+      x: 0,
+      transition: { ease: "easeOut", duration: 2, staggerChildren: 0.5 },
+    },
+  };
 
   const { newchorename, setNewchorename } = useState("");
   console.log("admin panel component runs");
 
   const handleclick = (e) => {
-    //document.getElementById("summary").classList.add("hidden")
     setIsHidden(!isHidden);
   };
 
@@ -49,26 +95,29 @@ const AdminPanel = ({ list, isHidden, setIsHidden }) => {
 
   return (
     <>
-      <div
+      <motion.div
         id="admin-panel"
         style={{ visibility: isHidden ? "visible" : "hidden" }}
+        variants={variants}
+        /* animate={isHidden ? "hidden" : "visible"} */
       >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            width: "100%",
-            height: "5rem",
-            justifyContent: "center",
-          }}
-        >
-          {list.map((task, taskIndex) => (
-            <div key={taskIndex}>
-              <div>{task.description}</div>
-            </div>
-          ))}
-        </div>
-        {identifier && <div id="tracker-name">{identifier}</div>}
+        {identifier && (
+          <motion.div
+            id="tracker-name"
+            variants={trackernamevariants}
+            initial="enter"
+            animate="display"
+            transition={{ ease: "easeOut", duration: 2, staggerChildren: 0.5 }}
+          >
+            {`Welcome to ${
+              identifier.charAt(0).toUpperCase() + identifier.slice(1)
+            }!`
+              .split("")
+              .map((char, index) => (
+                <span key={index}>{char}</span>
+              ))}
+          </motion.div>
+        )}
         {!identifier && (
           <form id="loginform" onSubmit={loginSubmit}>
             <div className="input">
@@ -97,9 +146,9 @@ const AdminPanel = ({ list, isHidden, setIsHidden }) => {
                 className="text-danger form-text"
               ></small>
 
-              <Button type="submit" className="btn btn-primary">
+              <button type="submit" className="btn btn-primary">
                 Submit
-              </Button>
+              </button>
             </div>
           </form>
         )}
@@ -110,8 +159,9 @@ const AdminPanel = ({ list, isHidden, setIsHidden }) => {
               textShadow:
                 "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
             }}
-          ></label>
-          {/* <input
+          ></label>{" "}
+        </div>
+        {/* <input
             type="text"
             className="form-control m-2"
             id="Username"
@@ -123,22 +173,86 @@ const AdminPanel = ({ list, isHidden, setIsHidden }) => {
             }}
           />
           <small id="usernameerror" className="text-danger form-text"></small>{" "} */}
-          <Button type="submit" className="btn btn-primary">
-            Add new chore
-          </Button>
-        </div>
-        <Button
-          onClick={(e) => {
-            console.log(e.target);
-          }}
-          className="btn btn-primary"
+        <motion.nav initial={false} className="menu">
+          <motion.div>
+            <motion.buttun
+              className="btn btn-primary"
+              whileTap={{ scale: 0.97 }}
+              onClick={(e) => {
+                setaddIsOpen(!isaddOpen);
+                console.log("ref", ref);
+                setaddShow(!addshow);
+                {
+                  /*isaddOpen
+                ? (ref.current.style.display = "")
+            : (ref.current.style.display = "none"); */
+                }
+              }}
+            >
+              {" "}
+              Add new chore
+            </motion.buttun>
+          </motion.div>
+          <motion.div ref={ref} id="description-container">
+            {list.map((task, taskIndex) => (
+              <AnimatePresence>
+                {addshow && (
+                  <motion.div
+                    key={taskIndex}
+                    variants={itemVariants}
+                    initial="open"
+                    animate={{ opacity: 1, y: 0 }}
+                    exit="closed"
+                    //className="btn btn-warning item"
+                  >
+                    {task.description}
+                  </motion.div>
+                )}{" "}
+              </AnimatePresence>
+            ))}{" "}
+          </motion.div>
+        </motion.nav>
+
+        <motion.nav
+          initial={false}
+          animate={ischangeOpen ? "open" : "closed"}
+          className="menu"
         >
-          Change chore name
-        </Button>
-        <Button onClick={handleclick}>
-          {isHidden ? "Show summary" : "Close"}
-        </Button>
-      </div>
+          <motion.buttun
+            whileTap={{ scale: 0.97 }}
+            onClick={() => {
+              setchangeIsOpen(!ischangeOpen);
+              setchangeShow(!changeshow);
+            }}
+            className="btn btn-primary "
+          >
+            Change chore name
+          </motion.buttun>
+          <div id="description-container">
+            {list.map((task, taskIndex) => (
+              <AnimatePresence>
+                {changeshow && (
+                  <motion.buttun
+                    key={taskIndex}
+                    className="btn btn-warning item"
+                    onClick={(e) => {}}
+                    variants={itemVariants}
+                    initial="open"
+                    animate={{ opacity: 1, y: 0 }}
+                    exit="closed"
+                  >
+                    {task.description}
+                  </motion.buttun>
+                )}
+              </AnimatePresence>
+            ))}
+          </div>
+        </motion.nav>
+        <buttun onClick={handleclick} className="btn btn-primary">
+          {/* {isHidden ? "Show summary" : "Close"} */}
+          Show summary
+        </buttun>
+      </motion.div>
     </>
   );
 };

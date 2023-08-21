@@ -1,10 +1,13 @@
-const Getrequest = async (url) => {
+const Getrequest = async (url, token) => {
   console.log("get request to", url);
 
   try {
     const response = await fetch(url, {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     });
     let data = await response.json();
     return data;

@@ -136,9 +136,13 @@ tr.same-col-widths td {
 }
 #button-container {
 }
-Button {
+Button,
+buttun {
   box-shadow: rgba(0, 0, 0, 0.55) 0px 5px 5px;
   margin: 0.5rem;
+}
+.item {
+  scale: 0.8;
 }
 #score {
   color: rgb(255, 0, 170);
@@ -175,9 +179,21 @@ Button {
 #admin-panel * > {
   flex: 1;
 }
+.menu * > {
+  flex: 1;
+}
+#description-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.description {
+}
 #tracker-name {
   margin-top: -2rem;
+  margin-bottom: 0.5rem;
   color: blue;
+  font-size: 1.2em;
 }
 
 .input {

@@ -1,35 +1,45 @@
 import React, { useState, useEffect } from "react";
+import { Outlet, useOutletContext } from "react-router-dom";
 import Button from "react-bootstrap/esm/Button";
 import Postrequest from "./postrequest";
 import url from "./url";
 
 function Createuserapp() {
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
+  const [
+    username,
+    setUsername,
+    isAuth,
+    setIsAuth,
+    identifier,
+    setIdentifier,
+    token,
+    setToken,
+  ] = useOutletContext();
   const [passwordError, setpasswordError] = useState("");
   const [usernameError, setusernameError] = useState("");
   const [userexists, setUserexists] = useState(false);
   const [usernotexists, setUsernotexists] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   async function saveuser(username, password) {
     console.log("saveuser request sent");
 
     const newurl = `${url}/users/createuser`;
     const body = { username, password };
-
-    Postrequest(newurl, body).then((data) => {
-      isuserexists(data.message);
-    });
+    Postrequest(newurl, body).then((data) => isuserexists(data.message));
   }
   async function isuserexists(message) {
     if (message === "Username already exists.") {
-      setUserexists(true);
-      setTimeout(() => setUserexists(false), 1000);
+      console.log("username already taken");
+
+      //setTimeout(() => setUserexists(false), 1000);
     } else {
-      setUsernotexists(true);
-      setUsername("");
-      setPassword("");
-      setTimeout(() => setUsernotexists(false), 1000);
+      //setUsernotexists(true);
+
+      console.log("get postrequest to return username and pass to root");
+      setSuccess(true);
+      //setTimeout(() => setUsernotexists(false), 1000);
     }
   }
   let formIsValid = true;
@@ -38,7 +48,6 @@ function Createuserapp() {
     Checkusername(username);
     console.log(formIsValid);
     Checkpassword(password);
-    console.log(formIsValid);
     console.log("username", username, "password", password);
     if (username === "" || password === "") {
       formIsValid = false;
@@ -108,7 +117,19 @@ function Createuserapp() {
       setpasswordError("");
     }
   }
-
+  async function addidentifier(e) {
+    const body = {
+      identifier: `${identifier.replace(/\s+/g, "-").toLowerCase()}`,
+    };
+    console.log("add identifier to", `${url}/users/addidentifier/${username}`);
+    Postrequest(`${url}/users/addidentifier/${username}`, body).then((data) =>
+      console.log(data.message)
+    );
+  }
+  const submitaddidentifier = (e) => {
+    e.preventDefault();
+    addidentifier();
+  };
   const loginSubmit = (e) => {
     e.preventDefault();
     handleValidation(e);
@@ -214,12 +235,63 @@ function Createuserapp() {
               {passwordError}
             </small>
           </div>
-          <div> </div>
+
           <Button type="submit" className="btn btn-primary">
             Create new user
           </Button>
         </div>
       </form>
+      {success === true ? (
+        <div>
+          <form id="loginform" onSubmit={submitaddidentifier}>
+            <div className="input">
+              <label
+                style={{
+                  color: "black",
+                  textShadow:
+                    "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
+                }}
+              >
+                Tracker nickname
+              </label>
+              <input
+                type="text"
+                className="form-control m-2"
+                id="Username"
+                name="Username"
+                placeholder="Enter username"
+                value={identifier}
+                onChange={(e) => {
+                  setIdentifier(e.target.value);
+                }}
+              />
+              <small
+                id="usernameerror"
+                className="text-danger form-text"
+              ></small>
+
+              <button type="submit" className="btn btn-primary">
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      ) : (
+        <div>success status unknown</div>
+      )}
+
+      <Outlet
+        context={[
+          username,
+          setUsername,
+          isAuth,
+          setIsAuth,
+          identifier,
+          setIdentifier,
+          token,
+          setToken,
+        ]}
+      />
     </div>
   );
 }

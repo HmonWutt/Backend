@@ -22,11 +22,11 @@ import Lastdoneretriver from "./retrievelastdone";
 import Whoreserved from "./whoreserved";
 import Getrequest from "./getrequest";
 
-const Task = ({ id }) => {
+const Task = ({ id, identifier }) => {
   const [data, setData] = useState([]);
-  console.log("task", id);
+  console.log("task", id, identifier);
 
-  const newurl = `${url}/todo/id/${id}`;
+  const newurl = `${url}/todo/id/${id}/${identifier}`;
 
   useEffect(() => {
     Getrequest(newurl).then((getrequestoutput) => setData(getrequestoutput));
@@ -37,9 +37,13 @@ const Task = ({ id }) => {
         {data ? <div>{data.description}</div> : <div>No data found</div>}
       </div>
       <div id="card-container">
-        <Counter set_name={"hmon_count"} todo_id={id} />
+        <Counter set_name={"hmon_count"} todo_id={id} identifier={identifier} />
 
-        <Counter set_name={"joakim_count"} todo_id={id} />
+        <Counter
+          set_name={"joakim_count"}
+          todo_id={id}
+          identifier={identifier}
+        />
       </div>
     </>
   );

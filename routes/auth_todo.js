@@ -13,13 +13,13 @@ routertodo.get("/", verify, async (req, res) => {
     console.error(error.message);
   }
 });
-routertodo.get("/id/:id", async (req, res) => {
+routertodo.get("/id/:id/:identifier", async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id, identifier } = req.params;
     console.log(id);
     const specific_todo = await pool.query(
-      "SELECT * FROM todo WHERE todo_id = $1 ",
-      [id]
+      "SELECT * FROM todo WHERE todo_id = $1 and identifier = $2",
+      [id, identifier]
     );
     res.json(specific_todo.rows[0]);
   } catch (error) {
@@ -91,15 +91,15 @@ routertodo.post("/bedsheet", async (req, res) => {
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
-routertodo.put("/id/:id", async (req, res) => {
+routertodo.put("/id/:id/:identifier", async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id, identifier } = req.params;
     const { set } = req.body;
     console.log(set);
 
     const updateTOdo = await pool.query(
-      `UPDATE todo ${set}  WHERE todo_id = $1`,
-      [id]
+      `UPDATE todo ${set}  WHERE todo_id = $1 and identifier=$2`,
+      [id, identifier]
     );
     res.json(`To do id:${id} of set:${set} was updated`);
   } catch (error) {

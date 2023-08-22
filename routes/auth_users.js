@@ -101,25 +101,32 @@ routerusers.post("/login", async (req, res) => {
 });
 
 routerusers.post("/addidentifier/:username", async (req, res) => {
-  try {
-    console.log("addidentifier called");
-    const username = req.params.username;
-    const identifier = req.body.identifier;
-    const result = await pool.query(
-      "UPDATE users SET identifier = $1 WHERE username = $2 returning *",
-      [identifier, username]
-    );
-    console.log(`'${identifier}'`, `'${username}'`);
-    console.log("addidentifier", result.rows);
-    const user = result.rows;
-    res.json({
-      message: "success",
-      username: user.username,
-      identifier: user.identifier,
-    });
-  } catch (error) {
-    console.error(error.message);
-    res.json({ message: "failed" });
+  const username = req.params.username;
+  const identifier = req.body.identifier;
+  const identifiers = await pool.query("SELECT identifier FROM users");
+  identifiers && console.log(identifiers);
+  if (identifiers.rows.some((obj) => obj.identifier === identifier)) {
+    res.json({ message: "Name taken. Please choose another name." });
+  } else {
+    try {
+      console.log("addidentifier called");
+
+      const result = await pool.query(
+        "UPDATE users SET identifier = $1 WHERE username = $2 returning *",
+        [identifier, username]
+      );
+      console.log(`'${identifier}'`, `'${username}'`);
+      console.log("addidentifier", result.rows);
+      const user = result.rows;
+      res.json({
+        message: "success",
+        username: user.username,
+        identifier: user.identifier,
+      });
+    } catch (error) {
+      console.error(error.message);
+      res.json({ message: "failed" });
+    }
   }
 });
 

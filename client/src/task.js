@@ -37,10 +37,14 @@ const Task = ({ id, identifier }) => {
         {data ? <div>{data.description}</div> : <div>No data found</div>}
       </div>
       <div id="card-container">
-        <Counter set_name={"hmon_count"} todo_id={id} identifier={identifier} />
+        <Counter
+          set_name={"name1_count"}
+          todo_id={id}
+          identifier={identifier}
+        />
 
         <Counter
-          set_name={"joakim_count"}
+          set_name={"name2_count"}
           todo_id={id}
           identifier={identifier}
         />

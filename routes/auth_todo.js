@@ -1,7 +1,7 @@
 /////all the todo routes////
 const routertodo = require("express").Router();
 const pool = require("../db");
-const verify = require("./verifytoken")
+const verify = require("./verifytoken");
 
 routertodo.get("/", verify, async (req, res) => {
   try {
@@ -27,7 +27,7 @@ routertodo.get("/id/:id", async (req, res) => {
   }
 });
 
-routertodo.get("/:identifier", async (req, res) => {
+routertodo.get("/:identifier", verify, async (req, res) => {
   try {
     const { identifier } = req.params;
     console.log("identifier", identifier);
@@ -41,17 +41,22 @@ routertodo.get("/:identifier", async (req, res) => {
     console.error(error.message);
   }
 });
-routertodo.get("/descriptionlist/descriptions",verify, async (req, res) => {
-  try {
-    const specific_todo = await pool.query(
-      "SELECT description,todo_id FROM todo "
-    );
-    res.json(specific_todo.rows);
-    console.log("descriptions", specific_todo.rows);
-  } catch (error) {
-    console.error(error.message);
+routertodo.get(
+  "/descriptionlist/descriptions/:identifier",
+  async (req, res) => {
+    try {
+      const { identifier } = req.params;
+      const specific_todo = await pool.query(
+        "SELECT description,todo_id FROM todo WHERE identifier=$1 ",
+        [identifier]
+      );
+      res.json(specific_todo.rows);
+      console.log("descriptions", specific_todo.rows);
+    } catch (error) {
+      console.error(error.message);
+    }
   }
-});
+);
 
 routertodo.get("/bedsheet", async (req, res) => {
   try {
@@ -67,12 +72,10 @@ routertodo.get("/bedsheet", async (req, res) => {
 
 routertodo.post("/", async (req, res) => {
   try {
-    const firstcolumn = "hmon_count = 0";
-    const secondcolumn = "joakim_count = 0";
     const { description } = req.body;
     const newTodo = await pool.query(
-      "INSERT INTO todo (description, hmon_count, joakim_count) VALUES ($1,$2,$3) RETURNING *",
-      [description, 0, 0]
+      "INSERT INTO todo (description) VALUES ($1) RETURNING *",
+      [description]
     );
     res.json(newTodo.rows[0]);
   } catch (err) {

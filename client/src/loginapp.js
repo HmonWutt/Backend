@@ -11,14 +11,22 @@ import url from "./url";
 
 function Loginapp() {
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
+  //const [username, setUsername] = useState("");
   const [iserror, setIserror] = useState("");
 
   const [isLoggedIn, setIsloggedIn] = useState(false);
   const nav = useNavigate();
 
-  const [isAuth, setIsAuth, identifier, setIdentifier, token, setToken] =
-    useOutletContext();
+  const [
+    username,
+    setUsername,
+    isAuth,
+    setIsAuth,
+    identifier,
+    setIdentifier,
+    token,
+    setToken,
+  ] = useOutletContext();
   const location = useLocation();
 
   async function verifyuser(username, password) {
@@ -42,9 +50,11 @@ function Loginapp() {
         setIsAuth(true);
         setToken(data.token);
         // nav("/component")
-        console.log("identifier from loginapp", identifier);
+        console.log("identifier from loginapp", data.identifier);
         if (location.state?.from) {
           const to = location.state.from.pathname;
+          console.log("to", to);
+          if (to === "/register") Navigate("/component");
           nav(`${to}`);
         }
         //nav("/location.state.from.pathname");
@@ -157,6 +167,8 @@ function Loginapp() {
         <div>Default password: defaultpassword</div>
         <Outlet
           context={[
+            username,
+            setUsername,
             isAuth,
             setIsAuth,
             identifier,

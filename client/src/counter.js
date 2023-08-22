@@ -17,6 +17,7 @@ const Counter = (props) => {
 
   const [isExploding, setIsExploding] = useState(false);
   const [count, setCount] = useState(0);
+  const [name, setName] = useState("");
 
   console.log("counter", todo_id);
   const Countup = async () => {
@@ -24,7 +25,9 @@ const Counter = (props) => {
     const confetti = () => {
       setIsExploding(true);
       document.getElementById("countup-button").disabled = true;
-      Getrequest(newurl).then((x) => setCount(x[set_name]));
+      Getrequest(newurl).then((x) => {
+        setCount(x[set_name]);
+      });
       setTimeout(() => {
         setIsExploding(false);
         document.getElementById("countup-button").disabled = false;
@@ -42,7 +45,11 @@ const Counter = (props) => {
     Putrequest(newurl, body, getrequest);
   };
   useEffect(() => {
-    Getrequest(newurl).then((x) => setCount(x[set_name]));
+    Getrequest(newurl).then((x) => {
+      setCount(x[set_name]);
+      console.log(set_name.slice(0, -6));
+      setName(x[set_name.slice(0, -6)]);
+    });
   }, [todo_id]);
 
   return (
@@ -54,7 +61,8 @@ const Counter = (props) => {
           )}
         </>
         <div id="name">
-          {set_name.charAt(0).toUpperCase() + set_name.slice(1, -6)}
+          {name.charAt(0).toUpperCase() + name.slice(1)}
+          {/*{set_name.charAt(0).toUpperCase() + set_name.slice(1, -6)}*/}
         </div>
         <div id="score">{count}</div>
         <Starbucket count={count} />

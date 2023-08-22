@@ -24,6 +24,7 @@ function Createuserapp() {
   const [usernotexists, setUsernotexists] = useState(false);
   const [isregistersuccess, setIsregistersuccess] = useState(false);
   const [isaddidentifiersuccess, setIsaddidentifiersuccess] = useState(null);
+  const [addidentifiermessage, setAddidentifiermessage] = useState("");
   const nav = useNavigate();
 
   async function saveuser(username, password) {
@@ -37,12 +38,12 @@ function Createuserapp() {
   async function isuserexists(message) {
     if (message === "Username already exists.") {
       console.log("username already taken");
-      //setTimeout(() => setUserexists(false), 1000);
+      setTimeout(() => setUserexists(false), 1000);
     } else {
-      //setUsernotexists(true);
+      setUsernotexists(true);
       console.log("get postrequest to return username and pass to root");
       setIsregistersuccess(true);
-      //setTimeout(() => setUsernotexists(false), 1000);
+      setTimeout(() => setUsernotexists(false), 1000);
     }
   }
 
@@ -73,6 +74,7 @@ function Createuserapp() {
     e.preventDefault();
     addidentifier().then((data) => {
       console.log(data.message);
+      setAddidentifiermessage(data.message);
       data.message === "success"
         ? addsuccess()
         : setIsaddidentifiersuccess(false);
@@ -85,6 +87,7 @@ function Createuserapp() {
     setPassword("");
     setTimeout(() => nav("/component"), 2000);
   }
+
   async function addidentifier() {
     const body = {
       identifier: `${identifier.replace(/\s+/g, "-").toLowerCase()}`,
@@ -269,10 +272,12 @@ function Createuserapp() {
       )}
       {isaddidentifiersuccess === true && (
         <div
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          gap="1rem"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "1rem",
+          }}
         >
           <div>
             <Spinner
@@ -297,7 +302,7 @@ function Createuserapp() {
         </div>
       )}
       {isaddidentifiersuccess === false && (
-        <div>Failed to name chore tracker 😭. Please try again!</div>
+        <div style={{ color: "red" }}>{addidentifiermessage}😭 </div>
       )}
       <Outlet
         context={[

@@ -43,8 +43,8 @@ export const Homedata = () => {
     );
   }, []);
   return (
-    <DescriptionsContext.Provider value={{ descriptions }}>
-      <Home descriptions={descriptions} />
+    <DescriptionsContext.Provider value={{ descriptions, identifier }}>
+      <Home descriptions={descriptions} identifier={identifier} />
     </DescriptionsContext.Provider>
   );
 };

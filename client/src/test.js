@@ -11,9 +11,11 @@ import {
 } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
 
-const username = "default";
+import Postrequest from "./postrequest";
+
+//const username = "default";
 //const identifier = "default-tracker";
-const newurl = `${url}/addidentifier/${username}`;
+
 //const newurl2 = `${url}/todo/${identifier.replace(/\s+/g, "-").toLowerCase()}`;
 //console.log("newurl2", newurl2);
 
@@ -22,7 +24,17 @@ const ListContext = createContext();
 export function Component() {
   const [list, setList] = useState([]);
   const [isHidden, setIsHidden] = useState(true);
-  const [identifier, token] = useOutletContext();
+  const [
+    username,
+    setUsername,
+    isAuth,
+    setIsAuth,
+    identifier,
+    setIdentifier,
+    token,
+    setToken,
+  ] = useOutletContext();
+  const newurl = `${url}/addidentifier/${username}`;
 
   // const [isAuth, setIsAuth, identifier, setIdentifier] = useOutletContext();
 
@@ -33,6 +45,7 @@ export function Component() {
   // if (navigation.state === "loading") {
   //   return <Spinner animation="grow" />;
   // }
+
   useEffect(() => {
     Getrequest(
       `${url}/todo/${identifier.replace(/\s+/g, "-").replace(/'+/g, "")}`,
@@ -41,10 +54,29 @@ export function Component() {
   }, []);
   return (
     <>
-      <ListContext.Provider value={{ list, isHidden, setIsHidden }}>
-        <Summary list={list} isHidden={isHidden} setIsHidden={setIsHidden} />
-        <AdminPanel list={list} isHidden={isHidden} setIsHidden={setIsHidden} />
-      </ListContext.Provider>
+      {identifier && (
+        <ListContext.Provider
+          value={{
+            list,
+            username,
+            setUsername,
+            isAuth,
+            setIsAuth,
+            identifier,
+            setIdentifier,
+            token,
+            setToken,
+          }}
+        >
+          <Summary list={list} isHidden={isHidden} setIsHidden={setIsHidden} />
+          <AdminPanel
+            list={list}
+            isHidden={isHidden}
+            setIsHidden={setIsHidden}
+            identifier={identifier}
+          />
+        </ListContext.Provider>
+      )}
     </>
   );
 }

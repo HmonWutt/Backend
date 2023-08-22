@@ -16,15 +16,32 @@ const useAuth = () => {
 };
 
 const ProtectedRoutes = () => {
-  const [isAuth, setIsAuth, identifier, setIdentifier, token, setToken] =
-    useOutletContext();
-
-  console.log("protected route identifier", isAuth, identifier);
+  const [
+    username,
+    setUsername,
+    isAuth,
+    setIsAuth,
+    identifier,
+    setIdentifier,
+    token,
+    setToken,
+  ] = useOutletContext();
   const location = useLocation();
 
   //const isAuth = useAuth();
   return isAuth ? (
-    <Outlet context={[identifier, token]} />
+    <Outlet
+      context={[
+        username,
+        setUsername,
+        isAuth,
+        setIsAuth,
+        identifier,
+        setIdentifier,
+        token,
+        setToken,
+      ]}
+    />
   ) : (
     <Navigate to="/" replace state={{ from: location }} />
   );

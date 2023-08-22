@@ -1,7 +1,7 @@
 //name the personalised tracker
 //add task/edit tasks
 import { useState, useEffect, useRef } from "react";
-import { Button as buttun } from "react-bootstrap/Button";
+import Button from "react-bootstrap/Button";
 import { motion, variants, AnimatePresence } from "framer-motion";
 
 import Postrequest from "./postrequest";
@@ -11,7 +11,7 @@ import css from "./index.css";
 import Summary from "./summary";
 import Addtask from "./addtask";
 
-const AdminPanel = ({ list, isHidden, setIsHidden }) => {
+const AdminPanel = ({ list, isHidden, setIsHidden, identifier }) => {
   const username = "default";
   const [addshow, setaddShow] = useState(false);
   const [changeshow, setchangeShow] = useState(false);
@@ -19,7 +19,6 @@ const AdminPanel = ({ list, isHidden, setIsHidden }) => {
   const [showaddtask, setSHowaddtask] = useState(false);
 
   const [ischangeOpen, setchangeIsOpen] = useState(false);
-  const [identifier, setIdentifier] = useState("default tracker");
   const ref = useRef(null);
 
   const variants = {
@@ -118,40 +117,7 @@ const AdminPanel = ({ list, isHidden, setIsHidden }) => {
               ))}
           </motion.div>
         )}
-        {!identifier && (
-          <form id="loginform" onSubmit={loginSubmit}>
-            <div className="input">
-              <label
-                style={{
-                  color: "black",
-                  textShadow:
-                    "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
-                }}
-              >
-                Tracker nickname
-              </label>
-              <input
-                type="text"
-                className="form-control m-2"
-                id="Username"
-                name="Username"
-                placeholder="Enter username"
-                value={identifier}
-                onChange={(e) => {
-                  setIdentifier(e.target.value);
-                }}
-              />
-              <small
-                id="usernameerror"
-                className="text-danger form-text"
-              ></small>
 
-              <button type="submit" className="btn btn-primary">
-                Submit
-              </button>
-            </div>
-          </form>
-        )}
         <div className="input">
           <label
             style={{
@@ -174,10 +140,9 @@ const AdminPanel = ({ list, isHidden, setIsHidden }) => {
           />
           <small id="usernameerror" className="text-danger form-text"></small>{" "} */}
         <motion.nav initial={false} className="menu">
-          <motion.div>
-            <motion.buttun
+          <motion.div whileTap={{ scale: 0.97 }}>
+            <Button
               className="btn btn-primary"
-              whileTap={{ scale: 0.97 }}
               onClick={(e) => {
                 setaddIsOpen(!isaddOpen);
                 console.log("ref", ref);
@@ -191,7 +156,7 @@ const AdminPanel = ({ list, isHidden, setIsHidden }) => {
             >
               {" "}
               Add new chore
-            </motion.buttun>
+            </Button>
           </motion.div>
           <motion.div ref={ref} id="description-container">
             {list.map((task, taskIndex) => (
@@ -218,40 +183,43 @@ const AdminPanel = ({ list, isHidden, setIsHidden }) => {
           animate={ischangeOpen ? "open" : "closed"}
           className="menu"
         >
-          <motion.buttun
-            whileTap={{ scale: 0.97 }}
-            onClick={() => {
-              setchangeIsOpen(!ischangeOpen);
-              setchangeShow(!changeshow);
-            }}
-            className="btn btn-primary "
-          >
-            Change chore name
-          </motion.buttun>
+          <motion.div whileTap={{ scale: 0.97 }}>
+            <Button
+              onClick={() => {
+                setchangeIsOpen(!ischangeOpen);
+                setchangeShow(!changeshow);
+              }}
+              className="btn btn-primary "
+            >
+              Change chore name
+            </Button>
+          </motion.div>
           <div id="description-container">
             {list.map((task, taskIndex) => (
               <AnimatePresence>
                 {changeshow && (
-                  <motion.buttun
-                    key={taskIndex}
-                    className="btn btn-warning item"
-                    onClick={(e) => {}}
-                    variants={itemVariants}
-                    initial="open"
-                    animate={{ opacity: 1, y: 0 }}
-                    exit="closed"
-                  >
-                    {task.description}
-                  </motion.buttun>
+                  <motion.div>
+                    <Button
+                      key={taskIndex}
+                      className="btn btn-warning item"
+                      onClick={(e) => {}}
+                      variants={itemVariants}
+                      initial="open"
+                      animate={{ opacity: 1, y: 0 }}
+                      exit="closed"
+                    >
+                      {task.description}
+                    </Button>
+                  </motion.div>
                 )}
               </AnimatePresence>
             ))}
           </div>
         </motion.nav>
-        <buttun onClick={handleclick} className="btn btn-primary">
+        <Button onClick={handleclick} className="btn btn-primary">
           {/* {isHidden ? "Show summary" : "Close"} */}
           Show summary
-        </buttun>
+        </Button>
       </motion.div>
     </>
   );

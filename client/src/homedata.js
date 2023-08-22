@@ -20,6 +20,16 @@ export const Homedata = () => {
   //const [isAuth, setIsAuth] = useOutletContext();
 
   //const descriptions = useLoaderData();
+  const [
+    username,
+    setUsername,
+    isAuth,
+    setIsAuth,
+    identifier,
+    setIdentifier,
+    token,
+    setToken,
+  ] = useOutletContext();
 
   const [descriptions, setDescriptions] = useState([]);
 
@@ -28,8 +38,8 @@ export const Homedata = () => {
   //   return <Spinner animation="grow" />;
   // }
   useEffect(() => {
-    Getrequest(`${url}/todo/descriptionlist/descriptions`).then((data) =>
-      setDescriptions(data)
+    Getrequest(`${url}/todo/descriptionlist/descriptions/${identifier}`).then(
+      (data) => setDescriptions(data)
     );
   }, []);
   return (

@@ -6,7 +6,7 @@ import Taskselector from "./taskselector";
 import "./index.css";
 import url from "./url";
 
-function Home({ descriptions }) {
+function Home({ descriptions, identifier }) {
   //const descriptions = useLoaderData();
   console.log("home runs");
   const [taskid, setTaskid] = useState("");
@@ -33,7 +33,7 @@ function Home({ descriptions }) {
           </Button>
         ))}
       </section>
-      {taskshow && <Taskselector taskid={taskid} />}
+      {taskshow && <Taskselector taskid={taskid} identifier={identifier} />}
     </>
   );
 }

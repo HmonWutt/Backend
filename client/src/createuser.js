@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Outlet, useOutletContext } from "react-router-dom";
+import { Outlet, useOutletContext, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/esm/Button";
+import Spinner from "react-bootstrap/esm/Spinner";
 import Postrequest from "./postrequest";
 import url from "./url";
 import { Checkpassword, Checkusername } from "./usernameandpassword";
@@ -21,7 +22,9 @@ function Createuserapp() {
   const [usernameError, setusernameError] = useState("");
   const [userexists, setUserexists] = useState(false);
   const [usernotexists, setUsernotexists] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [isregistersuccess, setIsregistersuccess] = useState(false);
+  const [isaddidentifiersuccess, setIsaddidentifiersuccess] = useState(null);
+  const nav = useNavigate();
 
   async function saveuser(username, password) {
     console.log("saveuser request sent");
@@ -30,23 +33,22 @@ function Createuserapp() {
     const body = { username, password };
     Postrequest(newurl, body).then((data) => isuserexists(data.message));
   }
+
   async function isuserexists(message) {
     if (message === "Username already exists.") {
       console.log("username already taken");
-
       //setTimeout(() => setUserexists(false), 1000);
     } else {
       //setUsernotexists(true);
-
       console.log("get postrequest to return username and pass to root");
-      setSuccess(true);
+      setIsregistersuccess(true);
       //setTimeout(() => setUsernotexists(false), 1000);
     }
   }
+
   var formIsValid = true;
   const handleValidation = (event) => {
     console.log("handleValidation ran");
-    Checkusername(username);
     formIsValid = Checkpassword(password)[0] && Checkusername(username)[0];
     console.log("formisvalid", formIsValid);
     console.log("username", username, "password", password);
@@ -67,19 +69,31 @@ function Createuserapp() {
     }
   };
 
-  async function addidentifier(e) {
+  const submitaddidentifier = (e) => {
+    e.preventDefault();
+    addidentifier().then((data) => {
+      console.log(data.message);
+      data.message === "success"
+        ? addsuccess()
+        : setIsaddidentifiersuccess(false);
+    });
+  };
+  function addsuccess() {
+    setIsaddidentifiersuccess(true);
+    setIdentifier("");
+    setUsername("");
+    setPassword("");
+    setTimeout(() => nav("/component"), 2000);
+  }
+  async function addidentifier() {
     const body = {
       identifier: `${identifier.replace(/\s+/g, "-").toLowerCase()}`,
     };
     console.log("add identifier to", `${url}/users/addidentifier/${username}`);
-    Postrequest(`${url}/users/addidentifier/${username}`, body).then((data) =>
-      console.log(data.message)
-    );
+
+    return Postrequest(`${url}/users/addidentifier/${username}`, body);
   }
-  const submitaddidentifier = (e) => {
-    e.preventDefault();
-    addidentifier();
-  };
+
   const loginSubmit = (e) => {
     e.preventDefault();
     handleValidation(e);
@@ -94,7 +108,7 @@ function Createuserapp() {
 
   return (
     <>
-      {success !== true && (
+      {isregistersuccess !== true && (
         <div id="login-page" className="App" style={{ margin: "2rem" }}>
           <form id="loginform" onSubmit={loginSubmit}>
             <div
@@ -197,7 +211,7 @@ function Createuserapp() {
           </form>
         </div>
       )}
-      {success === true ? (
+      {isregistersuccess === true && !isaddidentifiersuccess && (
         <div
           style={{
             display: "flex",
@@ -232,9 +246,9 @@ function Createuserapp() {
                 <input
                   type="text"
                   className="form-control m-2"
-                  id="Username"
-                  name="Username"
-                  placeholder="Enter username"
+                  id="identifier"
+                  name="identifier"
+                  placeholder="Enter tracker name"
                   value={identifier}
                   onChange={(e) => {
                     setIdentifier(e.target.value);
@@ -252,10 +266,39 @@ function Createuserapp() {
             </form>
           </div>
         </div>
-      ) : (
-        <div>success status unknown</div>
       )}
+      {isaddidentifiersuccess === true && (
+        <div
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          gap="1rem"
+        >
+          <div>
+            <Spinner
+              animation="grow"
+              variant="info"
+              style={{ margin: "0.5rem" }}
+            />
 
+            <Spinner
+              animation="grow"
+              variant="info"
+              style={{ margin: "0.5rem" }}
+            />
+
+            <Spinner
+              animation="grow"
+              variant="info"
+              style={{ margin: "0.5rem" }}
+            />
+          </div>
+          <div>Chore tracker name added successfully 🎉. Redirecting....</div>
+        </div>
+      )}
+      {isaddidentifiersuccess === false && (
+        <div>Failed to name chore tracker 😭. Please try again!</div>
+      )}
       <Outlet
         context={[
           username,

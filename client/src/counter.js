@@ -12,7 +12,8 @@ import Putrequest from "./putrequest";
 const Counter = (props) => {
   let set_name = props.set_name;
   let todo_id = props.todo_id;
-  const newurl = `${url}/todo/id/${todo_id}`;
+  let identifier = props.identifier;
+  const newurl = `${url}/todo/id/${todo_id}/${identifier}`;
 
   const [isExploding, setIsExploding] = useState(false);
   const [count, setCount] = useState(0);

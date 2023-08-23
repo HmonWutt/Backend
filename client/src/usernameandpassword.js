@@ -19,7 +19,7 @@ export function Checkpassword(password) {
 }
 
 export function Checkusername(username) {
-  if (!username.match(/^[a-zA-Z0-9]{0,10}$/)) {
+  if (!username.match(/^[a-zA-Z0-9]{1,10}$/)) {
     if (!username.match(/^[a-zA-Z0-9]+$/) && username.length > 10) {
       return [
         false,

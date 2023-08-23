@@ -3,24 +3,28 @@ import Form from "react-bootstrap/Form";
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import url from "./url";
+import Getrequest from "./getrequest";
 
-function Addtask() {
+function Addtask({ identifier, token, name1, name2 }) {
   const [description, setDescription] = useState("");
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  console.log("addtask", identifier);
   const Submittask = async (e) => {
     e.preventDefault();
-    console.log(description);
+    console.log("name1,name2 from add task", description, name1, name2);
 
     if (description !== "") {
       try {
-        const body = { description };
-        const response = await fetch(`${url}/todo`, {
+        const body = { description, name1, name2 };
+        const response = await fetch(`${url}/todo/${identifier}`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
           body: JSON.stringify(body),
         });
         //window.location = "/";
@@ -39,7 +43,7 @@ function Addtask() {
         <Form.Group className="mb-3 " controlId="formBasicEmail">
           <Form.Control
             type="text"
-            placeholder="Task name (max 200 characters)"
+            placeholder="Max 200 characters"
             onChange={(e) => setDescription(e.target.value)}
           />
         </Form.Group>

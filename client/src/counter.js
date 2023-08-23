@@ -14,6 +14,7 @@ const Counter = (props) => {
   let todo_id = props.todo_id;
   let identifier = props.identifier;
   const newurl = `${url}/todo/id/${todo_id}/${identifier}`;
+  console.log("counter", newurl);
 
   const [isExploding, setIsExploding] = useState(false);
   const [count, setCount] = useState(0);
@@ -24,13 +25,13 @@ const Counter = (props) => {
     const body = { set: `SET ${set_name} = ${set_name} + 1` };
     const confetti = () => {
       setIsExploding(true);
-      document.getElementById("countup-button").disabled = true;
+      document.getElementById(`${todo_id}`).disabled = true;
       Getrequest(newurl).then((x) => {
         setCount(x[set_name]);
       });
       setTimeout(() => {
         setIsExploding(false);
-        document.getElementById("countup-button").disabled = false;
+        document.getElementById(`${todo_id}`).disabled = false;
       }, 2000);
     };
 
@@ -88,7 +89,7 @@ const Counter = (props) => {
               ) : */
 
             <Button
-              id="countup-button"
+              id={todo_id}
               className="m-1"
               variant="warning"
               onClick={Countup}

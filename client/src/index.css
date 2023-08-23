@@ -411,3 +411,43 @@ buttun {
   transition: opacity 500ms;
   width: 100%;
 } */
+/**********************************************CREATEUSER***********************************/
+#username-container,
+#password-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+#user-exists {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: rgb(254, 98, 98);
+  margin: 0.5rem;
+}
+#isregistersuccess {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem;
+}
+
+#addnamessuccess {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+#spinner-container {
+  display: flex;
+  justify-items: center;
+  margin: 2rem;
+}
+#spinner {
+}
+#isaddidentifiersuccess {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}

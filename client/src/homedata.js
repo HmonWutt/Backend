@@ -29,6 +29,10 @@ export const Homedata = () => {
     setIdentifier,
     token,
     setToken,
+    name1,
+    setName1,
+    name2,
+    setName2,
   ] = useOutletContext();
 
   const [descriptions, setDescriptions] = useState([]);

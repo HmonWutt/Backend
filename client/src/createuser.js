@@ -70,7 +70,7 @@ function Createuserapp() {
         )}
       </AddidentifierContext.Provider>
 
-      <AddnamesContext
+      <AddnamesContext.Provider
         value={{
           name1,
           setName1,
@@ -91,14 +91,14 @@ function Createuserapp() {
         {isaddidentifiersuccess === true && isaddnamessuccess !== true && (
           <Addnames />
         )}
-      </AddnamesContext>
+      </AddnamesContext.Provider>
 
       {isaddnamessuccess === true && (
         <div id="addnamessuccess">
           <div id="spinner-container">
             {Array.from({ length: 5 }, (x, index) => (
               <Spinner
-                id={index}
+                key={index}
                 animation="grow"
                 variant="info"
                 style={{ margin: "0.5rem", size: "0.5" }}

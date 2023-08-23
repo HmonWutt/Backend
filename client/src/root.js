@@ -11,6 +11,9 @@ export default function Root() {
   const [isAuth, setIsAuth] = useState(false);
   const [identifier, setIdentifier] = useState("");
   const [token, setToken] = useState("");
+  const [name1, setName1] = useState("");
+  const [name2, setName2] = useState("");
+  console.log("name1,name2 from root", name1, name2);
 
   return (
     <>
@@ -26,6 +29,10 @@ export default function Root() {
           setIdentifier,
           token,
           setToken,
+          name1,
+          setName1,
+          name2,
+          setName2,
         ]}
       />
     </>

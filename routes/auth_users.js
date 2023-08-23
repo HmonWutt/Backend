@@ -70,26 +70,33 @@ routerusers.post("/login", async (req, res) => {
     if (usernames.rows.some((obj) => obj.username === username)) {
       try {
         const result = await pool.query(
-          "SELECT password,identifier FROM users where username=$1",
+          "SELECT password,identifier,name1,name2 FROM users where username=$1",
           [username]
         );
 
         const retrievedPassword = await result.rows[0].password;
         const identifier = await result.rows[0].identifier;
+        const name1 = await result.rows[0].name1;
+        const name2 = await result.rows[0].name2;
         console.log("identifier", identifier);
+        console.log(result.rows[0]);
         if (await bcrypt.compare(password, retrievedPassword)) {
           console.log("login successful");
           const token = jwt.sign({ _id: { username } }, secret);
           res.header("auth-token", token);
-          res
-            .status(200)
-            .json({ message: "success", identifier: identifier, token: token });
+          res.status(200).json({
+            message: "success",
+            identifier: identifier,
+            token: token,
+            name1: name1,
+            name2: name2,
+          });
         } else {
           res.status(404).json({ message: "Login failed!" });
         }
       } catch (error) {
         console.error(error.message);
-        res.status(404).json({ message: "error" });
+        res.status(404).json({ message: error.message });
       }
     } else {
       res.status(404).json({ message: "error" });
@@ -130,4 +137,26 @@ routerusers.post("/addidentifier/:username", async (req, res) => {
   }
 });
 
+routerusers.post("/addnames/:identifier", async (req, res) => {
+  const identifier = req.params.identifier;
+  const { name1, name2 } = req.body;
+
+  try {
+    const result = await pool.query(
+      "UPDATE users SET name1 = $1, name2=$2 WHERE identifier = $3 returning name1,name2 ",
+      [name1, name2, identifier]
+    );
+
+    console.log("addnames", result.rows);
+    const user = result.rows;
+    res.json({
+      message: "success",
+      name1: user[0],
+      name2: user[1],
+    });
+  } catch (error) {
+    console.error(error.message);
+    res.json({ message: "failed" });
+  }
+});
 module.exports = routerusers;

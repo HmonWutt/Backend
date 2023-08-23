@@ -5,6 +5,7 @@ import Spinner from "react-bootstrap/esm/Spinner";
 import Postrequest from "./postrequest";
 import url from "./url";
 import { Checkpassword, Checkusername } from "./usernameandpassword";
+import Getinput from "./input";
 
 function Createuserapp() {
   const [password, setPassword] = useState("");
@@ -25,6 +26,12 @@ function Createuserapp() {
   const [isregistersuccess, setIsregistersuccess] = useState(false);
   const [isaddidentifiersuccess, setIsaddidentifiersuccess] = useState(null);
   const [addidentifiermessage, setAddidentifiermessage] = useState("");
+  const [name1, setName1] = useState("");
+  const [name2, setName2] = useState("");
+  const [isaddnamessuccess, setIsaddnamessuccess] = useState(null);
+
+  const [addnamesmessage, setAddnamesmessage] = useState("");
+
   const nav = useNavigate();
 
   async function saveuser(username, password) {
@@ -73,7 +80,7 @@ function Createuserapp() {
   const submitaddidentifier = (e) => {
     e.preventDefault();
     addidentifier().then((data) => {
-      console.log(data.message);
+      console.log(data?.message);
       setAddidentifiermessage(data.message);
       data.message === "success"
         ? addsuccess()
@@ -82,10 +89,9 @@ function Createuserapp() {
   };
   function addsuccess() {
     setIsaddidentifiersuccess(true);
-    setIdentifier("");
+
     setUsername("");
     setPassword("");
-    setTimeout(() => nav("/component"), 2000);
   }
 
   async function addidentifier() {
@@ -96,7 +102,34 @@ function Createuserapp() {
 
     return Postrequest(`${url}/users/addidentifier/${username}`, body);
   }
+  const submitnames = (e) => {
+    e.preventDefault();
+    addnames(name1, name2).then((data) => {
+      console.log(data?.message);
+      setAddnamesmessage(data.message);
+      data.message === "success"
+        ? addnamessuccess()
+        : setIsaddnamessuccess(false);
+    });
+  };
 
+  function addnamessuccess() {
+    setIsaddnamessuccess(true);
+    setIdentifier("");
+    setTimeout(() => nav("/component"), 2000);
+  }
+  async function addnames(name1, name2) {
+    if (name1 === "" || name2 === "") {
+      const data = { message: "Names cannot be empty" };
+      return data;
+    }
+    console.log("addnames", name1, name2);
+    const body = {
+      name1: name1,
+      name2: name2,
+    };
+    return Postrequest(`${url}/users/addnames/${identifier}`, body);
+  }
   const loginSubmit = (e) => {
     e.preventDefault();
     handleValidation(e);
@@ -231,6 +264,7 @@ function Createuserapp() {
             </h4>
           </div>
           <div>
+            {" "}
             <form
               id="loginform"
               onSubmit={submitaddidentifier}
@@ -279,30 +313,129 @@ function Createuserapp() {
             gap: "1rem",
           }}
         >
-          <div>
-            <Spinner
-              animation="grow"
-              variant="info"
-              style={{ margin: "0.5rem" }}
-            />
-
-            <Spinner
-              animation="grow"
-              variant="info"
-              style={{ margin: "0.5rem" }}
-            />
-
-            <Spinner
-              animation="grow"
-              variant="info"
-              style={{ margin: "0.5rem" }}
-            />
+          <div
+            id="choretracker-name-container"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
+          ></div>
+          <div
+            id="trackernameaddsuccess-container"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
+          >
+            <div
+              style={{
+                margin: "1rem",
+              }}
+            >
+              Chore tracker name added successfully 🎉.
+            </div>
+            <div
+              style={{
+                margin: "1rem",
+                color: "blue",
+              }}
+            >
+              Enter the names of two people that will use the app.
+            </div>
+            <div>
+              {" "}
+              <form id="loginform" onSubmit={submitnames} style={{}}>
+                <div className="input">
+                  <label
+                    style={{
+                      color: "black",
+                      textShadow:
+                        "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
+                    }}
+                  >
+                    Person 1
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control m-2"
+                    id="person-one"
+                    name="person-one"
+                    placeholder="Enter person 1 name"
+                    value={name1}
+                    onChange={(e) => {
+                      setName1(e.target.value);
+                    }}
+                  />
+                  <small
+                    id="usernameerror"
+                    className="text-danger form-text"
+                  ></small>
+                </div>
+                <div className="input">
+                  <label
+                    style={{
+                      color: "black",
+                      textShadow:
+                        "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
+                    }}
+                  >
+                    Person 2
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control m-2"
+                    id="person-two"
+                    name="person-2"
+                    placeholder="Enter person 2 name"
+                    value={name2}
+                    onChange={(e) => {
+                      setName2(e.target.value);
+                    }}
+                  />
+                  <small
+                    id="usernameerror"
+                    className="text-danger form-text"
+                  ></small>
+                </div>
+                <button type="submit" className="btn btn-primary">
+                  Submit
+                </button>
+              </form>
+            </div>
           </div>
-          <div>Chore tracker name added successfully 🎉. Redirecting....</div>
         </div>
       )}
       {isaddidentifiersuccess === false && (
         <div style={{ color: "red" }}>{addidentifiermessage}😭 </div>
+      )}
+      {isaddnamessuccess === false && (
+        <div style={{ color: "red" }}>{addnamesmessage}😭 </div>
+      )}
+      {isaddnamessuccess === true && (
+        <div
+          id="spinner-container"
+          style={{ display: "flex", justifyItems: "center" }}
+        >
+          {" "}
+          <div>Names added successfully 🎉 Redirecting...</div>
+          <Spinner
+            animation="grow"
+            variant="info"
+            style={{ margin: "0.5rem" }}
+          />
+          <Spinner
+            animation="grow"
+            variant="info"
+            style={{ margin: "0.5rem" }}
+          />
+          <Spinner
+            animation="grow"
+            variant="info"
+            style={{ margin: "0.5rem" }}
+          />
+        </div>
       )}
       <Outlet
         context={[

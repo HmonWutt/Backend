@@ -25,7 +25,12 @@ const ProtectedRoutes = () => {
     setIdentifier,
     token,
     setToken,
+    name1,
+    setName1,
+    name2,
+    setName2,
   ] = useOutletContext();
+  console.log("name1,name2 from protectedroute", name1, name2);
   const location = useLocation();
 
   //const isAuth = useAuth();
@@ -40,6 +45,10 @@ const ProtectedRoutes = () => {
         setIdentifier,
         token,
         setToken,
+        name1,
+        setName1,
+        name2,
+        setName2,
       ]}
     />
   ) : (

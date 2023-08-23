@@ -70,12 +70,15 @@ routertodo.get("/bedsheet", async (req, res) => {
 });
 /////////////////////////////add new task//////////////////////
 
-routertodo.post("/", async (req, res) => {
+routertodo.post("/:identifier", async (req, res) => {
   try {
-    const { description } = req.body;
+    const { description, name1, name2 } = req.body;
+    console.log(req.body);
+    const { identifier } = req.params;
+    const count = 0;
     const newTodo = await pool.query(
-      "INSERT INTO todo (description) VALUES ($1) RETURNING *",
-      [description]
+      "INSERT INTO todo (description,identifier,name1,name2,name1_count,name2_count) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *",
+      [description, identifier, name1, name2, count, count]
     );
     res.json(newTodo.rows[0]);
   } catch (err) {
@@ -92,6 +95,7 @@ routertodo.post("/bedsheet", async (req, res) => {
 //////////////////////////////////////////////////////////////////////////////////////////
 
 routertodo.put("/id/:id/:identifier", async (req, res) => {
+  console.log("this was called");
   try {
     const { id, identifier } = req.params;
     const { set } = req.body;
@@ -101,6 +105,7 @@ routertodo.put("/id/:id/:identifier", async (req, res) => {
       `UPDATE todo ${set}  WHERE todo_id = $1 and identifier=$2`,
       [id, identifier]
     );
+    console.log(updateTOdo);
     res.json(`To do id:${id} of set:${set} was updated`);
   } catch (error) {
     console.error(error.message);

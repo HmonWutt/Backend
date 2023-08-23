@@ -26,6 +26,10 @@ function Loginapp() {
     setIdentifier,
     token,
     setToken,
+    name1,
+    setName1,
+    name2,
+    setName2,
   ] = useOutletContext();
   const location = useLocation();
 
@@ -49,6 +53,10 @@ function Loginapp() {
         setIsloggedIn(true);
         setIsAuth(true);
         setToken(data.token);
+
+        setName1(data.name1);
+        setName2(data.name2);
+        console.log("name1,name2 from loginapp", name1, name2);
         // nav("/component")
         console.log("identifier from loginapp", data.identifier);
         if (location.state?.from) {
@@ -175,6 +183,10 @@ function Loginapp() {
             setIdentifier,
             token,
             setToken,
+            name1,
+            setName1,
+            name2,
+            setName2,
           ]}
         />
       </div>

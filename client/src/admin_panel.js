@@ -11,12 +11,20 @@ import css from "./index.css";
 import Summary from "./summary";
 import Addtask from "./addtask";
 
-const AdminPanel = ({ list, isHidden, setIsHidden, identifier }) => {
+const AdminPanel = ({
+  list,
+  isHidden,
+  setIsHidden,
+  identifier,
+  token,
+  name1,
+  name2,
+}) => {
   const username = "default";
   const [addshow, setaddShow] = useState(false);
   const [changeshow, setchangeShow] = useState(false);
   const [isaddOpen, setaddIsOpen] = useState(false);
-  const [showaddtask, setSHowaddtask] = useState(false);
+  const [showaddtask, setShowaddtask] = useState(false);
 
   const [ischangeOpen, setchangeIsOpen] = useState(false);
   const ref = useRef(null);
@@ -41,7 +49,7 @@ const AdminPanel = ({ list, isHidden, setIsHidden, identifier }) => {
       },
     },
   };
-  const buttonVariants = {};
+
   const itemVariants = {
     open: {
       opacity: 1,
@@ -69,24 +77,7 @@ const AdminPanel = ({ list, isHidden, setIsHidden, identifier }) => {
     setIsHidden(!isHidden);
   };
 
-  async function checkidentifier() {
-    if (!identifier) {
-    }
-  }
   const newurl = `${url}/addidentifier/${username}`;
-  console.log(newurl);
-
-  async function addidentifier(identifier) {
-    const body = {
-      identifier: `'${identifier.replace(/\s+/g, "-").toLowerCase()}'`,
-    };
-    Postrequest(newurl, body).then((data) => console.log(data.message));
-  }
-
-  const loginSubmit = (e) => {
-    e.preventDefault();
-    addidentifier(identifier);
-  };
 
   useEffect(() => {
     console.log("admin panel use effect runs");
@@ -106,7 +97,11 @@ const AdminPanel = ({ list, isHidden, setIsHidden, identifier }) => {
             variants={trackernamevariants}
             initial="enter"
             animate="display"
-            transition={{ ease: "easeOut", duration: 2, staggerChildren: 0.5 }}
+            transition={{
+              ease: "easeOut",
+              duration: 1.5,
+              staggerChildren: 0.2,
+            }}
           >
             {`Welcome to ${
               identifier.charAt(0).toUpperCase() + identifier.slice(1)
@@ -158,8 +153,29 @@ const AdminPanel = ({ list, isHidden, setIsHidden, identifier }) => {
               Add new chore
             </Button>
           </motion.div>
-          <motion.div ref={ref} id="description-container">
-            {list.map((task, taskIndex) => (
+
+          <motion.div id="description-container">
+            <AnimatePresence>
+              {addshow && (
+                <motion.div
+                  variants={itemVariants}
+                  initial="open"
+                  animate={{ opacity: 1, y: 0 }}
+                  exit="closed"
+                  //className="btn btn-warning item"
+                >
+                  <Addtask
+                    ref={ref}
+                    identifier={identifier}
+                    token={token}
+                    name1={name1}
+                    name2={name2}
+                  />
+                </motion.div>
+              )}{" "}
+            </AnimatePresence>
+
+            {/* {list.map((task, taskIndex) => (
               <AnimatePresence>
                 {addshow && (
                   <motion.div
@@ -174,7 +190,7 @@ const AdminPanel = ({ list, isHidden, setIsHidden, identifier }) => {
                   </motion.div>
                 )}{" "}
               </AnimatePresence>
-            ))}{" "}
+            ))}{" "}*/}
           </motion.div>
         </motion.nav>
 
@@ -194,23 +210,25 @@ const AdminPanel = ({ list, isHidden, setIsHidden, identifier }) => {
               Change chore name
             </Button>
           </motion.div>
+
           <div id="description-container">
             {list.map((task, taskIndex) => (
               <AnimatePresence>
                 {changeshow && (
-                  <motion.div>
-                    <Button
-                      key={taskIndex}
-                      className="btn btn-warning item"
-                      onClick={(e) => {}}
-                      variants={itemVariants}
-                      initial="open"
-                      animate={{ opacity: 1, y: 0 }}
-                      exit="closed"
-                    >
-                      {task.description}
-                    </Button>
-                  </motion.div>
+                  <motion.button
+                    key={taskIndex}
+                    className="btn btn-warning item"
+                    style={{ margin: "0.1rem" }}
+                    onClick={(e) => {
+                      console.log("ref", ref.current?.target);
+                    }}
+                    variants={itemVariants}
+                    initial="open"
+                    animate={{ opacity: 1, y: 0 }}
+                    exit="closed"
+                  >
+                    {task.description}
+                  </motion.button>
                 )}
               </AnimatePresence>
             ))}

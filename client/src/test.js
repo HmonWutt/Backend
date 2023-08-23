@@ -33,6 +33,10 @@ export function Component() {
     setIdentifier,
     token,
     setToken,
+    name1,
+    setName1,
+    name2,
+    setName2,
   ] = useOutletContext();
   const newurl = `${url}/addidentifier/${username}`;
 
@@ -40,6 +44,7 @@ export function Component() {
 
   console.log(identifier, "identifier from component");
   console.log("token from component", token);
+  console.log("name1,name2 from component", name1, name2);
   //const list = useLoaderData();
   // const navigation = useNavigation();
   // if (navigation.state === "loading") {
@@ -66,6 +71,10 @@ export function Component() {
             setIdentifier,
             token,
             setToken,
+            name1,
+            setName1,
+            name2,
+            setName2,
           }}
         >
           <Summary list={list} isHidden={isHidden} setIsHidden={setIsHidden} />
@@ -74,6 +83,9 @@ export function Component() {
             isHidden={isHidden}
             setIsHidden={setIsHidden}
             identifier={identifier}
+            token={token}
+            name1={name1}
+            name2={name2}
           />
         </ListContext.Provider>
       )}

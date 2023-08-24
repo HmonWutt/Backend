@@ -1,9 +1,11 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import url from "./url";
 import Getrequest from "./getrequest";
+import Postrequest from "./postrequest";
+import Changetaskname from "./changetaskname";
 
 function Addtask({ identifier, token, name1, name2 }) {
   const [description, setDescription] = useState("");
@@ -11,27 +13,29 @@ function Addtask({ identifier, token, name1, name2 }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  console.log("addtask", identifier);
+  const [isHidden, setIshidden] = useState(null);
+
   const Submittask = async (e) => {
     e.preventDefault();
     console.log("name1,name2 from add task", description, name1, name2);
 
     if (description !== "") {
-      try {
-        const body = { description, name1, name2 };
-        const response = await fetch(`${url}/todo/${identifier}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(body),
+      const body = { description, name1, name2 };
+      Postrequest(`${url}/todo/${identifier}`, body, token)
+        .then((data) => {
+          if (data.message === "success") {
+            setIshidden(true);
+            setTimeout(() => {
+              setIshidden(null);
+              setDescription("");
+            }, 2000);
+          } else {
+            setIshidden(false);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
         });
-        //window.location = "/";
-        console.log(response);
-      } catch (error) {
-        console.error(error.message);
-      }
     } else {
       handleShow();
     }
@@ -44,17 +48,32 @@ function Addtask({ identifier, token, name1, name2 }) {
           <Form.Control
             type="text"
             placeholder="Max 200 characters"
-            onChange={(e) => setDescription(e.target.value)}
+            value={description}
+            onChange={(e) => {
+              setDescription(e.target.value);
+              setIshidden(null);
+            }}
           />
         </Form.Group>
+
         <Button
-          variant="primary"
+          variant="dark"
           type="submit"
           onClick={Submittask}
           className="submit"
         >
-          Add task
+          Submit
         </Button>
+
+        <div style={{ visibility: isHidden === true ? "visible" : "hidden" }}>
+          New chore: <span style={{ color: "blue" }}>{description} </span>
+          added.
+        </div>
+
+        <div style={{ visibility: isHidden === false ? "visible" : "hidden" }}>
+          Add chore failed. Please try again.
+        </div>
+
         <>
           <Modal show={show} onHide={handleClose}>
             <Modal.Body className="text-danger ">

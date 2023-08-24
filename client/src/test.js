@@ -63,6 +63,7 @@ export function Component() {
         <ListContext.Provider
           value={{
             list,
+            setList,
             username,
             setUsername,
             isAuth,
@@ -79,7 +80,9 @@ export function Component() {
         >
           <Summary list={list} isHidden={isHidden} setIsHidden={setIsHidden} />
           <AdminPanel
+            username={username}
             list={list}
+            setList={setList}
             isHidden={isHidden}
             setIsHidden={setIsHidden}
             identifier={identifier}

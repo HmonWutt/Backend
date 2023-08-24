@@ -1,18 +1,23 @@
 //name the personalised tracker
 //add task/edit tasks
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, createContext } from "react";
 import Button from "react-bootstrap/Button";
 import { motion, variants, AnimatePresence } from "framer-motion";
 
 import Postrequest from "./postrequest";
 import Getrequest from "./getrequest";
 import url from "./url";
-import css from "./index.css";
+import "./index.css";
 import Summary from "./summary";
 import Addtask from "./addtask";
+import Changetaskname from "./changetaskname";
+
+export const EditDeleteContext = createContext("");
 
 const AdminPanel = ({
+  username,
   list,
+  setList,
   isHidden,
   setIsHidden,
   identifier,
@@ -20,15 +25,15 @@ const AdminPanel = ({
   name1,
   name2,
 }) => {
-  const username = "default";
   const [addshow, setaddShow] = useState(false);
   const [changeshow, setchangeShow] = useState(false);
   const [isaddOpen, setaddIsOpen] = useState(false);
   const [showaddtask, setShowaddtask] = useState(false);
+  const [isbuttonhidden, setIsbuttonhidden] = useState(false);
 
   const [ischangeOpen, setchangeIsOpen] = useState(false);
-  const ref = useRef(null);
-
+  //const ref = useRef(null);
+  console.log("adminpanel list", list);
   const variants = {
     visible: {
       opacity: 0,
@@ -81,7 +86,7 @@ const AdminPanel = ({
 
   useEffect(() => {
     console.log("admin panel use effect runs");
-  }, []);
+  }, [list]);
 
   return (
     <>
@@ -140,7 +145,7 @@ const AdminPanel = ({
               className="btn btn-primary"
               onClick={(e) => {
                 setaddIsOpen(!isaddOpen);
-                console.log("ref", ref);
+
                 setaddShow(!addshow);
                 {
                   /*isaddOpen
@@ -165,7 +170,6 @@ const AdminPanel = ({
                   //className="btn btn-warning item"
                 >
                   <Addtask
-                    ref={ref}
                     identifier={identifier}
                     token={token}
                     name1={name1}
@@ -215,20 +219,64 @@ const AdminPanel = ({
             {list.map((task, taskIndex) => (
               <AnimatePresence>
                 {changeshow && (
-                  <motion.button
+                  <motion.div
                     key={taskIndex}
-                    className="btn btn-warning item"
                     style={{ margin: "0.1rem" }}
-                    onClick={(e) => {
-                      console.log("ref", ref.current?.target);
-                    }}
                     variants={itemVariants}
                     initial="open"
                     animate={{ opacity: 1, y: 0 }}
                     exit="closed"
                   >
-                    {task.description}
-                  </motion.button>
+                    <div>
+                      <div id={`alt-${taskIndex}`} className="hidden">
+                        {task.description}
+                      </div>
+                      <EditDeleteContext.Provider
+                        value={{ token, list, setList, task, identifier }}
+                      >
+                        <Changetaskname />
+                      </EditDeleteContext.Provider>
+                      <Button
+                        key={taskIndex}
+                        id={`btn-${taskIndex}`}
+                        className="btn btn-warning item"
+                        onClick={(e) => {
+                          console.log(typeof e.target);
+                          //setIsbuttonhidden(!isbuttonhidden);
+                          console.log(
+                            document.getElementById(`div-${taskIndex}`),
+                            document.getElementById(`btn-${taskIndex}`)
+                          );
+                          document
+                            .getElementById(`div-${taskIndex}`)
+                            .classList.remove("hidden");
+                          document
+                            .getElementById(`btn-${taskIndex}`)
+                            .classList.add("hidden");
+                          document
+                            .getElementById(`alt-${taskIndex}`)
+                            .classList.remove("hidden");
+                        }}
+                      >
+                        {task.description}
+                      </Button>
+                    </div>
+                    <div id={`div-${taskIndex}`} className="div hidden">
+                      <Button className="btn btn-warning" onClick={(e) => {}}>
+                        Edit
+                      </Button>
+                      <Button
+                        className="btn btn-warning"
+                        onClick={(e) => {
+                          console.log(
+                            document.getElementsByClassName(taskIndex)
+                          );
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </motion.div>
                 )}
               </AnimatePresence>
             ))}

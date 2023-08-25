@@ -5,7 +5,6 @@ import Modal from "react-bootstrap/Modal";
 import url from "./url";
 import Getrequest from "./getrequest";
 import Postrequest from "./postrequest";
-import Changetaskname from "./changetaskname";
 import { AddtaskContext } from "./admin_panel";
 
 function Addtask() {

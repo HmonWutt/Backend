@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, createContext } from "react";
 import {
   useLocation,
   useNavigate,
   useOutletContext,
   Outlet,
   Navigate,
+  Link,
 } from "react-router-dom";
 import Postrequest from "./postrequest";
 import url from "./url";
+import useRefreshToken from "./useRefreshToken";
 
 function Loginapp() {
   const [password, setPassword] = useState("");
@@ -16,6 +18,7 @@ function Loginapp() {
 
   const [isLoggedIn, setIsloggedIn] = useState(false);
   const nav = useNavigate();
+  const useAuthContext = createContext();
 
   const [
     username,
@@ -32,6 +35,7 @@ function Loginapp() {
     setName2,
   ] = useOutletContext();
   const location = useLocation();
+  const previousToken = useRef("");
 
   async function verifyuser(username, password) {
     console.log("saveuser request sent");
@@ -39,48 +43,51 @@ function Loginapp() {
     const newurl = `${url}/users/login`;
     const body = { username, password };
 
-    Postrequest(newurl, body).then((data) => {
-      if (data.message === "success") {
-        console.log("Login success! Redirecting...");
-        console.log("username", username);
-        console.log("message", data.message);
-        console.log("identifier", data.identifier);
-        console.log(data.token);
-        setIserror("success");
-        setUsername(username);
-        setIsloggedIn(true);
-        setIdentifier(data.identifier);
-        setIsloggedIn(true);
-        setIsAuth(true);
-        setToken(data.token);
+    Postrequest(newurl, body)
+      .then((data) => {
+        if (data.message === "success") {
+          setIserror("success");
+          setUsername(username);
+          setIsloggedIn(true);
+          setIdentifier(data.identifier);
+          setIsloggedIn(true);
+          setIsAuth(true);
+          setToken(data.token);
 
-        setName1(data.name1);
-        setName2(data.name2);
-        console.log("name1,name2 from loginapp", name1, name2);
-        // nav("/component")
-        console.log("identifier from loginapp", data.identifier);
-        if (location.state?.from) {
-          const to = location.state.from.pathname;
-          console.log("to", to);
-          if (to === "/register") Navigate("/component");
-          nav(`${to}`);
+          setName1(data.name1);
+          setName2(data.name2);
+
+          if (location.state?.from) {
+            const to = location.state.from.pathname || "/component";
+            console.log("to", to);
+            nav(`${to}`);
+          }
+        } else {
+          setIsloggedIn(false);
+          setIserror("error");
         }
-        //nav("/location.state.from.pathname");
-        // nav("/");
-      } else {
-        setIsloggedIn(false);
-        setIserror("error");
-      }
-    });
+      })
+      .catch((error) => {});
   }
 
   const loginSubmit = (e) => {
     e.preventDefault();
     verifyuser(username, password);
   };
+  useEffect(() => {
+    if (isLoggedIn) {
+    }
 
+    previousToken.current = token;
+    console.log("previous,current", previousToken.current, token);
+    if (isLoggedIn) {
+    }
+  }, [token]);
   return (
     <>
+      <useAuthContext.Provider value={{ isAuth, setIsAuth }}>
+        <useRefreshToken></useRefreshToken>
+      </useAuthContext.Provider>
       <div className="App">
         <form id="loginform" onSubmit={loginSubmit}>
           <div
@@ -171,8 +178,19 @@ function Loginapp() {
             Log in
           </button>
         </form>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        ></div>
         <div>Default username: default</div>
         <div>Default password: defaultpassword</div>
+        Use default username and password to test the app or
+      </div>{" "}
+      <Link to="/register"> Create a new account</Link>
+      <div>
         <Outlet
           context={[
             username,

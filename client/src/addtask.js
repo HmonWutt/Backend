@@ -1,19 +1,23 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import url from "./url";
 import Getrequest from "./getrequest";
 import Postrequest from "./postrequest";
 import Changetaskname from "./changetaskname";
+import { AddtaskContext } from "./admin_panel";
 
-function Addtask({ identifier, token, name1, name2 }) {
+function Addtask() {
   const [description, setDescription] = useState("");
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [isHidden, setIshidden] = useState(null);
+
+  const { identifier, token, name1, name2, list, setList } =
+    useContext(AddtaskContext);
 
   const Submittask = async (e) => {
     e.preventDefault();
@@ -40,11 +44,20 @@ function Addtask({ identifier, token, name1, name2 }) {
       handleShow();
     }
   };
+  function getlist() {
+    Getrequest(
+      `${url}/todo/${identifier.replace(/\s+/g, "-").replace(/'+/g, "")}`,
+      token
+    ).then((data) => setList(data));
+  }
+  useEffect(() => {
+    getlist();
+  }, [description]);
 
   return (
     <>
-      <Form className="text-center mt-3">
-        <Form.Group className="mb-3 " controlId="formBasicEmail">
+      <Form className="text-center mt-1">
+        <Form.Group controlId="formBasicEmail">
           <Form.Control
             type="text"
             placeholder="Max 200 characters"
@@ -61,19 +74,21 @@ function Addtask({ identifier, token, name1, name2 }) {
           type="submit"
           onClick={Submittask}
           className="submit"
+          style={{ scale: "0.8" }}
         >
           Submit
         </Button>
 
-        <div style={{ visibility: isHidden === true ? "visible" : "hidden" }}>
-          New chore: <span style={{ color: "blue" }}>{description} </span>
-          added.
-        </div>
-
-        <div style={{ visibility: isHidden === false ? "visible" : "hidden" }}>
-          Add chore failed. Please try again.
-        </div>
-
+        {isHidden === true && (
+          <div>
+            New chore:{" "}
+            <span style={{ color: "blue", fontSize: "1.5em" }}>
+              {description}{" "}
+            </span>
+            added.
+          </div>
+        )}
+        {isHidden === false && <div>Add chore failed. Please try again.</div>}
         <>
           <Modal show={show} onHide={handleClose}>
             <Modal.Body className="text-danger ">

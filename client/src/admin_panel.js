@@ -13,7 +13,7 @@ import Addtask from "./addtask";
 import Changetaskname from "./changetaskname";
 
 export const EditDeleteContext = createContext("");
-
+export const AddtaskContext = createContext("");
 const AdminPanel = ({
   username,
   list,
@@ -169,12 +169,11 @@ const AdminPanel = ({
                   exit="closed"
                   //className="btn btn-warning item"
                 >
-                  <Addtask
-                    identifier={identifier}
-                    token={token}
-                    name1={name1}
-                    name2={name2}
-                  />
+                  <AddtaskContext.Provider
+                    value={{ identifier, token, name1, name2, list, setList }}
+                  >
+                    <Addtask />
+                  </AddtaskContext.Provider>
                 </motion.div>
               )}{" "}
             </AnimatePresence>
@@ -211,7 +210,7 @@ const AdminPanel = ({
               }}
               className="btn btn-primary "
             >
-              Change chore name
+              Edit existing chores
             </Button>
           </motion.div>
 
@@ -227,16 +226,16 @@ const AdminPanel = ({
                     animate={{ opacity: 1, y: 0 }}
                     exit="closed"
                   >
-                    <div>
-                      <div id={`alt-${taskIndex}`} className="hidden">
-                        {task.description}
-                      </div>
-                      <EditDeleteContext.Provider
-                        value={{ token, list, setList, task, identifier }}
-                      >
-                        <Changetaskname />
-                      </EditDeleteContext.Provider>
-                      <Button
+                    <div id={`alt-${taskIndex}`} className="hidden">
+                      {task.description}
+                    </div>
+                    <EditDeleteContext.Provider
+                      value={{ token, list, setList, task, identifier }}
+                    >
+                      <Changetaskname />
+                    </EditDeleteContext.Provider>
+
+                    {/*   <div>  <Button
                         key={taskIndex}
                         id={`btn-${taskIndex}`}
                         className="btn btn-warning item"
@@ -274,8 +273,7 @@ const AdminPanel = ({
                         }}
                       >
                         Delete
-                      </Button>
-                    </div>
+                      </Button> </div> */}
                   </motion.div>
                 )}
               </AnimatePresence>

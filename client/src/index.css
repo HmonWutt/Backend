@@ -182,10 +182,11 @@ buttun {
 .menu * > {
   flex: 1;
 }
+
 #description-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: flex-end;
 }
 .description {
 }
@@ -451,3 +452,4 @@ buttun {
   align-items: center;
   gap: 1rem;
 }
+/********************************************ADDTASK*********************************/

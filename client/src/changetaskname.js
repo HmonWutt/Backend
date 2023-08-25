@@ -94,11 +94,21 @@ const Changetaskname = () => {
   return (
     <div>
       {description}
-      <Button variant="primary" onClick={handleShow} className="m-3">
+      <Button
+        variant="warning"
+        onClick={handleShow}
+        className="m-1"
+        style={{ scale: "0.8" }}
+      >
         Edit
       </Button>
       {/********************************************************** delete**************************************/}
-      <Button variant="danger" onClick={handleDeleteShow} className="m-3">
+      <Button
+        variant="danger"
+        onClick={handleDeleteShow}
+        className="m-1"
+        style={{ scale: "0.8" }}
+      >
         Delete
       </Button>
       {deletemodalshow && (

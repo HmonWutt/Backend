@@ -3,20 +3,8 @@ import { NavLink } from "react-router-dom";
 export function NavBar() {
   return (
     <div id="sidebar">
-      
       <nav>
         <ul id="navbaritems">
-          <li>
-            <NavLink
-              id="register-link"
-              to="/register"
-              className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "active" : ""
-              }
-            >
-              Create account
-            </NavLink>
-          </li>
           <li>
             <NavLink
               id="home-link"
@@ -25,7 +13,7 @@ export function NavBar() {
                 isPending ? "pending" : isActive ? "active" : ""
               }
             >
-              Demo
+              Scores
             </NavLink>
           </li>
 
@@ -38,6 +26,17 @@ export function NavBar() {
               }
             >
               Test component
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              id="logout-link"
+              to="/logout"
+              className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "active" : ""
+              }
+            >
+              Log out
             </NavLink>
           </li>
         </ul>

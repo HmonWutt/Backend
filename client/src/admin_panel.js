@@ -12,8 +12,9 @@ import Summary from "./summary";
 import Addtask from "./addtask";
 import Changetaskname from "./changetaskname";
 
-export const EditDeleteContext = createContext("");
 export const AddtaskContext = createContext("");
+export const EditDeleteContext = createContext("");
+
 const AdminPanel = ({
   username,
   list,
@@ -21,7 +22,6 @@ const AdminPanel = ({
   isHidden,
   setIsHidden,
   identifier,
-  token,
   name1,
   name2,
 }) => {
@@ -170,7 +170,7 @@ const AdminPanel = ({
                   //className="btn btn-warning item"
                 >
                   <AddtaskContext.Provider
-                    value={{ identifier, token, name1, name2, list, setList }}
+                    value={{ identifier, name1, name2, list, setList }}
                   >
                     <Addtask />
                   </AddtaskContext.Provider>
@@ -230,7 +230,7 @@ const AdminPanel = ({
                       {task.description}
                     </div>
                     <EditDeleteContext.Provider
-                      value={{ token, list, setList, task, identifier }}
+                      value={{ list, setList, task, identifier }}
                     >
                       <Changetaskname />
                     </EditDeleteContext.Provider>

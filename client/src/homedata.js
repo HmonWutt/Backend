@@ -17,7 +17,7 @@ import Home from "./home";
 export const DescriptionsContext = createContext("default");
 
 export const Homedata = () => {
-  //const [isAuth, setIsAuth] = useOutletContext();
+  // const [isAuth, setIsAuth] = useOutletContext();
 
   //const descriptions = useLoaderData();
   const [
@@ -27,8 +27,6 @@ export const Homedata = () => {
     setIsAuth,
     identifier,
     setIdentifier,
-    token,
-    setToken,
     name1,
     setName1,
     name2,

@@ -12,7 +12,18 @@ const url = `http://192.168.0.6:3000`;
 
 //middleware
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://192.168.0.6:3001",
+    credentials: true,
+    allowedHeaders: [
+      "set-cookie",
+      "content-Type",
+      "Access-Control-Allow-Origin",
+      "Access-Control-Allow-Credentials",
+    ],
+  })
+);
 app.use(express.json());
 
 /////////////auth route////////////////

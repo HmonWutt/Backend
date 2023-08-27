@@ -15,7 +15,7 @@ function Addtask() {
   const handleShow = () => setShow(true);
   const [isHidden, setIshidden] = useState(null);
 
-  const { identifier, token, name1, name2, list, setList } =
+  const { identifier, name1, name2, list, setList } =
     useContext(AddtaskContext);
 
   const Submittask = async (e) => {
@@ -24,7 +24,7 @@ function Addtask() {
 
     if (description !== "") {
       const body = { description, name1, name2 };
-      Postrequest(`${url}/todo/${identifier}`, body, token)
+      Postrequest(`${url}/todo/${identifier}`, body)
         .then((data) => {
           if (data.message === "success") {
             setIshidden(true);
@@ -45,8 +45,7 @@ function Addtask() {
   };
   function getlist() {
     Getrequest(
-      `${url}/todo/${identifier.replace(/\s+/g, "-").replace(/'+/g, "")}`,
-      token
+      `${url}/todo/${identifier.replace(/\s+/g, "-").replace(/'+/g, "")}`
     ).then((data) => setList(data));
   }
   useEffect(() => {

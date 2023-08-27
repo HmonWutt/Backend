@@ -4,7 +4,47 @@ const pool = require("../db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const saltrounds = 10;
+const verify = require("./verifytoken");
 const { secret } = require("./secret");
+
+function getaccesstoken() {
+  let result;
+  routerusers.get("/access", verify, async (req, res) => {
+    try {
+      const accesstoken = jwt.sign({ _id: { username } }, secret, {
+        expiresIn: 60,
+      });
+      result = accesstoken;
+    } catch (error) {
+      result = error;
+    }
+  });
+  return result;
+}
+
+routerusers.post("/access", async (req, res) => {
+  const username = await req.body.username;
+  try {
+    const accesstoken = jwt.sign({ _id: { username } }, secret, {
+      expiresIn: 60,
+    });
+    res.json({ accesstoken: accesstoken });
+  } catch (error) {
+    res.json({ error: error });
+  }
+});
+
+routerusers.post("/refresh", verify, async (req, res) => {
+  const username = await req.body.username;
+  try {
+    const refreshtoken = jwt.sign({ _id: { username } }, secret, {
+      expiresIn: "1h",
+    });
+    res.json({ refreshtoken: refreshtoken });
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+});
 
 routerusers.post("/", async (req, res) => {
   try {
@@ -83,11 +123,15 @@ routerusers.post("/login", async (req, res) => {
         if (await bcrypt.compare(password, retrievedPassword)) {
           console.log("login successful");
           const token = jwt.sign({ _id: { username } }, secret);
-          res.header("auth-token", token);
+          //res.header("auth-token", token);
+          res.cookie("authToken", token, {
+            path: "/",
+            maxAge: 7 * 24 * 60 * 60,
+            httpOnly: true,
+          });
           res.status(200).json({
             message: "success",
             identifier: identifier,
-            token: token,
             name1: name1,
             name2: name2,
           });
@@ -107,6 +151,44 @@ routerusers.post("/login", async (req, res) => {
   }
 });
 
+routerusers.get("/autologin", async (req, res) => {
+  const cookie = req.headers.cookie;
+  if (!cookie || cookie === null) {
+    console.log("cookie not found");
+    res.status(401).json({ message: "Cooike not found" });
+  }
+  console.log("cookie not found");
+
+  try {
+    console.log("cooike", typeof cookie);
+    const decoded = cookie && atob(cookie.split(".")[1]);
+    const parsed = JSON.parse(decoded);
+    const username = parsed._id.username;
+    const result = await pool.query(
+      "SELECT identifier,name1,name2 FROM users where username=$1",
+      [username]
+    );
+    const identifier = await result.rows[0].identifier;
+    const name1 = await result.rows[0].name1;
+    const name2 = await result.rows[0].name2;
+    console.log("identifier", identifier);
+    console.log(result.rows[0]);
+    res.status(200).json({
+      message: "success",
+      identifier: identifier,
+      username: username,
+      name1: name1,
+      name2: name2,
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
+routerusers.get("/logout", async (req, res) => {
+  res.clearCookie("authToken");
+  res.status(200).json({ message: "success" });
+});
 routerusers.post("/addidentifier/:username", async (req, res) => {
   const username = req.params.username;
   const identifier = req.body.identifier;
@@ -125,7 +207,7 @@ routerusers.post("/addidentifier/:username", async (req, res) => {
       console.log(`'${identifier}'`, `'${username}'`);
       console.log("addidentifier", result.rows);
       const user = result.rows;
-      res.json({
+      res.status(200).json({
         message: "success",
         username: user.username,
         identifier: user.identifier,

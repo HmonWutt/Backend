@@ -3,7 +3,7 @@ const routertodo = require("express").Router();
 const pool = require("../db");
 const verify = require("./verifytoken");
 
-routertodo.get("/", verify, async (req, res) => {
+routertodo.get("/", async (req, res) => {
   try {
     const allTodos = await pool.query(
       "SELECT * FROM todo ORDER BY todo_id ASC"
@@ -27,7 +27,7 @@ routertodo.get("/id/:id/:identifier", async (req, res) => {
   }
 });
 
-routertodo.get("/:identifier", verify, async (req, res) => {
+routertodo.get("/:identifier", async (req, res) => {
   try {
     const { identifier } = req.params;
     console.log("identifier", identifier);

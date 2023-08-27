@@ -31,8 +31,6 @@ export function Component() {
     setIsAuth,
     identifier,
     setIdentifier,
-    token,
-    setToken,
     name1,
     setName1,
     name2,
@@ -43,7 +41,6 @@ export function Component() {
   // const [isAuth, setIsAuth, identifier, setIdentifier] = useOutletContext();
 
   console.log(identifier, "identifier from component");
-  console.log("token from component", token);
   console.log("name1,name2 from component", name1, name2);
   //const list = useLoaderData();
   // const navigation = useNavigation();
@@ -52,10 +49,10 @@ export function Component() {
   // }
 
   useEffect(() => {
-    Getrequest(
-      `${url}/todo/${identifier.replace(/\s+/g, "-").replace(/'+/g, "")}`,
-      token
-    ).then((data) => setList(data));
+    // Getrequest(
+    //   `${url}/todo/${identifier.replace(/\s+/g, "-").replace(/'+/g, "")}`,
+    //   token
+    // ).then((data) => setList(data));
   }, []);
   return (
     <>
@@ -70,8 +67,7 @@ export function Component() {
             setIsAuth,
             identifier,
             setIdentifier,
-            token,
-            setToken,
+
             name1,
             setName1,
             name2,
@@ -86,7 +82,6 @@ export function Component() {
             isHidden={isHidden}
             setIsHidden={setIsHidden}
             identifier={identifier}
-            token={token}
             name1={name1}
             name2={name2}
           />

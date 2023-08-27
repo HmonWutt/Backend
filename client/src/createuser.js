@@ -11,16 +11,8 @@ export const AddidentifierContext = createContext("");
 export const AddnamesContext = createContext("");
 
 function Createuserapp() {
-  const [
-    username,
-    setUsername,
-    isAuth,
-    setIsAuth,
-    identifier,
-    setIdentifier,
-    token,
-    setToken,
-  ] = useOutletContext();
+  const [username, setUsername, isAuth, setIsAuth, identifier, setIdentifier] =
+    useOutletContext();
 
   const [isaddidentifiersuccess, setIsaddidentifiersuccess] = useState(null);
   const [addidentifiermessage, setAddidentifiermessage] = useState("");
@@ -116,8 +108,6 @@ function Createuserapp() {
           setIsAuth,
           identifier,
           setIdentifier,
-          token,
-          setToken,
         ]}
       />
     </>

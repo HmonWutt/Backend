@@ -4,11 +4,9 @@ import {
   Navigate,
   useOutletContext,
   useLocation,
+  useNavigate,
 } from "react-router-dom";
-import { createContext } from "react";
-import Loginapp from "./loginapp";
-import Home from "./home";
-import { Component } from "./test";
+import { useEffect } from "react";
 
 const useAuth = () => {
   const user = { loggedin: false };
@@ -16,6 +14,7 @@ const useAuth = () => {
 };
 
 const ProtectedRoutes = () => {
+  const nav = useNavigate();
   const [
     username,
     setUsername,
@@ -23,17 +22,14 @@ const ProtectedRoutes = () => {
     setIsAuth,
     identifier,
     setIdentifier,
-    token,
-    setToken,
     name1,
     setName1,
     name2,
     setName2,
   ] = useOutletContext();
-  console.log("name1,name2 from protectedroute", name1, name2);
-  const location = useLocation();
 
-  //const isAuth = useAuth();
+  const location = useLocation();
+  useEffect(() => {}, [isAuth]);
   return isAuth ? (
     <Outlet
       context={[
@@ -43,8 +39,6 @@ const ProtectedRoutes = () => {
         setIsAuth,
         identifier,
         setIdentifier,
-        token,
-        setToken,
         name1,
         setName1,
         name2,

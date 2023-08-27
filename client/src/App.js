@@ -14,15 +14,17 @@ import Home from "./home";
 import { Component, dataLoader } from "./test";
 import ProtectedRoutes from "./Protectedroute";
 import url from "./url";
+import Logoutapp from "./logout";
 
 function Apps() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
         <Route path="/" element={<Root />}>
+          {" "}
           <Route index element={<Loginapp />} />
+          <Route path="/logout" element={<Logoutapp />} />
           <Route path="/register" element={<Createuserapp />} />
-
           <Route element={<ProtectedRoutes />}>
             <Route
               path="/home"

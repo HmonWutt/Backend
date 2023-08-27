@@ -1,6 +1,6 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import Getrequest from "./getrequest";
 import url from "./url";
 import { EditDeleteContext } from "./admin_panel";
@@ -10,23 +10,32 @@ const Changetaskname = () => {
   const [modalshow, setmodalshow] = useState(false);
   const [submitmodal, setsubmitmodal] = useState(false);
   const [show, setShow] = useState(false);
+  const [showalert, setShowalert] = useState(false);
   const [deletemodalshow, setdeletemodalShow] = useState(false);
   const [submitdeletemodal, setsubmitdeletemodal] = useState(false);
+  const inputref = useRef();
+  const focusInput = () => {
+    inputref.current.focus();
+  };
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleDeleteShow = () => setdeletemodalShow(true);
+  const handlealertClose = () => {
+    focusInput();
+    setShowalert(false);
+    console.log(inputref);
+  };
 
   function Isemptystring() {
     if (!input) {
-      alert("Description cannot be empty!");
+      setShowalert(true);
     } else {
       setmodalshow(true);
       handleClose();
     }
   }
-  const { token, list, setList, task, identifier } =
-    useContext(EditDeleteContext);
+  const { list, setList, task, identifier } = useContext(EditDeleteContext);
 
   const description = task.description;
   const id = task.todo_id;
@@ -38,7 +47,7 @@ const Changetaskname = () => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          //Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           description: input,
@@ -65,7 +74,7 @@ const Changetaskname = () => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          //Authorization: `Bearer ${token}`,
         },
         // body: JSON.stringify({ set: `SET description =  '${input}'` }),
       });
@@ -83,8 +92,7 @@ const Changetaskname = () => {
 
   function getlist() {
     Getrequest(
-      `${url}/todo/${identifier.replace(/\s+/g, "-").replace(/'+/g, "")}`,
-      token
+      `${url}/todo/${identifier.replace(/\s+/g, "-").replace(/'+/g, "")}`
     ).then((data) => setList(data));
   }
   useEffect(() => {
@@ -137,7 +145,8 @@ const Changetaskname = () => {
         <Modal
           show={show}
           onHide={handleClose}
-          className="m-3 d-flex justify-content-center"
+          className=" d-flex justify-content-center"
+          style={{ marginTop: "5rem" }}
         >
           <Modal.Title className="m-2 d-flex justify-content-center">
             Update description
@@ -146,8 +155,10 @@ const Changetaskname = () => {
           <Modal.Body>
             <input
               type="text"
+              autoFocus
               className="m-1"
               value={input}
+              ref={inputref}
               onChange={(e) => setinput(e.target.value)}
             ></input>
             <Button onClick={() => Isemptystring()}>Submit</Button>
@@ -185,6 +196,13 @@ const Changetaskname = () => {
             </Modal.Body>
           </Modal>
         ))}
+      {showalert === true && (
+        <Modal show={show} onHide={handlealertClose}>
+          <Modal.Body className="text-danger ">
+            The input cannot be empty.
+          </Modal.Body>
+        </Modal>
+      )}
     </div>
   );
 };

@@ -17,25 +17,18 @@ const Counter = (props) => {
   const [isExploding, setIsExploding] = useState(null);
   const [count, setCount] = useState(0);
   const [name, setName] = useState("");
-  let currentCountRef = useRef(null);
 
-  const disablebButton = (updown, boolean) => {
-    let disabledbutton;
-    if (updown === "countup") {
-      disabledbutton = document.getElementById(`countup${todo_id}`);
-    } else {
-      disabledbutton = document.getElementById(`countdown${todo_id}`);
-    }
-    disabledbutton.disabled = boolean;
+  const disablebButton = (e) => {
+    e.disabled = true;
     setTimeout(() => {
-      disabledbutton.disabled = !boolean;
-    }, 2000);
+      e.disabled = false;
+    }, 1000);
   };
 
   const confetti = (boolean) => {
     setIsExploding(boolean);
     setTimeout(() => {
-      setIsExploding(!boolean);
+      setIsExploding(false);
     }, 2000);
   };
 
@@ -43,17 +36,18 @@ const Counter = (props) => {
   const countdownbody = { set: `SET ${set_name} = ${set_name} - 1` };
   const countzerobody = { set: `SET ${set_name} = 0` };
 
-  const Count = async (body, boolean, updown) => {
+  const Count = async (body, boolean) => {
     Putrequest(newurl, body)
       .then((data) => {
         console.log(data);
         if (data.message === "success") {
-          disablebButton(updown, boolean);
           if (data.count < 0) {
             Count(countzerobody);
             setCount(0);
+            confetti(false);
           } else {
             setCount(data.count);
+            confetti(boolean);
           }
         } else {
           console.log(data.message);
@@ -72,19 +66,11 @@ const Counter = (props) => {
     });
   }, [todo_id]);
 
-  useEffect(() => {
-    const previousCount = currentCountRef.current;
-    currentCountRef = count;
-    if (currentCountRef > previousCount && currentCountRef > 0) {
-      confetti(true);
-    }
-  }, [count]);
-
   return (
     <>
       <div id="card">
         <>
-          {isExploding && (
+          {isExploding === true && (
             <ConfettiExplosion duration={2200} particleCount={300} />
           )}
         </>
@@ -111,10 +97,12 @@ const Counter = (props) => {
               ) : */
 
             <Button
-              id={`countup${todo_id}`}
               className="m-1"
               variant="warning"
-              onClick={() => Count(countupbody, true, "countup")}
+              onClick={(e) => {
+                Count(countupbody, true);
+                disablebButton(e.currentTarget);
+              }}
             >
               Count up
             </Button>
@@ -124,10 +112,12 @@ const Counter = (props) => {
 
           {todo_id !== 115 ? (
             <Button
-              id={`countdown${todo_id}`}
               className="m-1"
               variant="dark"
-              onClick={() => Count(countdownbody, false, "countdown")}
+              onClick={(e) => {
+                Count(countdownbody, false);
+                disablebButton(e.currentTarget);
+              }}
             >
               Undo
             </Button>

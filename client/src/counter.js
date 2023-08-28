@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
-//import Confettitrigger from "./confetti";
 import ConfettiExplosion from "react-confetti-explosion";
 import Savetoday from "./savetoday";
 import Getrequest from "./getrequest";
@@ -21,14 +20,15 @@ const Counter = (props) => {
   let currentCountRef = useRef(null);
 
   const disablebButton = (updown, boolean) => {
+    let disabledbutton;
     if (updown === "countup") {
-      const disabledButton = document.getElementById(`countup${todo_id}`);
+      disabledbutton = document.getElementById(`countup${todo_id}`);
     } else {
-      const disableButton = document.getElementById(`countdown${todo_id}`);
+      disabledbutton = document.getElementById(`countdown${todo_id}`);
     }
-    disablebButton.disabled = boolean;
+    disabledbutton.disabled = boolean;
     setTimeout(() => {
-      disablebButton.disabled = !boolean;
+      disabledbutton.disabled = !boolean;
     }, 2000);
   };
 
@@ -71,6 +71,7 @@ const Counter = (props) => {
       setName(x[set_name.slice(0, -6)]);
     });
   }, [todo_id]);
+
   useEffect(() => {
     const previousCount = currentCountRef.current;
     currentCountRef = count;
@@ -87,15 +88,10 @@ const Counter = (props) => {
             <ConfettiExplosion duration={2200} particleCount={300} />
           )}
         </>
-        <div id="name">
-          {name.charAt(0).toUpperCase() + name.slice(1)}
-          {/*{set_name.charAt(0).toUpperCase() + set_name.slice(1, -6)}*/}
-        </div>
+        <div id="name">{name.charAt(0).toUpperCase() + name.slice(1)}</div>
         <div id="score">{count}</div>
         <Starbucket count={count} />
         <div id="button-container">
-          {/*} {confettishow && <Confettitrigger />} */}
-
           {todo_id !== 115 ? (
             /*<Button
             variant="dark"

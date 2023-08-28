@@ -19,11 +19,12 @@ import Postrequest from "./postrequest";
 //const newurl2 = `${url}/todo/${identifier.replace(/\s+/g, "-").toLowerCase()}`;
 //console.log("newurl2", newurl2);
 
-const ListContext = createContext();
+export const ListContext = createContext();
 
 export function Component() {
   const [list, setList] = useState([]);
   const [isHidden, setIsHidden] = useState(true);
+  const [id, setID] = useState("");
   const [
     username,
     setUsername,
@@ -37,11 +38,8 @@ export function Component() {
     setName2,
   ] = useOutletContext();
   const newurl = `${url}/addidentifier/${username}`;
+  console.log("id from component", id);
 
-  // const [isAuth, setIsAuth, identifier, setIdentifier] = useOutletContext();
-
-  console.log(identifier, "identifier from component");
-  console.log("name1,name2 from component", name1, name2);
   //const list = useLoaderData();
   // const navigation = useNavigation();
   // if (navigation.state === "loading") {
@@ -49,44 +47,45 @@ export function Component() {
   // }
 
   useEffect(() => {
-    // Getrequest(
-    //   `${url}/todo/${identifier.replace(/\s+/g, "-").replace(/'+/g, "")}`,
-    //   token
-    // ).then((data) => setList(data));
-  }, []);
+    Getrequest(
+      `${url}/todo/${identifier.replace(/\s+/g, "-").replace(/'+/g, "")}`
+    ).then((data) => setList(data));
+  }, [id]);
+
   return (
     <>
-      {identifier && (
-        <ListContext.Provider
-          value={{
-            list,
-            setList,
-            username,
-            setUsername,
-            isAuth,
-            setIsAuth,
-            identifier,
-            setIdentifier,
-
-            name1,
-            setName1,
-            name2,
-            setName2,
-          }}
-        >
-          <Summary list={list} isHidden={isHidden} setIsHidden={setIsHidden} />
-          <AdminPanel
-            username={username}
-            list={list}
-            setList={setList}
-            isHidden={isHidden}
-            setIsHidden={setIsHidden}
-            identifier={identifier}
-            name1={name1}
-            name2={name2}
-          />
-        </ListContext.Provider>
-      )}
+      <ListContext.Provider
+        value={{
+          list,
+          setList,
+          username,
+          setUsername,
+          isAuth,
+          setIsAuth,
+          identifier,
+          setIdentifier,
+          name1,
+          setName1,
+          name2,
+          setName2,
+          id,
+          setID,
+        }}
+      >
+        <Summary list={list} isHidden={isHidden} setIsHidden={setIsHidden} />
+        <AdminPanel
+          username={username}
+          list={list}
+          setList={setList}
+          isHidden={isHidden}
+          setIsHidden={setIsHidden}
+          identifier={identifier}
+          name1={name1}
+          name2={name2}
+          id={id}
+          setID={setID}
+        />
+      </ListContext.Provider>
     </>
   );
 }

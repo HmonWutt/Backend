@@ -81,10 +81,6 @@ const AdminPanel = ({
     setIsHidden(!isHidden);
   };
 
-  useEffect(() => {
-    console.log("admin panel use effect runs");
-  }, []);
-
   return (
     <>
       <motion.div

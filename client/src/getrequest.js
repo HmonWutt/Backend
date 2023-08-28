@@ -1,6 +1,4 @@
 const Getrequest = async (url) => {
-  console.log("get request to", url);
-
   try {
     const response = await fetch(url, {
       method: "GET",

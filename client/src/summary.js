@@ -3,10 +3,6 @@ import Button from "react-bootstrap/Button";
 import { motion, variants } from "framer-motion";
 
 function Summary({ list, isHidden, setIsHidden }) {
-  console.log("summary runs", "ishidden", isHidden);
-  // list.forEach((element) => {
-  //   element.map((task, index) => console.log(task));
-  // });
   const variants = {
     hidden: {
       opacity: 0,

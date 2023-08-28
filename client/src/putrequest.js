@@ -1,6 +1,4 @@
 async function Putrequest(url, body) {
-  console.log("put request to", url);
-  console.log("body", JSON.stringify(body));
   try {
     const response = await fetch(url, {
       method: "PUT",

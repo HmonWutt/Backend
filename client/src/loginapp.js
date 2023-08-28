@@ -38,8 +38,6 @@ function Loginapp() {
     setPassword(e);
   }
   async function verifyuser(username, password) {
-    console.log("saveuser request sent");
-
     const newurl = `${url}/users/login`;
     const body = { username, password };
     try {
@@ -86,13 +84,12 @@ function Loginapp() {
       console.error(error.message);
     }
   }
-  console.log("login failed", iserror.status);
+
   const loginSubmit = (e) => {
     e.preventDefault();
     verifyuser(username, password);
   };
   async function autologin() {
-    console.log("autologin runs");
     const newurl = `${url}/users/autologin`;
     try {
       const response = await fetch(newurl, {
@@ -112,7 +109,6 @@ function Loginapp() {
   useEffect(() => {
     autologin().then((data) => {
       if (data.message === "success") {
-        console.log("data", data);
         setIsAutoLoggingIn(true);
         setIserror({ status: "autologinfailed", errormessage: "" });
         setUsername(username);

@@ -1,10 +1,23 @@
 import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useOutletContext } from "react-router-dom";
 import url from "./url";
 
 function Logoutapp() {
   const location = useLocation();
   const nav = useNavigate();
+  const [
+    username,
+    setUsername,
+    isAuth,
+    setIsAuth,
+    identifier,
+    setIdentifier,
+    name1,
+    setName1,
+    name2,
+    setName2,
+  ] = useOutletContext();
+
   async function logout() {
     try {
       const result = await fetch(`${url}/users/logout`, {
@@ -14,6 +27,7 @@ function Logoutapp() {
       const response = await result.json();
 
       if (response?.message === "success") {
+        setIsAuth(false);
         nav("/");
       } else {
         if (location.state?.from) {

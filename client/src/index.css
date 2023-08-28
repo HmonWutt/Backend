@@ -15,6 +15,10 @@ body {
   width: 100%;
   box-sizing: border-box;
 }
+.offscreen {
+  position: absolute;
+  left: -9999px;
+}
 li {
   list-style-type: none;
 }

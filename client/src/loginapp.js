@@ -109,7 +109,7 @@ function Loginapp() {
     }
   }
 
-  useEffect((location) => {
+  useEffect(() => {
     autologin().then((data) => {
       if (data.message === "success") {
         console.log("data", data);
@@ -129,8 +129,9 @@ function Loginapp() {
             console.log("to", to);
             nav(`${to}`);
           }
+        } else {
+          nav("/component");
         }
-        nav("/component");
       } else {
         setIsAutoLoggingIn(false);
         nav("/");

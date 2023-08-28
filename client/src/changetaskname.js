@@ -4,206 +4,206 @@ import { useState, useEffect, useContext, useRef } from "react";
 import Getrequest from "./getrequest";
 import url from "./url";
 import { EditDeleteContext } from "./admin_panel";
+import Putrequest from "./putrequest";
+//import { ListContext } from "./test";
 
-const Changetaskname = () => {
-  const [input, setinput] = useState("");
+const Changetaskname = ({ list, setList, identifier, id, setID }) => {
+  //const  = useContext(EditDeleteContext);
+  const [changedname, setChangedname] = useState(false);
+  const [deleted, setDeleted] = useState(false);
+  const [description, setDescription] = useState("");
   const [modalshow, setmodalshow] = useState(false);
   const [submitmodal, setsubmitmodal] = useState(false);
   const [show, setShow] = useState(false);
   const [showalert, setShowalert] = useState(false);
-  const [deletemodalshow, setdeletemodalShow] = useState(false);
+
   const [submitdeletemodal, setsubmitdeletemodal] = useState(false);
-  const inputref = useRef();
-  const focusInput = () => {
-    inputref.current.focus();
-  };
+
+  const [command, setCommand] = useState([{ action: "" }, { taskID: "" }]);
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const handleDeleteShow = () => setdeletemodalShow(true);
-  const handlealertClose = () => {
-    focusInput();
-    setShowalert(false);
-    console.log(inputref);
-  };
 
   function Isemptystring() {
-    if (!input) {
+    if (!description) {
       setShowalert(true);
     } else {
       setmodalshow(true);
       handleClose();
     }
   }
-  const { list, setList, task, identifier } = useContext(EditDeleteContext);
-
-  const description = task.description;
-  const id = task.todo_id;
-  console.log("id", id);
+  function Delete(id) {
+    console.log("delete", id);
+    setCommand([{ action: "delete" }, { taskID: id }]);
+    setmodalshow(true);
+  }
+  function Update(id) {
+    setCommand([{ action: "update" }, { taskID: id }]);
+    setShow(true);
+  }
+  function Click(command) {
+    let action = command[0].action;
+    let taskID = command[1].taskID;
+    console.log("action, id", action);
+    if (action === "update") {
+      Updatedescription(taskID);
+    } else {
+      Deletedescription(taskID);
+    }
+  }
 
   async function Updatedescription(id) {
     try {
       const response = await fetch(`${url}/todo/${identifier}/${id}`, {
         method: "PUT",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          //Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          description: input,
+          description: description,
         }),
       });
       let data = await response.json();
+      if (data.message === "success") {
+        setmodalshow(false);
+        setID(data.id);
 
-      setmodalshow(false);
-
-      setsubmitmodal(true);
-      setTimeout(() => {
-        setsubmitmodal(false);
-        //window.location.reload();
-      }, 1000);
-      return setinput("");
+        setDescription("");
+        setsubmitmodal(true);
+        setTimeout(() => {
+          setsubmitmodal(false);
+        }, 1000);
+      } else {
+        console.log("update description failed");
+      }
     } catch (error) {
       console.error(error.message);
     }
   }
-
   async function Deletedescription(id) {
+    console.log("id from delete", id);
+
     try {
-      await fetch(`${url}/todo/${identifier}/${id}`, {
+      const response = await fetch(`${url}/todo/${identifier}/${id}`, {
         method: "DELETE",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          //Authorization: `Bearer ${token}`,
         },
-        // body: JSON.stringify({ set: `SET description =  '${input}'` }),
       });
-      setdeletemodalShow(false);
-      setsubmitdeletemodal(true);
-      getlist();
-      setTimeout(() => {
-        setsubmitdeletemodal(false);
-        //window.location.reload();
-      }, 1000);
+      let data = await response.json();
+      console.log(data);
+      if (data.message === "success") {
+        console.log(data);
+        setID(data.id);
+        setmodalshow(false);
+
+        setsubmitmodal(true);
+        setTimeout(() => {
+          setsubmitmodal(false);
+        }, 1000);
+      } else {
+        console.log(`delete task ${id} failed`);
+      }
     } catch (error) {
       console.error(error.message);
     }
   }
-
-  function getlist() {
-    Getrequest(
-      `${url}/todo/${identifier.replace(/\s+/g, "-").replace(/'+/g, "")}`
-    ).then((data) => setList(data));
-  }
-  useEffect(() => {
-    getlist();
-  }, [input]);
-
+  useEffect(() => setID(""));
   return (
-    <div>
-      {description}
-      <Button
-        variant="warning"
-        onClick={handleShow}
-        className="m-1"
-        style={{ scale: "0.8" }}
-      >
-        Edit
-      </Button>
-      {/********************************************************** delete**************************************/}
-      <Button
-        variant="danger"
-        onClick={handleDeleteShow}
-        className="m-1"
-        style={{ scale: "0.8" }}
-      >
-        Delete
-      </Button>
-      {deletemodalshow && (
-        <Modal show={true} onHide={() => setdeletemodalShow(false)}>
-          <Modal.Body className="p-5 d-flex justify-content-center text-danger">
-            Are you sure you want to delete this chore?
-          </Modal.Body>
-
-          <Modal.Footer className="p-2 d-flex justify-content-center">
-            <Button variant="warning" onClick={() => Deletedescription(id)}>
-              Yes
-            </Button>
+    list && (
+      <>
+        {list.map((task, taskIndex) => (
+          <div key={taskIndex} id={task.todo_id}>
+            {task.description}
             <Button
-              variant="danger"
-              onClick={() => {
-                setdeletemodalShow(false);
-              }}
-            >
-              No
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      )}
-      {/********************************************************** delete**************************************/}
-      {show && (
-        <Modal
-          show={show}
-          onHide={handleClose}
-          className=" d-flex justify-content-center"
-          style={{ marginTop: "5rem" }}
-        >
-          <Modal.Title className="m-2 d-flex justify-content-center">
-            Update description
-          </Modal.Title>
-
-          <Modal.Body>
-            <input
-              type="text"
-              autoFocus
+              variant="warning"
+              onClick={() => Update(task.todo_id)}
               className="m-1"
-              value={input}
-              ref={inputref}
-              onChange={(e) => setinput(e.target.value)}
-            ></input>
-            <Button onClick={() => Isemptystring()}>Submit</Button>
-          </Modal.Body>
-        </Modal>
-      )}
-
-      {modalshow && (
-        <Modal show={true} onHide={() => setmodalshow(false)}>
-          <Modal.Body className="p-5 d-flex justify-content-center text-danger">
-            Are you sure you want to change the task name?
-          </Modal.Body>
-
-          <Modal.Footer className="p-2 d-flex justify-content-center">
-            <Button variant="warning" onClick={() => Updatedescription(id)}>
-              Yes
+              style={{ scale: "0.8" }}
+            >
+              Edit
             </Button>
+            {/********************************************************** delete**************************************/}
             <Button
               variant="danger"
               onClick={() => {
-                setmodalshow(false);
+                Delete(task.todo_id);
               }}
+              className="m-1"
+              style={{ scale: "0.8" }}
             >
-              No
+              Delete
             </Button>
-          </Modal.Footer>
-        </Modal>
-      )}
 
-      {submitmodal ||
-        (submitdeletemodal && (
-          <Modal show={true} onHide={() => setmodalshow(false)}>
-            <Modal.Body className="p-2 d-flex justify-content-center">
-              <h2>Done!</h2>
-            </Modal.Body>
-          </Modal>
+            {/********************************************************** delete**************************************/}
+            {show && (
+              <Modal
+                show={show}
+                onHide={handleClose}
+                className=" d-flex justify-content-center"
+                style={{ marginTop: "5rem" }}
+              >
+                <Modal.Title className="m-2 d-flex justify-content-center">
+                  Update description
+                </Modal.Title>
+
+                <Modal.Body>
+                  <input
+                    type="text"
+                    autoFocus
+                    className="m-1"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  ></input>
+                  <Button
+                    onClick={() => {
+                      Isemptystring();
+                    }}
+                  >
+                    Submit
+                  </Button>
+                </Modal.Body>
+              </Modal>
+            )}
+            {modalshow && (
+              <Modal show={true} onHide={() => setmodalshow(false)}>
+                <Modal.Body className="p-5 d-flex justify-content-center text-danger">
+                  Are you sure about this?
+                </Modal.Body>
+                <Modal.Footer className="p-2 d-flex justify-content-center">
+                  <Button variant="warning" onClick={(e) => Click(command)}>
+                    Yes
+                  </Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => {
+                      setmodalshow(false);
+                    }}
+                  >
+                    No
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+            )}
+            {submitmodal && (
+              <Modal show={true} onHide={() => setmodalshow(false)}>
+                <Modal.Body className="p-2 d-flex justify-content-center">
+                  <h2>Done!</h2>
+                </Modal.Body>
+              </Modal>
+            )}
+            {showalert === true && (
+              <Modal show={show} onHide={handleClose}>
+                <Modal.Body className="text-danger ">
+                  The input cannot be empty.
+                </Modal.Body>
+              </Modal>
+            )}
+          </div>
         ))}
-      {showalert === true && (
-        <Modal show={show} onHide={handlealertClose}>
-          <Modal.Body className="text-danger ">
-            The input cannot be empty.
-          </Modal.Body>
-        </Modal>
-      )}
-    </div>
+      </>
+    )
   );
 };
 

@@ -319,7 +319,7 @@ buttun {
 #cards:hover > .card::after {
   opacity: 1;
 }
-.card > .card-content {
+.card > .card-body {
   background-color: rgb(23, 25, 24); /* rgb(42, 42, 42);*/
 
   border-radius: inherit;

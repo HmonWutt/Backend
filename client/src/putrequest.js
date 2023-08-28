@@ -1,15 +1,17 @@
-async function Putrequest(url, body, next) {
+async function Putrequest(url, body) {
   console.log("put request to", url);
   console.log("body", JSON.stringify(body));
   try {
-    await fetch(url, {
+    const response = await fetch(url, {
       method: "PUT",
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
-    next();
+    const data = await response.json();
+    return data;
   } catch (error) {
-    console.error(error.message);
+    return error.message;
   }
 }
 

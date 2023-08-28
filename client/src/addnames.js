@@ -32,10 +32,7 @@ export default function Addnames() {
     setAddnamesmessage("");
   }
   function submitnames(e) {
-    console.log(name1, name2);
     addnames(name1, name2).then((data) => {
-      console.log(data?.message);
-
       data.message === "success"
         ? addnamessuccess()
         : setIsaddnamessuccess(false);

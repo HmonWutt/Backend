@@ -24,7 +24,6 @@ import Getrequest from "./getrequest";
 
 const Task = ({ id, identifier }) => {
   const [data, setData] = useState([]);
-  console.log("task", id, identifier);
 
   const newurl = `${url}/todo/id/${id}/${identifier}`;
 
@@ -34,7 +33,14 @@ const Task = ({ id, identifier }) => {
   return (
     <>
       <div id="task-description">
-        {data ? <div>{data.description}</div> : <div>No data found</div>}
+        {data ? (
+          <div>
+            {data.description.charAt(0).toUpperCase() +
+              data.description.slice(1)}
+          </div>
+        ) : (
+          <div>No data found</div>
+        )}
       </div>
       <div id="card-container">
         <Counter

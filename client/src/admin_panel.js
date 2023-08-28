@@ -36,9 +36,6 @@ const AdminPanel = ({
 
   const [ischangeOpen, setchangeIsOpen] = useState(false);
 
-  //const ref = useRef(null);
-  console.log("hidden", isHidden);
-  console.log("adminpanel runs, list:", list);
   const variants = {
     visible: {
       opacity: 0,
@@ -80,14 +77,9 @@ const AdminPanel = ({
     },
   };
 
-  const { newchorename, setNewchorename } = useState("");
-  console.log("admin panel component runs");
-
   const handleclick = (e) => {
     setIsHidden(!isHidden);
   };
-
-  const newurl = `${url}/addidentifier/${username}`;
 
   useEffect(() => {
     console.log("admin panel use effect runs");
@@ -206,7 +198,7 @@ const AdminPanel = ({
             </Button>
           </motion.div>
 
-          <div id="description-container">
+          <div id="editdelete-container">
             <AnimatePresence>
               {changeshow && (
                 <motion.div

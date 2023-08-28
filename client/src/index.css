@@ -146,7 +146,7 @@ buttun {
   margin: 0.5rem;
 }
 .item {
-  scale: 0.8;
+  scale: 0.9;
 }
 #score {
   color: rgb(255, 0, 170);
@@ -190,8 +190,15 @@ buttun {
 #description-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  justify-items: center;
 }
+
+#editdelete-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .description {
 }
 #tracker-name {

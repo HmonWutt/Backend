@@ -38,7 +38,6 @@ export function Component() {
     setName2,
   ] = useOutletContext();
   const newurl = `${url}/addidentifier/${username}`;
-  console.log("id from component", id);
 
   //const list = useLoaderData();
   // const navigation = useNavigation();

@@ -81,8 +81,6 @@ const Changetaskname = ({ list, setList, identifier, id, setID }) => {
     }
   }
   async function Deletedescription(id) {
-    console.log("id from delete", id);
-
     try {
       const response = await fetch(`${url}/todo/${identifier}/${id}`, {
         method: "DELETE",
@@ -94,7 +92,6 @@ const Changetaskname = ({ list, setList, identifier, id, setID }) => {
       let data = await response.json();
       console.log(data);
       if (data.message === "success") {
-        console.log(data);
         setID(data.id);
         setmodalshow(false);
 
@@ -114,8 +111,20 @@ const Changetaskname = ({ list, setList, identifier, id, setID }) => {
     list && (
       <>
         {list.map((task, taskIndex) => (
-          <div key={taskIndex} id={task.todo_id}>
-            {task.description}
+          <div
+            key={taskIndex}
+            id={task.todo_id}
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "flex-end",
+            }}
+          >
+            <div>
+              {task.description.charAt(0).toUpperCase() +
+                task.description.slice(1)}
+            </div>
             <Button
               variant="warning"
               onClick={() => Update(task.todo_id)}

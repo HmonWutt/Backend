@@ -126,7 +126,7 @@ function Loginapp() {
         if (location) {
           if (location.state?.from) {
             const to = location.state.from.pathname || "/component";
-            console.log("to", to);
+
             nav(`${to}`);
           }
         } else {
@@ -136,14 +136,6 @@ function Loginapp() {
         setIsAutoLoggingIn(false);
         nav("/");
       }
-
-      // setIserror({
-      //   status: true,
-      //   errormessage: "Session expired. Please log in again.",
-      // });
-      // setTimeout(() => {
-      //   setIserror({ status: false, errormessage: "" });
-      // }, 3000);
     });
   }, []);
   return (

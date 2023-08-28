@@ -33,7 +33,7 @@ function Logoutapp() {
         if (location.state?.from) {
           //console.log("location", location)
           const to = location.state.from.pathname || "/component";
-          console.log("to", to);
+
           nav(`${to}`);
         }
       }

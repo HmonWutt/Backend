@@ -39,7 +39,6 @@ const Counter = (props) => {
   const Count = async (body, boolean) => {
     Putrequest(newurl, body)
       .then((data) => {
-        console.log(data);
         if (data.message === "success") {
           if (data.count < 0) {
             Count(countzerobody);
@@ -61,7 +60,6 @@ const Counter = (props) => {
   useEffect(() => {
     Getrequest(newurl).then((x) => {
       setCount(x[set_name]);
-      console.log(set_name.slice(0, -6));
       setName(x[set_name.slice(0, -6)]);
     });
   }, [todo_id]);

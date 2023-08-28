@@ -36,8 +36,6 @@ export default function Addidentifier() {
       return data;
     }
 
-    console.log("add identifier to", `${url}/users/addidentifier/${username}`);
-    console.log("identifier", identifier);
     const body = {
       identifier: `${identifier.replace(/\s+/g, "-").toLowerCase()}`,
     };

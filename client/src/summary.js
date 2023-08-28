@@ -31,12 +31,8 @@ function Summary({ list, isHidden, setIsHidden }) {
     setIsHidden(!isHidden);
   };
   useEffect(() => {
-    console.log("summary use effect runs");
-
     const cards = document.getElementsByClassName("card");
     const cardArray = Array.from(cards);
-    console.log("cards", cards);
-    console.log("cardarry", cardArray);
 
     document.getElementById("cards").onmousemove = (e) => {
       for (const card of cardArray) {
@@ -45,7 +41,6 @@ function Summary({ list, isHidden, setIsHidden }) {
         const y = e.clientY - rect.top;
         card.style.setProperty("--mouse-x", `${x}px`);
         card.style.setProperty("--mouse-y", `${y}px`);
-        console.log(x, y);
       }
     };
   });

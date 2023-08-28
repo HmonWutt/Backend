@@ -23,10 +23,10 @@ function Addtask({ identifier, name1, name2, list, setList, id, setID }) {
           if (data.message === "success") {
             setID(data.id);
             setIshidden(true);
-            setDescription("");
 
             setTimeout(() => {
               setIshidden(null);
+              setDescription("");
             }, 1000);
           } else {
             setIshidden(false);
@@ -64,11 +64,11 @@ function Addtask({ identifier, name1, name2, list, setList, id, setID }) {
         Submit
       </Button>
 
-      {isHidden === true && description === true && (
+      {isHidden === true && (
         <div>
           New chore:{" "}
           <span style={{ color: "blue", fontSize: "1.5em" }}>
-            {description}{" "}
+            {description.charAt(0).toUpperCase() + description.slice(1)}{" "}
           </span>
           added.
         </div>

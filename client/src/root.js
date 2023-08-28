@@ -9,14 +9,6 @@ export default function Root() {
   const [identifier, setIdentifier] = useState("");
   const [name1, setName1] = useState("");
   const [name2, setName2] = useState("");
-  console.log(
-    "name1,name2, username, isAuth, identifier, from root",
-    name1,
-    name2,
-    username,
-    isAuth,
-    identifier
-  );
 
   return (
     <>

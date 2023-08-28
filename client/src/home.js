@@ -8,7 +8,7 @@ import url from "./url";
 
 function Home({ descriptions, identifier }) {
   //const descriptions = useLoaderData();
-  console.log("home runs");
+
   const [taskid, setTaskid] = useState("");
   const [taskshow, setTaskshow] = useState(false);
 
@@ -21,7 +21,6 @@ function Home({ descriptions, identifier }) {
         {descriptions.map((description, index) => (
           <Button
             onClick={() => {
-              console.log(description.todo_id);
               setTaskid(description.todo_id);
               setTaskshow(true);
             }}
@@ -29,7 +28,8 @@ function Home({ descriptions, identifier }) {
             key={index}
             variant="warning"
           >
-            {description.description}{" "}
+            {description.description.charAt(0).toUpperCase() +
+              description.description.slice(1)}{" "}
           </Button>
         ))}
       </section>

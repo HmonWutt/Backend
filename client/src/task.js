@@ -34,10 +34,7 @@ const Task = ({ id, identifier }) => {
     <>
       <div id="task-description">
         {data ? (
-          <div>
-            {data.description.charAt(0).toUpperCase() +
-              data.description.slice(1)}
-          </div>
+          <div style={{ textTransform: "capitalize" }}>{data.description} </div>
         ) : (
           <div>No data found</div>
         )}

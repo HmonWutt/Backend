@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import url from "./url";
 
 function Logoutapp() {

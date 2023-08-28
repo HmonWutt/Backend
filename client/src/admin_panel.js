@@ -1,6 +1,6 @@
 //name the personalised tracker
 //add task/edit tasks
-import { useState, useEffect, useRef, createContext } from "react";
+import { useState, useEffect, useRef, createContext, useContext } from "react";
 import Button from "react-bootstrap/Button";
 import { motion, variants, AnimatePresence } from "framer-motion";
 
@@ -11,6 +11,7 @@ import "./index.css";
 import Summary from "./summary";
 import Addtask from "./addtask";
 import Changetaskname from "./changetaskname";
+import { ListContext } from "./test";
 
 export const AddtaskContext = createContext("");
 export const EditDeleteContext = createContext("");
@@ -24,6 +25,8 @@ const AdminPanel = ({
   identifier,
   name1,
   name2,
+  id,
+  setID,
 }) => {
   const [addshow, setaddShow] = useState(false);
   const [changeshow, setchangeShow] = useState(false);
@@ -32,8 +35,10 @@ const AdminPanel = ({
   const [isbuttonhidden, setIsbuttonhidden] = useState(false);
 
   const [ischangeOpen, setchangeIsOpen] = useState(false);
+
   //const ref = useRef(null);
-  console.log("adminpanel list", list);
+  console.log("hidden", isHidden);
+  console.log("adminpanel runs, list:", list);
   const variants = {
     visible: {
       opacity: 0,
@@ -86,7 +91,7 @@ const AdminPanel = ({
 
   useEffect(() => {
     console.log("admin panel use effect runs");
-  }, [list]);
+  }, []);
 
   return (
     <>
@@ -96,62 +101,33 @@ const AdminPanel = ({
         variants={variants}
         /* animate={isHidden ? "hidden" : "visible"} */
       >
-        {identifier && (
-          <motion.div
-            id="tracker-name"
-            variants={trackernamevariants}
-            initial="enter"
-            animate="display"
-            transition={{
-              ease: "easeOut",
-              duration: 1.5,
-              staggerChildren: 0.2,
-            }}
-          >
-            {`Welcome to ${
-              identifier.charAt(0).toUpperCase() + identifier.slice(1)
-            }!`
-              .split("")
-              .map((char, index) => (
-                <span key={index}>{char}</span>
-              ))}
-          </motion.div>
-        )}
+        <motion.div
+          id="tracker-name"
+          variants={trackernamevariants}
+          initial="enter"
+          animate="display"
+          transition={{
+            ease: "easeOut",
+            duration: 1.5,
+            staggerChildren: 0.2,
+          }}
+        >
+          {`Welcome to ${
+            identifier.charAt(0).toUpperCase() + identifier.slice(1)
+          }!`
+            .split("")
+            .map((char, index) => (
+              <span key={index}>{char}</span>
+            ))}
+        </motion.div>
 
-        <div className="input">
-          <label
-            style={{
-              color: "black",
-              textShadow:
-                "rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px",
-            }}
-          ></label>{" "}
-        </div>
-        {/* <input
-            type="text"
-            className="form-control m-2"
-            id="Username"
-            name="Username"
-            placeholder="New chore name"
-            value={newchorename}
-            onChange={(e) => {
-              setNewchorename(e.target.value);
-            }}
-          />
-          <small id="usernameerror" className="text-danger form-text"></small>{" "} */}
         <motion.nav initial={false} className="menu">
           <motion.div whileTap={{ scale: 0.97 }}>
             <Button
               className="btn btn-primary"
               onClick={(e) => {
                 setaddIsOpen(!isaddOpen);
-
                 setaddShow(!addshow);
-                {
-                  /*isaddOpen
-                ? (ref.current.style.display = "")
-            : (ref.current.style.display = "none"); */
-                }
               }}
             >
               {" "}
@@ -170,9 +146,25 @@ const AdminPanel = ({
                   //className="btn btn-warning item"
                 >
                   <AddtaskContext.Provider
-                    value={{ identifier, name1, name2, list, setList }}
+                    value={{
+                      identifier,
+                      name1,
+                      name2,
+                      list,
+                      setList,
+                      id,
+                      setID,
+                    }}
                   >
-                    <Addtask />
+                    <Addtask
+                      identifier={identifier}
+                      name1={name1}
+                      name2={name2}
+                      list={list}
+                      setList={setList}
+                      id={id}
+                      setID={setID}
+                    />
                   </AddtaskContext.Provider>
                 </motion.div>
               )}{" "}
@@ -215,27 +207,34 @@ const AdminPanel = ({
           </motion.div>
 
           <div id="description-container">
-            {list.map((task, taskIndex) => (
-              <AnimatePresence>
-                {changeshow && (
-                  <motion.div
-                    key={taskIndex}
-                    style={{ margin: "0.1rem" }}
-                    variants={itemVariants}
-                    initial="open"
-                    animate={{ opacity: 1, y: 0 }}
-                    exit="closed"
+            <AnimatePresence>
+              {changeshow && (
+                <motion.div
+                  style={{ margin: "0.1rem" }}
+                  variants={itemVariants}
+                  initial="open"
+                  animate={{ opacity: 1, y: 0 }}
+                  exit="closed"
+                >
+                  <EditDeleteContext.Provider
+                    value={{
+                      list,
+                      setList,
+                      identifier,
+                      id,
+                      setID,
+                    }}
                   >
-                    <div id={`alt-${taskIndex}`} className="hidden">
-                      {task.description}
-                    </div>
-                    <EditDeleteContext.Provider
-                      value={{ list, setList, task, identifier }}
-                    >
-                      <Changetaskname />
-                    </EditDeleteContext.Provider>
+                    <Changetaskname
+                      list={list}
+                      setList={setList}
+                      identifier={identifier}
+                      id={id}
+                      setID={setID}
+                    />
+                  </EditDeleteContext.Provider>
 
-                    {/*   <div>  <Button
+                  {/*   <div>  <Button
                         key={taskIndex}
                         id={`btn-${taskIndex}`}
                         className="btn btn-warning item"
@@ -274,10 +273,9 @@ const AdminPanel = ({
                       >
                         Delete
                       </Button> </div> */}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </motion.nav>
         <Button onClick={handleclick} className="btn btn-primary">

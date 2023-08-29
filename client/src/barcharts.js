@@ -20,7 +20,7 @@ export default function BARChart({
 }) {
   const nameone = name1.charAt(0).toUpperCase() + name1.slice(1);
   const nametwo = name2.charAt(0).toUpperCase() + name2.slice(1);
-  console.log(typeof name1);
+
   return (
     <Bar
       className="mt-5 col-md-8"

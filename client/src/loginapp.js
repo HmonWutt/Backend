@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 
 import {
   useLocation,
@@ -11,6 +12,21 @@ import {
 import url from "./url";
 import Getinput from "./input";
 import Password from "./password";
+
+const trackernamevariants = {
+  enter: { opacity: 0, y: -100 },
+  display: {
+    opacity: 1,
+    y: 0,
+    //transition: { ease: "easeOut", duration: 1, staggerChildren: 0.5 },
+    transition: {
+      type: "spring",
+      stiffness: 200,
+      damping: 14, //24
+      staggerChildren: 0.5,
+    },
+  },
+};
 
 function Loginapp() {
   const [password, setPassword] = useState("");
@@ -141,8 +157,24 @@ function Loginapp() {
     <>
       {!isAutoLoggingIn && (
         <section>
-          <div id="default-container">
-            <h4>Welcome to choretracker!</h4>
+          <motion.div
+            id="default-container"
+            variants={trackernamevariants}
+            initial="enter"
+            animate="display"
+            transition={{
+              ease: "easeOut",
+              duration: 1.5,
+              staggerChildren: 0.2,
+            }}
+          >
+            <h4>
+              {`Welcome to choretracker!`.split("").map((char, index) => (
+                <span key={index}>{char}</span>
+              ))}
+            </h4>
+          </motion.div>
+          <div id="">
             <div id="default">
               <div>
                 Default username: <span className="default"> default</span>
@@ -209,7 +241,10 @@ function Loginapp() {
                 alignItems: "center",
               }}
             ></div> */}
-          </div>
+          </div>{" "}
+          <p>
+            <i>Prettifying and refactoring in progress...</i>
+          </p>
         </section>
       )}
       <div>

@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import Button from "react-bootstrap/Button";
 import { motion, variants } from "framer-motion";
+import BARChart from "./barcharts";
 
 function Summary({ list, isHidden, setIsHidden }) {
   const variants = {
@@ -62,10 +63,21 @@ function Summary({ list, isHidden, setIsHidden }) {
           ></div>
           {list.map((task, taskIndex) => (
             <div key={taskIndex} className="card">
-              <div className="card-content">
-                {task.description}
-                {task.hmon_count}
-                {task.joakim_count}
+              <div className="card-body p-3 small">
+                <small className="card-text ">
+                  {task.description.charAt(0).toUpperCase() +
+                    task.description.slice(1)}
+                </small>
+                <BARChart
+                  description={task.description}
+                  count1={task.name1_count}
+                  count2={task.name2_count}
+                  name1={task.name1}
+                  name2={task.name2}
+                >
+                  {task.name1_count}
+                  {task.name2_count}
+                </BARChart>
               </div>
             </div>
           ))}

@@ -47,7 +47,7 @@ routertodo.get(
     try {
       const { identifier } = req.params;
       const specific_todo = await pool.query(
-        "SELECT description,todo_id FROM todo WHERE identifier=$1 ",
+        "SELECT description,todo_id FROM todo WHERE identifier=$1 ORDER BY todo_id ASC",
         [identifier]
       );
       res.json(specific_todo.rows);

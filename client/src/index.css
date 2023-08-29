@@ -140,8 +140,7 @@ tr.same-col-widths td {
 }
 #button-container {
 }
-Button,
-buttun {
+Button {
   box-shadow: rgba(0, 0, 0, 0.55) 0px 5px 5px;
   margin: 0.5rem;
 }
@@ -210,6 +209,7 @@ buttun {
 
 .input {
   display: flex;
+  margin-bottom: 1rem;
 }
 #summary {
   height: 100%;
@@ -463,4 +463,36 @@ buttun {
   align-items: center;
   gap: 1rem;
 }
-/********************************************ADDTASK*********************************/
+
+Input {
+  margin-top: 2rem;
+}
+
+/********************************************LOGINFORM********************************/
+
+#loginform {
+  margin: 2rem;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: rgb(249, 155, 155);
+}
+
+#default-container {
+  margin: 2rem;
+}
+#default {
+  margin: 2rem;
+}
+.default {
+  text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  padding: 1rem;
+}
+#instruction {
+  margin: 1rem;
+}
+#linktoregister {
+  text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+}
+#welcome {
+}

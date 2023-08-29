@@ -16,7 +16,7 @@ routertodo.get("/", async (req, res) => {
 routertodo.get("/id/:id/:identifier", async (req, res) => {
   try {
     const { id, identifier } = req.params;
-    console.log(id);
+
     const specific_todo = await pool.query(
       "SELECT * FROM todo WHERE todo_id = $1 and identifier = $2 ORDER BY todo_id DESC",
       [id, identifier]
@@ -30,7 +30,7 @@ routertodo.get("/id/:id/:identifier", async (req, res) => {
 routertodo.get("/:identifier", async (req, res) => {
   try {
     const { identifier } = req.params;
-    console.log("identifier", identifier);
+
     const specific_todo = await pool.query(
       "SELECT * FROM todo WHERE identifier = $1 ORDER BY todo_id DESC",
       [identifier]
@@ -51,7 +51,6 @@ routertodo.get(
         [identifier]
       );
       res.json(specific_todo.rows);
-      console.log("descriptions", specific_todo.rows);
     } catch (error) {
       console.error(error.message);
     }
@@ -64,7 +63,6 @@ routertodo.get("/bedsheet", async (req, res) => {
     const lastdone = result.rows[0].lastdone;
     res.json(lastdone);
   } catch (err) {
-    console.error(err.message);
     res.status(500).json({ error: "Internal server error" });
   }
 });
@@ -73,7 +71,7 @@ routertodo.get("/bedsheet", async (req, res) => {
 routertodo.post("/:identifier", async (req, res) => {
   try {
     const { description, name1, name2 } = req.body;
-    console.log(req.body);
+
     const { identifier } = req.params;
     const count = 0;
     const newTodo = await pool.query(
@@ -82,7 +80,6 @@ routertodo.post("/:identifier", async (req, res) => {
     );
     res.status(200).json({ message: "success", id: newTodo.rows[0].todo_id });
   } catch (err) {
-    console.error(err.message);
     res.json({ message: error.message });
   }
 });
@@ -102,7 +99,6 @@ routertodo.put("/id/:id/:identifier", async (req, res) => {
     const { set } = req.body;
     const name = `${set.slice(4, 15)}`;
     // const nameasobject = JSON.parse(`{name:${name}}`);
-    console.log(set);
 
     const updated = await pool.query(
       `UPDATE todo ${set}  WHERE todo_id = $1 and identifier=$2 returning todo_id, ${name}`,
@@ -111,10 +107,9 @@ routertodo.put("/id/:id/:identifier", async (req, res) => {
     const newid = updated.rows[0].todo_id;
 
     const newcount = updated.rows[0][name];
-    console.log(newcount);
+
     res.json({ message: "success", id: newid, count: newcount });
   } catch (err) {
-    console.error(err.message);
     res.json({ message: err.message });
   }
 });
@@ -123,7 +118,7 @@ routertodo.put("/:identifier/:id", async (req, res) => {
   try {
     const { identifier, id } = req.params;
     const { description } = req.body;
-    console.log("description", description);
+
     const updatedTOdo = await pool.query(
       "UPDATE todo SET description = $1  WHERE identifier = $2 and todo_id = $3 returning todo_id",
       [description, identifier, id]
@@ -134,7 +129,6 @@ routertodo.put("/:identifier/:id", async (req, res) => {
       id: task.todo_id,
     });
   } catch (error) {
-    console.error(error.message);
     res.json({ message: "error.message" });
   }
 });
@@ -154,7 +148,6 @@ routertodo.delete("/:identifier/:id", async (req, res) => {
       id: id,
     });
   } catch (err) {
-    console.log(err.message);
     res.json({ message: err.message });
   }
 });

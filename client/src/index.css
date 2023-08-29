@@ -221,7 +221,7 @@ Button {
   justify-content: center;
   overflow: auto;
   position: absolute;
-  padding: 2rem;
+  padding: 2.5rem;
   margin: 0;
 }
 
@@ -248,7 +248,7 @@ Button {
 }
 @media only screen and (max-width: 700px) {
   #summary {
-    padding: 0.5rem;
+    padding: 1.5rem;
   }
   #cards {
     max-width: 100%;
@@ -479,10 +479,10 @@ Input {
 }
 
 #default-container {
-  margin: 2rem;
+  margin: 1rem;
 }
 #default {
-  margin: 2rem;
+  margin: 1rem;
 }
 .default {
   text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
@@ -496,3 +496,4 @@ Input {
 }
 #welcome {
 }
+/******************************bar chart *********************************/

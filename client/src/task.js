@@ -33,10 +33,12 @@ const Task = ({ id, identifier }) => {
   return (
     <>
       <div id="task-description">
-        {data ? (
-          <div style={{ textTransform: "capitalize" }}>{data.description} </div>
-        ) : (
+        {!data ? (
           <div>No data found</div>
+        ) : (
+          <div style={{ textTransform: "capitalize" }}>
+            {`${data.description}`.replace(/-/g, " ")}
+          </div>
         )}
       </div>
       <div id="card-container">

@@ -32,7 +32,6 @@ const Changetaskname = ({ list, setList, identifier, id, setID }) => {
     }
   }
   function Delete(id) {
-    console.log("delete", id);
     setCommand([{ action: "delete" }, { taskID: id }]);
     setmodalshow(true);
   }
@@ -43,7 +42,7 @@ const Changetaskname = ({ list, setList, identifier, id, setID }) => {
   function Click(command) {
     let action = command[0].action;
     let taskID = command[1].taskID;
-    console.log("action, id", action);
+
     if (action === "update") {
       Updatedescription(taskID);
     } else {
@@ -90,7 +89,7 @@ const Changetaskname = ({ list, setList, identifier, id, setID }) => {
         },
       });
       let data = await response.json();
-      console.log(data);
+
       if (data.message === "success") {
         setID(data.id);
         setmodalshow(false);

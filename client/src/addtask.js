@@ -16,8 +16,12 @@ function Addtask({ identifier, name1, name2, list, setList, id, setID }) {
 
   const Submittask = async (e) => {
     e.preventDefault();
-    if (description !== "") {
-      const body = { description, name1, name2 };
+    const newdescription = description
+      .trim()
+      .replace(/\s+/g, "-")
+      .toLowerCase();
+    if (newdescription !== "") {
+      const body = { description: newdescription, name1, name2 };
       Postrequest(`${url}/todo/${identifier}`, body)
         .then((data) => {
           if (data.message === "success") {

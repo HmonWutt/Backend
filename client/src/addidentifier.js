@@ -37,7 +37,7 @@ export default function Addidentifier() {
     }
 
     const body = {
-      identifier: `${identifier.replace(/\s+/g, "-").toLowerCase()}`,
+      identifier: `${identifier.trim().replace(/\s+/g, "-").toLowerCase()}`,
     };
     return Postrequest(`${url}/users/addidentifier/${username}`, body);
   }

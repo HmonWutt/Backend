@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import {
   useLocation,
   useNavigate,
@@ -9,6 +10,7 @@ import {
 
 import url from "./url";
 import Getinput from "./input";
+import Password from "./password";
 
 function Loginapp() {
   const [password, setPassword] = useState("");
@@ -37,6 +39,7 @@ function Loginapp() {
   function passwordfunction(e) {
     setPassword(e);
   }
+
   async function verifyuser(username, password) {
     const newurl = `${url}/users/login`;
     const body = { username, password };
@@ -62,7 +65,7 @@ function Loginapp() {
           if (location.state?.from) {
             //console.log("location", location)
             const to = location.state.from.pathname || "/component";
-            console.log("to", to);
+
             nav(`${to}`);
           }
         }
@@ -138,7 +141,27 @@ function Loginapp() {
     <>
       {!isAutoLoggingIn && (
         <section>
-          {" "}
+          <div id="default-container">
+            <h4>Welcome to choretracker!</h4>
+            <div id="default">
+              <div>
+                Default username: <span className="default"> default</span>
+              </div>
+              <div>
+                Default password:{" "}
+                <span className="default">defaultpassword</span>
+              </div>
+            </div>
+            <div id="instruction">
+              <div>
+                Please use the default username and password to test the app or
+              </div>
+              <Link id="linktoregister" to="/register">
+                {" "}
+                Register to create your own chore tracker
+              </Link>
+            </div>
+          </div>{" "}
           <div className="App">
             <form id="loginform" onSubmit={loginSubmit}>
               {(iserror.status === true || iserror.status === "success") && (
@@ -163,28 +186,30 @@ function Loginapp() {
                 next={usernamefunction}
               />
 
-              <Getinput
+              {/* <Getinput
+                labeltext={"Password"}
+                placeholdertext={"Enter password"}
+                idtext={"password"}
+                next={passwordfunction}
+              /> */}
+              <Password
                 labeltext={"Password"}
                 placeholdertext={"Enter password"}
                 idtext={"password"}
                 next={passwordfunction}
               />
-              <button type="submit" className="btn btn-primary">
+              <button type="submit" className="btn btn-warning">
                 Log in
               </button>
             </form>
-            <div
+            {/* <div
               style={{
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
               }}
-            ></div>
-            <div>Default username: default</div>
-            <div>Default password: defaultpassword</div>
-            Use default username and password to test the app or
+            ></div> */}
           </div>
-          <Link to="/register"> Create a new account</Link>
         </section>
       )}
       <div>

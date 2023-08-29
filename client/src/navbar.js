@@ -25,7 +25,7 @@ export function NavBar() {
                 isPending ? "pending" : isActive ? "active" : ""
               }
             >
-              Test component
+              Admin panel
             </NavLink>
           </li>
           <li>

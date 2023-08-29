@@ -27,14 +27,12 @@ export default function Registerpage() {
     setUserexists(null);
   }
   function passwordfunction(e) {
-    console.log(password);
     setPassword(e);
 
     setpasswordError(Checkpassword(e)[1]);
   }
 
   async function saveuser(username, password) {
-    console.log("saveuser request sent");
     const newurl = `${url}/users/createuser`;
     const body = { username, password };
     Postrequest(newurl, body).then((data) => isuserexists(data.message));

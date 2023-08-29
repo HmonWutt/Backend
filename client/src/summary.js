@@ -43,47 +43,49 @@ function Summary({ list, isHidden, setIsHidden }) {
   });
 
   return (
-    <>
-      <motion.div
-        variants={variants}
-        initial={false}
-        animate={isHidden ? "hidden" : "visible"}
-        id="summary"
-        style={{
-          backgroundColor: isHidden ? "rgb(250, 148, 148)" : "rgb(12,12,8)",
-        }}
-      >
-        <div
-          id="cards" /*style={{ visibility: isHidden ? "hidden" : "visible" }}*/
+    list && (
+      <>
+        <motion.div
+          variants={variants}
+          initial={false}
+          animate={isHidden ? "hidden" : "visible"}
+          id="summary"
+          style={{
+            backgroundColor: isHidden ? "rgb(250, 148, 148)" : "rgb(12,12,8)",
+          }}
         >
           <div
-            className="close"
-            style={{ visibility: isHidden ? "hidden" : "visible" }}
-            onClick={handleclick}
-          ></div>
-          {list.map((task, taskIndex) => (
-            <div key={taskIndex} className="card">
-              <div className="card-body p-3 small">
-                <small className="card-text ">
-                  {task.description.charAt(0).toUpperCase() +
-                    task.description.slice(1)}
-                </small>
-                <BARChart
-                  description={task.description}
-                  count1={task.name1_count}
-                  count2={task.name2_count}
-                  name1={task.name1}
-                  name2={task.name2}
-                >
-                  {task.name1_count}
-                  {task.name2_count}
-                </BARChart>
+            id="cards" /*style={{ visibility: isHidden ? "hidden" : "visible" }}*/
+          >
+            <div
+              className="close"
+              style={{ visibility: isHidden ? "hidden" : "visible" }}
+              onClick={handleclick}
+            ></div>
+            {list.map((task, taskIndex) => (
+              <div key={taskIndex} className="card">
+                <div className="card-body p-3 small">
+                  <small className="card-text ">
+                    {task.description.charAt(0).toUpperCase() +
+                      task.description.slice(1).replace(/-/g, " ")}
+                  </small>
+                  <BARChart
+                    description={task.description}
+                    count1={task.name1_count}
+                    count2={task.name2_count}
+                    name1={task.name1}
+                    name2={task.name2}
+                  >
+                    {task.name1_count}
+                    {task.name2_count}
+                  </BARChart>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </motion.div>
-    </>
+            ))}
+          </div>
+        </motion.div>
+      </>
+    )
   );
 }
 

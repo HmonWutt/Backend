@@ -13,7 +13,7 @@ export function NavBar() {
                 isPending ? "pending" : isActive ? "active" : ""
               }
             >
-              Scores
+              Scoreboard
             </NavLink>
           </li>
 

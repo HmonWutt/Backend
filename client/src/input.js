@@ -1,10 +1,11 @@
 import { useRef, useState, useEffect } from "react";
+import Input from "@mui/material/Input";
 export default function Getinput({ labeltext, placeholdertext, idtext, next }) {
   const [value, setValue] = useState("");
   const ref = useRef();
 
   useEffect(() => {
-    next(ref.current.value);
+    next(value);
   }, [value]);
   return (
     <div
@@ -24,9 +25,8 @@ export default function Getinput({ labeltext, placeholdertext, idtext, next }) {
       >
         {labeltext}
       </label>
-      <input
+      <Input
         type="text"
-        className="form-control m-2"
         id={idtext}
         ref={ref}
         value={value}

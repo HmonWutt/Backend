@@ -6,7 +6,7 @@ const verify = require("./verifytoken");
 routertodo.get("/", async (req, res) => {
   try {
     const allTodos = await pool.query(
-      "SELECT * FROM todo ORDER BY todo_id ASC"
+      "SELECT * FROM todo ORDER BY todo_id DESC"
     );
     res.json(allTodos.rows);
   } catch (error) {
@@ -18,7 +18,7 @@ routertodo.get("/id/:id/:identifier", async (req, res) => {
     const { id, identifier } = req.params;
     console.log(id);
     const specific_todo = await pool.query(
-      "SELECT * FROM todo WHERE todo_id = $1 and identifier = $2 ORDER BY todo_id ASC",
+      "SELECT * FROM todo WHERE todo_id = $1 and identifier = $2 ORDER BY todo_id DESC",
       [id, identifier]
     );
     res.json(specific_todo.rows[0]);

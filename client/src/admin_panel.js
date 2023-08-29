@@ -221,46 +221,6 @@ const AdminPanel = ({
                       setID={setID}
                     />
                   </EditDeleteContext.Provider>
-
-                  {/*   <div>  <Button
-                        key={taskIndex}
-                        id={`btn-${taskIndex}`}
-                        className="btn btn-warning item"
-                        onClick={(e) => {
-                          console.log(typeof e.target);
-                          //setIsbuttonhidden(!isbuttonhidden);
-                          console.log(
-                            document.getElementById(`div-${taskIndex}`),
-                            document.getElementById(`btn-${taskIndex}`)
-                          );
-                          document
-                            .getElementById(`div-${taskIndex}`)
-                            .classList.remove("hidden");
-                          document
-                            .getElementById(`btn-${taskIndex}`)
-                            .classList.add("hidden");
-                          document
-                            .getElementById(`alt-${taskIndex}`)
-                            .classList.remove("hidden");
-                        }}
-                      >
-                        {task.description}
-                      </Button>
-                    </div>
-                    <div id={`div-${taskIndex}`} className="div hidden">
-                      <Button className="btn btn-warning" onClick={(e) => {}}>
-                        Edit
-                      </Button>
-                      <Button
-                        className="btn btn-warning"
-                        onClick={(e) => {
-                          console.log(
-                            document.getElementsByClassName(taskIndex)
-                          );
-                        }}
-                      >
-                        Delete
-                      </Button> </div> */}
                 </motion.div>
               )}
             </AnimatePresence>

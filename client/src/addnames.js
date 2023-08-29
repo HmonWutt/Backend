@@ -51,17 +51,18 @@ export default function Addnames() {
     setTimeout(() => nav("/component"), 2000);
   }
   async function addnames(name1, name2) {
-    const nameone = name1.trim().replace(/\s+/g, "-").toLowerCase();
-    const nametwo = name2.trim().replace(/\s+/g, "-").toLowerCase();
-    if (nameone === "" || nametwo === "") {
+    if (name1 === "" || name2 === "") {
       const data = { message: "Names cannot be empty" };
       setAddnamesmessage(data.message);
       return data;
     }
+    const nameone = name1.trim().replace(/\s+/g, "-").toLowerCase();
+    const nametwo = name2.trim().replace(/\s+/g, "-").toLowerCase();
     const body = {
       name1: nameone,
       name2: nametwo,
     };
+    console.log(body);
     return Postrequest(`${url}/users/addnames/${identifier}`, body);
   }
   return (

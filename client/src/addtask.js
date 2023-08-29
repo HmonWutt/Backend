@@ -72,7 +72,8 @@ function Addtask({ identifier, name1, name2, list, setList, id, setID }) {
         <div>
           New chore:{" "}
           <span style={{ color: "blue", fontSize: "1.5em" }}>
-            {description.charAt(0).toUpperCase() + description.slice(1)}{" "}
+            {description.charAt(0).toUpperCase() +
+              description.slice(1).replace(/-/g, " ")}{" "}
           </span>
           added.
         </div>

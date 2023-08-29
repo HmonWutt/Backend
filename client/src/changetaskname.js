@@ -5,6 +5,7 @@ import Getrequest from "./getrequest";
 import url from "./url";
 import { EditDeleteContext } from "./admin_panel";
 import Putrequest from "./putrequest";
+import Getinput from "./input";
 //import { ListContext } from "./test";
 
 const Changetaskname = ({ list, setList, identifier, id, setID }) => {
@@ -26,6 +27,7 @@ const Changetaskname = ({ list, setList, identifier, id, setID }) => {
   function Isemptystring() {
     if (!description) {
       setShowalert(true);
+      setTimeout(() => setShowalert(false), 1000);
     } else {
       setmodalshow(true);
       handleClose();
@@ -59,7 +61,7 @@ const Changetaskname = ({ list, setList, identifier, id, setID }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          description: description,
+          description: description.trim().replace(/\s+/g, "-").toLowerCase(),
         }),
       });
       let data = await response.json();
@@ -105,6 +107,7 @@ const Changetaskname = ({ list, setList, identifier, id, setID }) => {
       console.error(error.message);
     }
   }
+
   useEffect(() => setID(""));
   return (
     list && (
@@ -122,7 +125,7 @@ const Changetaskname = ({ list, setList, identifier, id, setID }) => {
           >
             <div>
               {task.description.charAt(0).toUpperCase() +
-                task.description.slice(1)}
+                task.description.slice(1).replace(/-/g, " ")}
             </div>
             <Button
               variant="warning"
@@ -202,7 +205,7 @@ const Changetaskname = ({ list, setList, identifier, id, setID }) => {
               </Modal>
             )}
             {showalert === true && (
-              <Modal show={show} onHide={handleClose}>
+              <Modal show={show} onHide={() => setShowalert(false)}>
                 <Modal.Body className="text-danger ">
                   The input cannot be empty.
                 </Modal.Body>

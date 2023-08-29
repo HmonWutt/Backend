@@ -101,7 +101,8 @@ const AdminPanel = ({
           }}
         >
           {`Welcome to ${
-            identifier.charAt(0).toUpperCase() + identifier.slice(1)
+            identifier.charAt(0).toUpperCase() +
+            identifier.slice(1).replace(/-/g, " ")
           }!`
             .split("")
             .map((char, index) => (

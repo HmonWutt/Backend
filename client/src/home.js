@@ -29,7 +29,7 @@ function Home({ descriptions, identifier }) {
             variant="warning"
           >
             {description.description.charAt(0).toUpperCase() +
-              description.description.slice(1)}{" "}
+              description.description.slice(1).replace(/-/g, " ")}{" "}
           </Button>
         ))}
       </section>

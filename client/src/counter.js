@@ -67,14 +67,13 @@ const Counter = (props) => {
   return (
     <>
       <div id="card">
-        <>
-          {isExploding === true && (
-            <ConfettiExplosion duration={2200} particleCount={300} />
-          )}
-        </>
-        <div id="name">{name.charAt(0).toUpperCase() + name.slice(1)}</div>
-        <div id="score">{count}</div>
-        <Starbucket count={count} />
+        {isExploding === true && (
+          <ConfettiExplosion duration={2200} particleCount={300} />
+        )}
+        <div id="name">
+          {name.charAt(0).toUpperCase() + name.slice(1).replace(/-/g, " ")}
+        </div>
+        <div id="score">{count}</div> <Starbucket count={count} />
         <div id="button-container">
           {todo_id !== 115 ? (
             /*<Button

@@ -31,13 +31,13 @@ export default function Addnames() {
     setName2(e);
     setAddnamesmessage("");
   }
-  function submitnames(e) {
-    addnames(name1, name2).then((data) => {
-      data.message === "success"
-        ? addnamessuccess()
-        : setIsaddnamessuccess(false);
-    });
-  }
+  // function submitnames(e) {
+  //   addnames(name1, name2).then((data) => {
+  //     data.message === "success"
+  //       ? addnamessuccess()
+  //       : setIsaddnamessuccess(false);
+  //   });
+  // }
 
   function addnamessuccess() {
     setIsaddnamessuccess(true);
@@ -50,21 +50,33 @@ export default function Addnames() {
     /*************************************************************/
     setTimeout(() => nav("/component"), 2000);
   }
+  function checknames() {
+    if (name1.trim() === "" || name2.trim() === "")
+      return setAddnamesmessage("Names cannot be empty");
+    else return addnames(name1, name2);
+  }
+
   async function addnames(name1, name2) {
-    if (name1 === "" || name2 === "") {
-      const data = { message: "Names cannot be empty" };
-      setAddnamesmessage(data.message);
-      return data;
-    }
     const nameone = name1.trim().replace(/\s+/g, "-").toLowerCase();
     const nametwo = name2.trim().replace(/\s+/g, "-").toLowerCase();
+
     const body = {
       name1: nameone,
       name2: nametwo,
     };
-    console.log(body);
-    return Postrequest(`${url}/users/addnames/${identifier}`, body);
+
+    Postrequest(`${url}/users/addnames/${identifier}`, body)
+      .then((data) => {
+        if (data.message === "success") {
+          return addnamessuccess();
+        } else {
+          setIsaddnamessuccess(false);
+          setAddnamesmessage("Failed to add names. Please try again.");
+        }
+      })
+      .catch((error) => setAddnamesmessage(error.message));
   }
+
   return (
     <div id="isaddidentifiersuccess">
       <div style={{ margin: "1rem" }}>
@@ -93,7 +105,7 @@ export default function Addnames() {
           next={nametwofunction}
         />
       </div>
-      <button className="btn btn-primary" onClick={submitnames}>
+      <button className="btn btn-primary" onClick={checknames}>
         Submit
       </button>
       <small id="addnameserror" className="text-danger form-text">

@@ -7,9 +7,9 @@ import Postrequest from "./postrequest";
 import Getinput from "./input";
 
 function Addtask({ identifier, name1, name2, list, setList, id, setID }) {
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [showalert, setShowalert] = useState(false);
+  //const handleClose = () => setShow(false);
+  //const handleShow = () => setShow(true);
   const [isHidden, setIshidden] = useState(null);
 
   const [description, setDescription] = useState("");
@@ -40,29 +40,38 @@ function Addtask({ identifier, name1, name2, list, setList, id, setID }) {
           console.error(error);
         });
     } else {
-      handleShow();
+      setShowalert(true);
     }
   };
   useEffect(() => setID(""));
 
   return (
-    <Form className="text-center mt-1">
-      <Form.Group controlId="formBasicEmail">
-        <Form.Control
-          type="text"
-          placeholder="Max 200 characters"
-          value={description}
-          onChange={(e) => {
-            setDescription(e.target.value);
-            setIshidden(null);
-          }}
-        />
-      </Form.Group>
+    <div
+      id="addtask-container"
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
+      {showalert && (
+        <div style={{ color: "red" }}>The input cannot be empty.</div>
+      )}
+      <input
+        type="text"
+        autoFocus
+        placeholder="Max 20 characters"
+        className="mt-2 mb-0"
+        value={description}
+        style={{ boxShadow: "none" }}
+        onChange={(e) => {
+          setDescription(e.target.value);
+          setIshidden(null);
+          setShowalert(false);
+        }}
+      ></input>
+
       <Button
         variant="dark"
         type="submit"
         onClick={Submittask}
-        className="submit"
+        className="submit mb-0"
         style={{ scale: "0.8" }}
       >
         Submit
@@ -79,13 +88,7 @@ function Addtask({ identifier, name1, name2, list, setList, id, setID }) {
         </div>
       )}
       {isHidden === false && <div>Add chore failed. Please try again.</div>}
-
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Body className="text-danger ">
-          The input cannot be empty.
-        </Modal.Body>
-      </Modal>
-    </Form>
+    </div>
   );
 }
 

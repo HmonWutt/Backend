@@ -1,24 +1,18 @@
 import Button from "react-bootstrap/Button";
+
 import Modal from "react-bootstrap/Modal";
-import { useState, useEffect, useContext, useRef } from "react";
-import Getrequest from "./getrequest";
+import { useState, useEffect } from "react";
+import { svg } from "./svg";
 import url from "./url";
-import { EditDeleteContext } from "./admin_panel";
-import Putrequest from "./putrequest";
-import Getinput from "./input";
-//import { ListContext } from "./test";
 
 const Changetaskname = ({ list, setList, identifier, id, setID }) => {
   //const  = useContext(EditDeleteContext);
-  const [changedname, setChangedname] = useState(false);
-  const [deleted, setDeleted] = useState(false);
+
   const [description, setDescription] = useState("");
   const [modalshow, setmodalshow] = useState(false);
   const [submitmodal, setsubmitmodal] = useState(false);
   const [show, setShow] = useState(false);
   const [showalert, setShowalert] = useState(false);
-
-  const [submitdeletemodal, setsubmitdeletemodal] = useState(false);
 
   const [command, setCommand] = useState([{ action: "" }, { taskID: "" }]);
 
@@ -27,7 +21,6 @@ const Changetaskname = ({ list, setList, identifier, id, setID }) => {
   function Isemptystring() {
     if (!description) {
       setShowalert(true);
-      setTimeout(() => setShowalert(false), 1000);
     } else {
       setmodalshow(true);
       handleClose();
@@ -152,20 +145,26 @@ const Changetaskname = ({ list, setList, identifier, id, setID }) => {
               <Modal
                 show={show}
                 onHide={handleClose}
-                className=" d-flex justify-content-center"
-                style={{ marginTop: "5rem" }}
+                className=" d-flex justify-content-center align-items-center"
               >
-                <Modal.Title className="m-2 d-flex justify-content-center">
+                <Modal.Title className="mt-1 d-flex justify-content-center ">
                   Update description
                 </Modal.Title>
-
                 <Modal.Body>
+                  {showalert && (
+                    <div style={{ color: "red" }}>
+                      The input cannot be empty.
+                    </div>
+                  )}
                   <input
                     type="text"
                     autoFocus
                     className="m-1"
                     value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    onChange={(e) => {
+                      setDescription(e.target.value);
+                      setShowalert(false);
+                    }}
                   ></input>
                   <Button
                     onClick={() => {
@@ -178,11 +177,15 @@ const Changetaskname = ({ list, setList, identifier, id, setID }) => {
               </Modal>
             )}
             {modalshow && (
-              <Modal show={true} onHide={() => setmodalshow(false)}>
-                <Modal.Body className="p-5 d-flex justify-content-center text-danger">
-                  Are you sure about this?
+              <Modal
+                show={true}
+                onHide={() => setmodalshow(false)}
+                className=" d-flex justify-content-center align-items-center "
+              >
+                <Modal.Body className="ps-5 pe-5 pt-3 pb-3 modal-sm d-flex justify-content-center text-danger ">
+                  Are you sure?
                 </Modal.Body>
-                <Modal.Footer className="p-2 d-flex justify-content-center">
+                <Modal.Footer className="p-2 d-flex justify-content-center ">
                   <Button variant="warning" onClick={(e) => Click(command)}>
                     Yes
                   </Button>
@@ -198,17 +201,12 @@ const Changetaskname = ({ list, setList, identifier, id, setID }) => {
               </Modal>
             )}
             {submitmodal && (
-              <Modal show={true} onHide={() => setmodalshow(false)}>
-                <Modal.Body className="p-2 d-flex justify-content-center">
-                  <h2>Done!</h2>
-                </Modal.Body>
-              </Modal>
-            )}
-            {showalert === true && (
-              <Modal show={show} onHide={() => setShowalert(false)}>
-                <Modal.Body className="text-danger ">
-                  The input cannot be empty.
-                </Modal.Body>
+              <Modal
+                show={true}
+                onHide={() => setmodalshow(false)}
+                className=" d-flex justify-content-center align-items-center "
+              >
+                {svg}
               </Modal>
             )}
           </div>

@@ -20,9 +20,13 @@ export default function Addidentifier() {
   const submitaddidentifier = (e) => {
     e.preventDefault();
     addidentifier(identifier).then((data) => {
-      data.message === "success"
-        ? setIsaddidentifiersuccess(true)
-        : setIsaddidentifiersuccess(false);
+      if (data.message === "success") {
+        setIsaddidentifiersuccess(true);
+        setIdentifier(data.identifier);
+      } else {
+        setIsaddidentifiersuccess(false);
+        setAddidentifiermessage(data.message);
+      }
     });
   };
 

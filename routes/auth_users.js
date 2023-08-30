@@ -105,9 +105,13 @@ routerusers.post("/login", async (req, res) => {
   try {
     const username = await req.body.username;
     const password = await req.body.password;
-    const usernames = await pool.query("SELECT username FROM users");
+    const usernames = await pool.query(
+      "SELECT * FROM users where username=$1",
+      [username]
+    );
 
-    if (usernames.rows.some((obj) => obj.username === username)) {
+    //if (usernames.rows.some((obj) => obj.username === username)) {
+    if (usernames.rows.length > 0) {
       try {
         const result = await pool.query(
           "SELECT password,identifier,name1,name2 FROM users where username=$1",
@@ -189,24 +193,28 @@ routerusers.get("/logout", async (req, res) => {
   res.clearCookie("authToken");
   res.status(200).json({ message: "success" });
 });
+
 routerusers.post("/addidentifier/:username", async (req, res) => {
   const username = req.params.username;
   const identifier = req.body.identifier;
-  const identifiers = await pool.query("SELECT identifier FROM users");
+  const identifiers = await pool.query(
+    "SELECT * FROM users where identifier=$1",
+    [identifier]
+  );
   identifiers && console.log(identifiers);
-  if (identifiers.rows.some((obj) => obj.identifier === identifier)) {
+  if (identifiers.rows.length > 0) {
     res.json({ message: "Name taken. Please choose another name." });
   } else {
     try {
       console.log("addidentifier called");
 
       const result = await pool.query(
-        "UPDATE users SET identifier = $1 WHERE username = $2 returning *",
+        "UPDATE users SET identifier = $1 WHERE username = $2 returning username, identifier",
         [identifier, username]
       );
       console.log(`'${identifier}'`, `'${username}'`);
-      console.log("addidentifier", result.rows);
-      const user = result.rows;
+      console.log("addidentifier", result.rows[0]);
+      const user = result.rows[0];
       res.status(200).json({
         message: "success",
         username: user.username,
@@ -214,7 +222,7 @@ routerusers.post("/addidentifier/:username", async (req, res) => {
       });
     } catch (error) {
       console.error(error.message);
-      res.json({ message: "failed" });
+      res.json({ message: error.message });
     }
   }
 });
@@ -222,7 +230,7 @@ routerusers.post("/addidentifier/:username", async (req, res) => {
 routerusers.post("/addnames/:identifier", async (req, res) => {
   const identifier = req.params.identifier;
   const { name1, name2 } = req.body;
-
+  console.log(name1, name2, identifier);
   try {
     const result = await pool.query(
       "UPDATE users SET name1 = $1, name2=$2 WHERE identifier = $3 returning name1,name2 ",

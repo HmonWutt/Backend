@@ -71,7 +71,6 @@ function Loginapp() {
         setUsername(username);
         setIsloggedIn(true);
         setIdentifier(data.identifier);
-        setIsloggedIn(true);
         setIsAuth(true);
         setName1(data.name1);
         setName2(data.name2);
@@ -79,7 +78,7 @@ function Loginapp() {
 
         if (location) {
           if (location.state?.from) {
-            //console.log("location", location)
+            console.log("location", location);
             const to = location.state.from.pathname || "/component";
 
             nav(`${to}`);
@@ -133,12 +132,12 @@ function Loginapp() {
         setUsername(username);
         setIsloggedIn(true);
         setIdentifier(data.identifier);
-        setIsloggedIn(true);
         setIsAuth(true);
         setName1(data.name1);
         setName2(data.name2);
 
         if (location) {
+          console.log(location);
           if (location.state?.from) {
             const to = location.state.from.pathname || "/component";
 
